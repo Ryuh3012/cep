@@ -32,7 +32,6 @@ const Stepper = ({ steps, currentStep }) => {
                     selected: true,
                     completed: true,
                 }
-                console.log('como estas');
                 count++;
             }
 
@@ -44,7 +43,6 @@ const Stepper = ({ steps, currentStep }) => {
                     selected: false,
                     completed: false,
                 }
-                console.log('yo bien');
                 count++;
             }
         }
