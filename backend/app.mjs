@@ -34,8 +34,9 @@ app.use(participants)
 io.on("connection", async (client) => {
 
     console.log('connect');
+    
     const getData = async () => {
-        const { rows } = await connectdb.query("SELECT * FROM tiposdeparticipantes")
+        const { rows } = await connectdb.query(`SELECT cursos.codigodecurso, cursos.nombre as NombreDelCurso, cursos.horario, cursos.monto, cursos.status, personas.nombre, tiposdemodalidades.modalidad, formaciones.formacion FROM cursos join facilitadores on cursos.facilitadorId = facilitadores.id join personas on facilitadores.personaid = personas.id join tiposdemodalidades on cursos.tipoDemodalidadId = tiposdemodalidades.id join formaciones on cursos.formacionid = formaciones.id`)
         return rows
     }
     const data = await getData()

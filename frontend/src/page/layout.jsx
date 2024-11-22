@@ -25,12 +25,12 @@ const Layout = ({ children }) => {
                     </NavbarItem>
 
                     <NavbarItem>
-                        <NavLink end to="/dashboard/cases" className={({ isActive }) => isActive ? 'bg-purple-500 rounded p-2' : ' font-light'}>
+                        <NavLink end to="/" className={({ isActive }) => isActive ? 'bg-purple-500 rounded p-2' : ' font-light'}>
                             casos
                         </NavLink>
                     </NavbarItem>
                     <NavbarItem>
-                        <NavLink end to="/dashboard/clients" className={({ isActive }) => isActive ? 'bg-purple-500 rounded p-2' : ' font-light'}>
+                        <NavLink end to="/" className={({ isActive }) => isActive ? 'bg-purple-500 rounded p-2' : ' font-light'}>
                             clientes
                         </NavLink>
                     </NavbarItem>

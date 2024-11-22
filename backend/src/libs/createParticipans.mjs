@@ -13,9 +13,13 @@ export const Createparticipats = async () => {
             connectdb.query(`INSERT INTO tiposdeparticipantes(participante) VALUES('Estudiante IUJO'), ('Participantes Externos'), ('Personal IUJO')`),
             connectdb.query(`INSERT INTO tipoDePago(pago) VALUES ('Transferencia Bancaria'), ('Divisas en efectivo ( directamente en caja principal)'), ('Bolívares en efectivo ( directamente en caja principal'),('Débito / Punto de Venta (directamente en caja principal)'),('Financiamiento'), ('Cancelar el dia de Inicio del Curso')`),
             connectdb.query(`INSERT INTO tiposDeModalidades(modalidad) VALUES('sabatino'), ('online')`),
+            connectdb.query(`INSERT INTO formaciones(formacion) VALUES('oficios tecnológicos emergentes'),('cisco'),('inteligencia y liderazgo'),('diplomados')`),
         ])
         console.log(values);
     } catch (error) {
         console.log(error);
     }
 }
+
+//  ALTER TABLE cursos
+// ADD FOREIGN KEY(facilitadorId) REFERENCES facilitadores(id)

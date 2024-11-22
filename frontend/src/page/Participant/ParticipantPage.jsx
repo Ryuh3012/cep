@@ -1,4 +1,4 @@
-    import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 
@@ -10,11 +10,10 @@ import Peoples from "../../components/formulary/StepperFormulary/Peoples";
 import Pay from "../../components/formulary/StepperFormulary/Pay";
 import Courses from "../../components/formulary/StepperFormulary/Courses";
 import { validateParticipant } from "../../segurity/Participant/ValidateParticipant.mjs";
-import { SocketContext, SocketProvider } from "../../SocketProvider";
-import { useSocket } from "../../hooks/useSocket";
+
 
 const initialValues = { cedula: '', email: '', nombre: '', apellido: '', telefono: '', tipoDeParticipante: '', cursos: '', prince: '', tipoDePago: '', montoTotal: '', referencia: '', banco: '', fechaDelPago: '', titularDeLaCedula: '', NombreDelTitulante: '', }
-const Participant = () => {
+const ParticipantPage = () => {
     const [currentStep, setCurrentStep] = useState(1);
 
     const { errors, touched, handleBlur, handleSubmit, handleChange, values } = useFormik({
@@ -50,11 +49,8 @@ const Participant = () => {
         direction == "next" ? newStep++ : newStep--;
         newStep > 0 && newStep <= steps.length && setCurrentStep(newStep)
     }
-    const {socket} = useContext(SocketContext)
 
-    useEffect(() => {
-        socket.on('courses', (re)=>console.log(re))
-    }, []);
+
 
     return (
         <div className="flex justify-center items-center  h-screen bg-[#2A398C]">
@@ -97,5 +93,5 @@ const Participant = () => {
     );
 }
 
-export default Participant;
+export default ParticipantPage;
 

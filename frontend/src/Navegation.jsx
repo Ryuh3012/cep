@@ -1,13 +1,15 @@
 import { Navigate, Route, Routes, BrowserRouter } from 'react-router-dom';
-import Participant from './page/Participant/Participant';
-import Courses from './page/Courses/courses';
+import ParticipantPage from './page/Participant/ParticipantPage';
+import CoursesPage from './page/Courses/coursesPage';
+
+
 
 const Navegation = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route element={<Participant/>} path='/participant' />
-                <Route element={<Courses/>} path='/cursos'  />
+                <Route element={<ParticipantPage/>} path='/participant' />
+                <Route element={<CoursesPage/>} path='/cursos'  />
                 <Route path="*" element={<Navigate to={'/'} replace={true} />} />
             </Routes>
         </BrowserRouter>
