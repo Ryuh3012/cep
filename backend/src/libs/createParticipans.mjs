@@ -3,17 +3,16 @@ import { connectdb } from "../db/connectdb.mjs";
 
 export const Createparticipats = async () => {
 
-    const tipoDeParticipants = ['Estudiante IUJO', 'Participantes Externos', 'Personal IUJO']
 
     try {
-        const { rows } = await connectdb.query(`select * from tiposdeparticipantes;`)
+        const { rows } = await connectdb.query(`select * from tiposDeParticipantes`)
         if (rows.length > 0) return;
 
         const values = await Promise.all([
-            connectdb.query(`INSERT INTO tiposdeparticipantes(participante) VALUES('Estudiante IUJO'), ('Participantes Externos'), ('Personal IUJO')`),
-            connectdb.query(`INSERT INTO tipoDePago(pago) VALUES ('Transferencia Bancaria'), ('Divisas en efectivo ( directamente en caja principal)'), ('Bolívares en efectivo ( directamente en caja principal'),('Débito / Punto de Venta (directamente en caja principal)'),('Financiamiento'), ('Cancelar el dia de Inicio del Curso')`),
-            connectdb.query(`INSERT INTO tiposDeModalidades(modalidad) VALUES('sabatino'), ('online')`),
-            connectdb.query(`INSERT INTO formaciones(formacion) VALUES('oficios tecnológicos emergentes'),('cisco'),('inteligencia y liderazgo'),('diplomados')`),
+            connectdb.query(`INSERT INTO tiposDeParticipantes(participante) VALUES('Estudiante IUJO'), ('Participantes Externos'), ('Personal IUJO')`),
+            connectdb.query(`INSERT INTO tipodepagos(pago) VALUES ('Transferencia Bancaria'), ('Divisas en efectivo ( directamente en caja principal)'), ('Bolívares en efectivo ( directamente en caja principal'),('Débito / Punto de Venta (directamente en caja principal)'),('Financiamiento'), ('Cancelar el dia de Inicio del Curso')`),
+            connectdb.query(`INSERT INTO tipodemodalidades(modalidad) VALUES('sabatino'), ('online')`),
+            connectdb.query(`INSERT INTO formaciones(formacion) VALUES('oficios tecnológicos emergentes'),('cisco'),('inteligencia y liderazgo'),('doplomados')`),
         ])
         console.log(values);
     } catch (error) {
@@ -21,5 +20,3 @@ export const Createparticipats = async () => {
     }
 }
 
-//  ALTER TABLE cursos
-// ADD FOREIGN KEY(facilitadorId) REFERENCES facilitadores(id)

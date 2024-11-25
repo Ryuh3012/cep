@@ -1,9 +1,6 @@
 import { connectdb } from "../db/connectdb.mjs";
 
 export const newCourses = async (req, res) => {
-
-
-
 }
 
 

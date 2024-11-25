@@ -22,7 +22,7 @@ const Peoples = () => {
     return (
         <form onSubmit={handleSubmit}>
             <div className="flex flex-col justify-center items-center py-1 gap-y-2">
-                <div className="flex flex-col w-full ">
+                <div className="flex flex-col w-full">
 
                     <Input
                         type="number"

@@ -3,6 +3,7 @@ import Layout from '../layout';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { SocketContext } from "../../SocketProvider";
+import CardCourses from '../../components/Card/cardCourses';
 
 const columns = [
     {
@@ -61,6 +62,8 @@ const CoursesPage = () => {
         <Layout>
             <div className="p-10 flex flex-col gap-6">
                 <div className="bg-white rounded-[5px] shadow-md p-5 w-full border-[1px] border-[#C4CEDC]">
+                    <h1 className='text-[30px] font-semibold mb-5'>Gestion de Cursos</h1>
+                    <CardCourses />
                     <Table
                         shadow="none"
                         aria-label="Example table with client side pagination"

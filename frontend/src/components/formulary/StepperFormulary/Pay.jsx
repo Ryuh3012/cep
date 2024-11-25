@@ -180,7 +180,8 @@ const Pay = () => {
             <div className="flex justify-center items-center h-full p-4">
                 <Button type="submit" className="bg-[#8C113E] text-slate-400 uppercase w-[25%] p-6 rounded-xl font-semibold cursor-pointer  hover:bg-[#6A2473] hover:text-white transition duration-2oo ease-in-out">
                     Confirmar
-                </Button></div>
+                </Button>
+                </div>
         </form>
     );
 }

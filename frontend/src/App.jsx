@@ -2,7 +2,7 @@ import Navegation from "./Navegation";
 
 const App = () => {
   return (
-    <div className="bg-black">
+    <div>
       <Navegation />
     </div>
   );

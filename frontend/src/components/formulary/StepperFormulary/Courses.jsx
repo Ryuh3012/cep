@@ -18,7 +18,6 @@ const Courses = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-
             <div>
                 <div className="flex flex-col justify-center items-center gap-y-2">
                     <div className="flex flex-col w-full">

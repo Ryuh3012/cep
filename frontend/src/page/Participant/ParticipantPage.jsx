@@ -53,7 +53,7 @@ const ParticipantPage = () => {
 
 
     return (
-        <div className="flex justify-center items-center  h-screen bg-[#2A398C]">
+        <div className="flex justify-center items-center h-screen bg-[#2A398C]">
             <section className="shadow-xl w-1/2 rounded-2xl pb-2 bg-white">
                 <div className="container horizontal mt-5">
                     <Stepper
