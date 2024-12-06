@@ -44,8 +44,8 @@ io.on("connection", async (client) => {
         const { rows } = await connectdb.query(`SELECT cursos.codigodecuso, cursos.nombre as NombreDelCurso, cursos.horario, cursos.monto, cursos.status, personas.nombre,tipoDemodalidades.modalidad , formaciones.formacion FROM cursos join facilitadores on cursos.facilitadorId = facilitadores.idfacilitador join personas on facilitadores.personaid = personas.idPersona  join tipoDemodalidades on cursos.tipodemovilidadid  = tipoDemodalidades.idtipodemodalidad join formaciones on cursos.formacionid = formaciones.idformacion`)
         return rows
     }
-    const data = await getCourses()
-    client.emit('courses', data)
+    // const data = await getCourses()
+    // client.emit('courses', data)
 
 })
 

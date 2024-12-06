@@ -13,8 +13,8 @@ export const Createparticipats = async () => {
             connectdb.query(`INSERT INTO tipodepagos(pago) VALUES ('Transferencia Bancaria'), ('Divisas en efectivo ( directamente en caja principal)'), ('Bolívares en efectivo ( directamente en caja principal'),('Débito / Punto de Venta (directamente en caja principal)'),('Financiamiento'), ('Cancelar el dia de Inicio del Curso')`),
             connectdb.query(`INSERT INTO tipodemodalidades(modalidad) VALUES('sabatino'), ('online')`),
             connectdb.query(`INSERT INTO formaciones(formacion) VALUES('oficios tecnológicos emergentes'),('cisco'),('inteligencia y liderazgo'),('doplomados')`),
+            connectdb.query(`INSERT INTO roles(rol) VALUES('Caja'), ('Administrador'),('Asistente')`),
         ])
-        console.log(values);
     } catch (error) {
         console.log(error);
     }

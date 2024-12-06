@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { getAuth } from "../controllers/auth.mjs";
+import { singIn } from "../controllers/auth.mjs";
 
 
 const router = Router()
 
-router.post('/auth', getAuth)
-// router.post('/', authVerify)
-// router.post('/', authVerify)
+// router.post('/api/auth/singUp', singUp)
+router.post('/api/auth/singIn', singIn)
+
 
 
 export default router

@@ -54,7 +54,7 @@ const ParticipantPage = () => {
 
     return (
         <div className="flex justify-center items-center h-screen bg-[#2A398C]">
-            <section className="shadow-xl w-1/2 rounded-2xl pb-2 bg-white">
+            <section className="shadow-xl  rounded-2xl pb-2 bg-white flex flex-col sm:w-[70%] lg:w-1/2">
                 <div className="container horizontal mt-5">
                     <Stepper
                         steps={steps}
@@ -82,12 +82,12 @@ const ParticipantPage = () => {
                         </StepperContext.Provider>
                     </div>
                 </div>
-                {currentStep !== steps.length &&
+                
                     <StepperControler
                         handleClick={handleClick}
                         currentStep={currentStep}
                         steps={steps}
-                    />}
+                    />
             </section>
         </div>
     );

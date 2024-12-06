@@ -21,7 +21,7 @@ const Peoples = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="flex flex-col justify-center items-center py-1 gap-y-2">
+            <div className="flex flex-col justify-center items-center py-1 gap-y-2 ms:flex-col">
                 <div className="flex flex-col w-full">
 
                     <Input
@@ -37,7 +37,7 @@ const Peoples = () => {
                         placeholder="Introduce La Cedula"
                     />
                 </div>
-                <div className="flex w-full gap-3">
+                <div className="lg:flex w-full gap-3">
                     <div className='flex flex-col w-full gap-2'>
                         <Input
                             name="nombre"
@@ -52,7 +52,7 @@ const Peoples = () => {
                         />
 
                     </div>
-                    <div className='flex flex-col w-full gap-2'>
+                    <div className='flex flex-col w-full gap-2 sm:py-1'>
                         <Input
                             type="text"
                             label="Apellido"
@@ -68,8 +68,8 @@ const Peoples = () => {
                     </div>
 
                 </div>
-                <div className="flex w-full gap-3">
-                    <div className='flex flex-col w-full gap-2'>
+                <div className="lg:flex  w-full gap-3">
+                    <div className='flex flex-col w-full lg:gap-2 '>
                         <Input
                             type="email"
                             name="email"
@@ -84,7 +84,7 @@ const Peoples = () => {
                         />
 
                     </div>
-                    <div className='flex flex-col w-full gap-2'>
+                    <div className='flex flex-col w-full gap-2 sm:py-1'>
                         <Input
                             type="text"
                             label="Telefono"
@@ -100,7 +100,7 @@ const Peoples = () => {
                     </div>
 
                 </div>
-                <div className="flex flex-col w-full">
+                <div className="lg:flex w-full gap-3">
                     <Select
                         name="tipoDeParticipante"
                         label="Tipo De Participante"

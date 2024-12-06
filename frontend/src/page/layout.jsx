@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
                 <NavbarContent justify="center">
                     <NavbarItem>
                         {/* bg-[#F29441] rounded */}
-                        <NavLink end to="/" className={({ isActive }) => isActive ? 'bg-[#F29441] rounded p-2' : 'font-light hover:rounded p-2'} >
+                        <NavLink end to="/home" className={({ isActive }) => isActive ? 'bg-[#F29441] rounded p-2' : 'font-light hover:rounded p-2'} >
                             Inicio
                         </NavLink>
                     </NavbarItem>
@@ -48,7 +48,7 @@ const Layout = ({ children }) => {
                                 </NavLink>
                             </DropdownItem>
                             <DropdownItem>
-                                <NavLink end to="/facilitadores" className={({ isActive }) => isActive ? 'font-bold text-sm p-2' : 'font-light'} >
+                                <NavLink end to="/facilitador" className={({ isActive }) => isActive ? 'font-bold text-sm p-2' : 'font-light'} >
                                     Facilitadores
                                 </NavLink>
                             </DropdownItem>
