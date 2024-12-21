@@ -14,10 +14,11 @@ const Peoples = () => {
 
     useEffect(() => {
         return async () => {
-            const { data: { messager } } = await axios.get('http://localhost:3000/participants')
+            const { data: { messager } } = await axios.get('http://localhost:3000/api/participants')
+            console.log(messager);
             setTipoDeParticipants(...tipoDeParticipants, messager)
         };
-    }, []);
+    }, [tipoDeParticipante]);
 
     return (
         <form onSubmit={handleSubmit}>

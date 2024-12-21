@@ -1,11 +1,12 @@
-import { connectdb } from "../db/connectdb.mjs";
+import { dataParticipants } from "../models/typeParticipants.mjs";
 
 export const getParticipants = async (req, res) => {
 
     try {
-        const { rows } = await connectdb.query("SELECT * FROM tiposdeparticipantes");
+
+        const data = await dataParticipants();
         return res.status(200).json({
-            messager: rows
+            messager: data
         });
     } catch (error) {
         console.log(error);

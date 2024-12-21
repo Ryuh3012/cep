@@ -14,9 +14,9 @@ export const Createparticipats = async () => {
             connectdb.query(`INSERT INTO tipodemodalidades(modalidad) VALUES('sabatino'), ('online')`),
             connectdb.query(`INSERT INTO formaciones(formacion) VALUES('oficios tecnológicos emergentes'),('cisco'),('inteligencia y liderazgo'),('doplomados')`),
             connectdb.query(`INSERT INTO roles(rol) VALUES('Caja'), ('Administrador'),('Asistente')`),
+            // connectdb.query(`INSERT INTO cursos(codigodecuso,nombrecurso, duracion,horario, monto, contenido, status, facilitadorid, tipodemovilidadid, formacionid ) VALUES(''), (''),('')`),
         ])
     } catch (error) {
         console.log(error);
     }
 }
-

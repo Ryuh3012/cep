@@ -5,7 +5,7 @@ import { StepperContext } from "../../../contexts/StepperContext";
 
 const Pay = () => {
 
-    const { handleBlur, handleSubmit, handleChange, values: { tipoDePago, montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, NombreDelTitulante } } = useContext(StepperContext)
+    const { handleBlur, handleSubmit, handleChange, values: { tipoDePago, montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, nombreDelTitulante } } = useContext(StepperContext)
 
     const typePague = ['Transferencia Bancaria', 'Divisas en efectivo ( directamente en caja principal)', 'Bolívares en efectivo ( directamente en caja principal)', 'Débito / Punto de Venta (directamente en caja principal)', 'Financiamiento', 'Cancelar el dia de Inicio del Curso']
     const bancos = [
@@ -112,8 +112,8 @@ const Pay = () => {
                             <Input
                                 type="number"
                                 label="Nombre Del Titulante De La cuenta"
-                                name="NombreDelTitulante"
-                                value={NombreDelTitulante}
+                                name="nombreDelTitulante"
+                                value={nombreDelTitulante}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 required={true}

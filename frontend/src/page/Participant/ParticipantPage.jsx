@@ -12,7 +12,22 @@ import Courses from "../../components/formulary/StepperFormulary/Courses";
 import { validateParticipant } from "../../segurity/Participant/ValidateParticipant.mjs";
 
 
-const initialValues = { cedula: '', email: '', nombre: '', apellido: '', telefono: '', tipoDeParticipante: '', cursos: '', prince: '', tipoDePago: '', montoTotal: '', referencia: '', banco: '', fechaDelPago: '', titularDeLaCedula: '', NombreDelTitulante: '', }
+const initialValues = {
+    cedula: '',
+    nombre: '',
+    apellido: '',
+    telefono: '',
+    email: '',
+    tipoDeParticipante: '',
+    cursos: '',
+    tipoDePago: '',
+    montoTotal: '',
+    referencia: '',
+    banco: '',
+    fechaDelPag: '',
+    titularDeLaCedula: '',
+    nombreDelTitulante: ''
+}
 const ParticipantPage = () => {
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -82,12 +97,12 @@ const ParticipantPage = () => {
                         </StepperContext.Provider>
                     </div>
                 </div>
-                
-                    <StepperControler
-                        handleClick={handleClick}
-                        currentStep={currentStep}
-                        steps={steps}
-                    />
+
+                <StepperControler
+                    handleClick={handleClick}
+                    currentStep={currentStep}
+                    steps={steps}
+                />
             </section>
         </div>
     );

@@ -1,15 +1,25 @@
-import { connectdb } from "../db/connectdb.mjs";
+import { dataCourses, newCourse } from "../models/courses.mjs";
 
 export const newCourses = async (req, res) => {
+    try {
+
+        const { codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, tipodemovilidad, formacion } = req?.body
+
+        const courses = await newCourse({ codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, tipodemovilidad, formacion });
+
+        // return res.status(200).json({ messager: 'Curso creado exitosamente' });
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
 export const getCourse = async (req, res) => {
 
     try {
-        const { rows } = await connectdb.query("SELECT * FROM cursos where status='activo'");
-
-        return res.status(200).json({ messager: rows });
+        const data = await dataCourses();
+        return res.status(200).json({ messager: data });
     } catch (error) {
         console.log(error);
     }
