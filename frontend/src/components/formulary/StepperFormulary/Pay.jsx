@@ -62,7 +62,7 @@ const Pay = () => {
                         value={tipoDePago}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        required={true}
+                        // required={true}
                         variant="faded"
                         color="secondary"
                         placeholder="Participante"
@@ -83,7 +83,6 @@ const Pay = () => {
                             value={banco}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            required={true}
                             variant="faded"
                             color="secondary"
                             placeholder="Seleccione El Banco"
@@ -101,7 +100,6 @@ const Pay = () => {
                                 value={titularDeLaCedula}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                required={true}
                                 variant="faded"
                                 color="secondary"
                                 placeholder="Ingre La Cedula Del Titulante De La cuenta"
@@ -110,13 +108,11 @@ const Pay = () => {
                         </div>
                         <div className='flex flex-col w-full gap-2'>
                             <Input
-                                type="number"
                                 label="Nombre Del Titulante De La cuenta"
                                 name="nombreDelTitulante"
                                 value={nombreDelTitulante}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                required={true}
                                 variant="faded"
                                 color="secondary"
                                 placeholder="Ingrese El Nombre Del Titulante De La cuenta"
@@ -147,7 +143,6 @@ const Pay = () => {
                                 value={fechaDelPag}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                required={true}
                                 variant="faded"
                                 color="secondary"
                                 placeholder="Introduce El Apellido"
@@ -166,7 +161,7 @@ const Pay = () => {
                             value={montoTotal}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            required={true}
+                            // required={true}
                             variant="faded"
                             color="secondary"
                             placeholder="Introduce El Nombre"
@@ -181,7 +176,7 @@ const Pay = () => {
                 <Button type="submit" className="bg-[#8C113E] text-slate-400 uppercase w-[25%] p-6 rounded-xl font-semibold cursor-pointer  hover:bg-[#6A2473] hover:text-white transition duration-2oo ease-in-out">
                     Confirmar
                 </Button>
-                </div>
+            </div>
         </form>
     );
 }

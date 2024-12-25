@@ -12,7 +12,7 @@ export const createPerson = async ({ cedula, nombre, apellido, email, telefono, 
             values: data
         };
         const { rows } = await connectdb.query(query);
-        return rows[0]; // Devuelve la persona creada
+        return rows; // Devuelve la persona creada
     } catch (error) {
         console.error('Error creating person:', error);
         throw error;
@@ -21,14 +21,15 @@ export const createPerson = async ({ cedula, nombre, apellido, email, telefono, 
 
 };
 
-export const findOneByPerson = async ({ cedula }) => {
+export const findOneByPerson = async (cedula) => {
     try {
         const query = {
-            text: `select * from personas where cedula = $1`,
+            text: `SELECT * FROM personas WHERE cedula = $1;`,
             values: [cedula]
         };
 
         const { rows } = await connectdb.query(query);
+
         return rows[0]; // Devuelve la persona encontrada
     } catch (error) {
         console.error('Error finding person:', error);

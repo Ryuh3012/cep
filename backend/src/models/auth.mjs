@@ -1,22 +1,24 @@
-export const auth = async ({ cedula, password, personas }) => {
+import { connectdb } from "../db/connectdb.mjs";
+
+export const auth = async ({ cedula, password, personas, rol }) => {
 
     const query = {
-        text: `insert into users(cedula, password, personaid)
-        values($1, $2,$3)
+        text: `insert into usuarios(cedula, password, roleid,personaid)
+        values($1, $2, $3, $4)
         RETURNING idusuario
         `,
-        values: [cedula, password, personas]
+        values: [cedula, password, rol, personas]
     }
 
     const { rows } = await connectdb.query(query)
 
-    return rows;
+    return rows[0];
 }
 
-export const findOneByAuth = async ({ cedula }) => {
+export const findOneByAuth = async (cedula) => {
 
     const query = {
-        text: `select * from users where cedula = $1`,
+        text: `select * from usuarios where cedula = $1`,
         values: [cedula]
     }
 

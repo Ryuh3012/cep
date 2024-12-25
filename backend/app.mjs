@@ -15,7 +15,7 @@ import index from './src/routes/index.mjs'
 const app = express()
 connectdb.connect()
 // createTable();
-Createparticipats();
+// Createparticipats();
 const serve = createServer(app)
 
 export const io = new Server(serve, cors({ origin: '*' }))

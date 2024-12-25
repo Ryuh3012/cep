@@ -6,7 +6,7 @@ import Index from './page';
 import CajaPage from './page/caja/CajaPage';
 import AsistenciaPage from './page/asistencia/AsistenciaPage';
 import FacilitadorePage from './page/Facilitadores/FacilitadorePage';
-import LoginPage from './auth/Loign/LoginPage';
+import LoginPage from './page/auth/Loign/LoginPage';
 
 
 

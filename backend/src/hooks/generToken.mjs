@@ -1,15 +1,17 @@
-import jwt, { decode } from 'jsonwebtoken'
-import { tokenPassword } from '../config/config.mjs'
+import jwt from 'jsonwebtoken'
+import { tokenPassword } from '../config/config.mjs';
 
 
-export const generateToken = async (cedula, expiresIn) => {
-    return jwt.sign({ cedula }, tokenPassword, { expiresIn });
-
+export const generateToken = async ({ cedula, rol }) => {
+    try {
+        console.log(cedula, rol);
+        return jwt.sign({ cedula, rol }, tokenPassword, { expiresIn: '30d' });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const verifyToken = (token) => {
-
-
     try {
 
         const decoded = jwt.verify(token, tokenPassword)

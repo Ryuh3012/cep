@@ -2,16 +2,18 @@ import { Button, Image, Input } from "@nextui-org/react";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom'
+import CryptoJS from "crypto-js";
+
 
 import axios from "axios";
 import Cookies from 'universal-cookie';
 
 import LoginLayout from "../LoginLayout";
-import { loginValidate } from "../../segurity/Login/ValidateLogin.mjs";
 
-import img from "../../assets/img.jpg";
-import iujo from "../../assets/IUJO.gif";
+import img from "../../../assets/img.jpg";
+import iujo from "../../../assets/IUJO.gif";
 import { Link } from "react-router-dom";
+import { loginValidate } from "../../../segurity/Login/ValidateLogin.mjs";
 
 const initialValues = { cedula: '', password: '' }
 
@@ -31,18 +33,19 @@ const LoginPage = () => {
                 console.log(data);
                 if (data?.length !== 0) {
 
-                    // const cookis = new Cookies()
+                    const cookis = new Cookies()
+                    const cripto = CryptoJS.AES.encrypt(JSON.stringify(data.user), 'users').toString()
 
-                    // cookis.set('users', JSON.stringify(data?.res[0]))
-
+                    cookis.remove('user')
+                    cookis.set('user', JSON.stringify(cripto))
                     setMessage(data.messager)
                     setTimeout(() => {
                         setMessage(null)
-                        navegation('/home')
+                        return navegation('/home')
                     }, 3000);
                 }
             }
-            catch ({response:{data:{messager}}}) {
+            catch ({ response: { data: { messager } } }) {
                 setErrorInternal(messager)
                 setTimeout(() => {
                     setErrorInternal(null)

@@ -7,7 +7,7 @@ export const newCourses = async (req, res) => {
 
         const courses = await newCourse({ codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, tipodemovilidad, formacion });
 
-        // return res.status(200).json({ messager: 'Curso creado exitosamente' });
+        return res.status(200).json({ messager: 'Curso creado exitosamente' });
 
     } catch (error) {
         console.log(error);
@@ -16,14 +16,11 @@ export const newCourses = async (req, res) => {
 
 
 export const getCourse = async (req, res) => {
-
     try {
-        const data = await dataCourses();
-        return res.status(200).json({ messager: data });
-    } catch (error) {
+        const courses = await dataCourses()
+        return res.status(200).json({ messager: courses });
+    }
+    catch (error) {
         console.log(error);
     }
-
-
-
 }

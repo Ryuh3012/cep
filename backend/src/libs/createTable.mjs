@@ -33,5 +33,6 @@ export const createTable = async () => {
             connectdb.query('ALTER TABLE asistencias ADD FOREIGN KEY(personas_has_cursosid) REFERENCES personas_has_cursos(idpersona_ha_curso)'),
         ])
     } catch (error) {
+    console.log(error);
     }
 }

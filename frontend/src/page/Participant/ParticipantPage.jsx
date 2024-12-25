@@ -10,6 +10,7 @@ import Peoples from "../../components/formulary/StepperFormulary/Peoples";
 import Pay from "../../components/formulary/StepperFormulary/Pay";
 import Courses from "../../components/formulary/StepperFormulary/Courses";
 import { validateParticipant } from "../../segurity/Participant/ValidateParticipant.mjs";
+import { useNavigate } from "react-router-dom";
 
 
 const initialValues = {
@@ -29,16 +30,22 @@ const initialValues = {
     nombreDelTitulante: ''
 }
 const ParticipantPage = () => {
-    const [currentStep, setCurrentStep] = useState(1);
+    const navegation = useNavigate()
 
+    const [currentStep, setCurrentStep] = useState(1);
+    const [message, setMessage] = useState([])
     const { errors, touched, handleBlur, handleSubmit, handleChange, values } = useFormik({
 
         initialValues,
         onSubmit: async (values) => {
+            const { data: messager } = await axios.post('http://localhost:3000/people', { data: values })
 
-            const { data } = await axios.post('http://localhost:3000/people', { data: values })
+            setMessage(messager)
 
-            console.log(data);
+            setTimeout(() => {
+                setMessage(null)
+                return navegation('/')
+            }, 3000);
 
         },
         validate: (values) => validateParticipant({ values })
@@ -84,15 +91,32 @@ const ParticipantPage = () => {
                             handleSubmit, handleChange,
                             values
                         }}>
-                            {(errors.cedula && touched.cedula) && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errors.cedula}</p>)}
-                            {(errors.nombre && touched.nombre) && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errors.nombre}</p>)}
-                            {(errors.apellido && touched.apellido) && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errors.apellido}</p>)}
-                            {(errors.email && touched.email) && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errors.email}</p>)}
-                            {(errors.telefono && touched.telefono) && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errors.telefono}</p>)}
-                            {(errors.tipoDeParticipante && touched.tipoDeParticipante) && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errors.tipoDeParticipante}</p>)}
-                            {/* {(errors.cursos && touched.cursos) && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errors.cursos}</p>)} */}
-                            {(errors.tipoDePago && touched.tipoDePago) && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errors.tipoDePago}</p>)}
-                            {(errors.montoTotal && touched.montoTotal) && (<p className="bg-red-600 pl-4 text-white rounded-[3px] py-1">{errors.montoTotal}</p>)}
+                            {
+                                errors.cedula && touched.cedula || errors.nombre && touched.nombre ||
+                                    errors.apellido && touched.apellido || errors.email && touched.email ||
+                                    errors.telefono && touched.telefono || errors.tipoDeParticipante && touched.tipoDeParticipante ||
+                                    errors.cursos && touched.cursos || errors.tipoDePago && touched.tipoDePago ||
+                                    errors.montoTotal && touched.montoTotal ?
+                                    <div className="w-full bg-red-600 pl-4 text-white rounded-[3px] py-1">
+                                        {(errors.cedula && touched.cedula) && (<p>{errors.cedula}</p>)}
+                                        {(errors.nombre && touched.nombre) && (<p>{errors.nombre}</p>)}
+                                        {(errors.apellido && touched.apellido) && (<p>{errors.apellido}</p>)}
+                                        {(errors.email && touched.email) && (<p>{errors.email}</p>)}
+                                        {(errors.telefono && touched.telefono) && (<p>{errors.telefono}</p>)}
+                                        {(errors.tipoDeParticipante && touched.tipoDeParticipante) && (<p>{errors.tipoDeParticipante}</p>)}
+                                        {(errors.cursos && touched.cursos) && (<p>{errors.cursos}</p>)}
+                                        {(errors.tipoDePago && touched.tipoDePago) && (<p>{errors.tipoDePago}</p>)}
+                                        {(errors.telefono && touched.telefono) && (<p>{errors.telefono}</p>)}
+                                        {(errors.montoTotal && touched.montoTotal) && (<p>{errors.montoTotal}</p>)}
+                                        {message && (<p>{message}</p>)}
+                                    </div> : null}
+                            {message.length !== 0 && (
+                                <div className="w-full bg-green-600 pl-4 text-white rounded-[3px] py-1">
+                                    <p>{message}</p>
+                                </div>
+                            )
+
+                            }
                             {displayStep(currentStep)}
                         </StepperContext.Provider>
                     </div>

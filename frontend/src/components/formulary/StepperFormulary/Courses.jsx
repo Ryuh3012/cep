@@ -7,13 +7,15 @@ import axios from "axios";
 const Courses = () => {
 
     const { handleBlur, handleSubmit, handleChange, values: { cursos } } = useContext(StepperContext)
+    console.log(cursos);
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
+
         return async () => {
-            const { data: { messager } } = await axios.get('http://localhost:3000/cursos')
+            const { data: { messager } } = await axios.get('http://localhost:3000/api/courses/')
             setCourses(...courses, messager)
-        };
+        }
     }, []);
 
     return (
@@ -23,16 +25,16 @@ const Courses = () => {
                     <div className="flex flex-col w-full">
                         <Select
                             name="cursos"
-                            label="Cursos "
+                            label="cursos"
                             value={cursos}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             required={true}
                             variant="faded"
                             color="secondary"
-                            placeholder="cursos"
+                            placeholder="Curso disponible"
                         >
-                            {courses.map(({ id, codigodecurso, nombre }) => <SelectItem key={id}>{codigodecurso - nombre}</SelectItem>)}
+                            {courses.map(({ idcurso: id, codigodecuso, nombrecurso }) => <SelectItem key={id}>({codigodecuso}) {nombrecurso}</SelectItem>)}
 
                         </Select>
                     </div>
