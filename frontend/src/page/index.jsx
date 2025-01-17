@@ -10,15 +10,15 @@ import Layout from './layout';
 const Index = () => {
 
 
-    useEffect(() => {
-        const cookis = new Cookies()
-        const user = cookis.get('user')
-        const bytes = CryptoJS.AES.decrypt(user, 'users');
-        const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
-        return async () => {
+    // useEffect(() => {
+    //     const cookis = new Cookies()
+    //     const user = cookis.get('user')
+    //     const bytes = CryptoJS.AES.decrypt(user, 'users');
+    //     const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
+    //     return async () => {
 
-        }
-    }, []);
+    //     }
+    // }, []);
 
     return (
 
@@ -26,7 +26,7 @@ const Index = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
-                        <h1>Index</h1>
+                        <h1>hello word</h1>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,6 @@ import { tokenPassword } from '../config/config.mjs';
 
 export const generateToken = async ({ cedula, rol }) => {
     try {
-        console.log(cedula, rol);
         return jwt.sign({ cedula, rol }, tokenPassword, { expiresIn: '30d' });
     } catch (error) {
         console.log(error);

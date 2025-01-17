@@ -1,58 +1,58 @@
 import { Image } from "@nextui-org/react";
-import proceso from "../../icons/proces.png";
-import cursos from "../../icons/coursos.png";
-import grupo from "../../icons/grupo.png";
+import proceso from "../../assets/icons/proces.png";
+import cursos from "../../assets/icons/check.png";
+import grupo from "../../assets/icons/grupo.png";
 
 const CardCourses = () => {
     return (
-        <div className="flex justify-between py-2 gap-6 sm:flex-nowrap">
-            <div className="flex flex-col bg-green-600 rounded-lg shadow-lg w-[25%] p-5 h-full text-white">
-                <div className="flex gap-3">
-                    <div className="flex justify-center items-center h-full rounded-lg shadow-lg bg-green-500">
-                        <Image
-                            src={cursos}
-                            className="w-[50px]"
-                        />
-                    </div>
-                    <div>
-                        <p className='lg:text-2xl font-bold sm:text-base'> 0/10</p>
-                        <p className='lg:text-base font-semibold  sm:text-base'>Cursos Completado</p>
-                        <p className='text-opacity-80 text-slate-100 sm:text-xs'>Cursos finalizado</p>
-                    </div>
-                </div>
-
-            </div>
-            <div className="flex flex-col bg-[#6483D0] rounded-lg shadow-lg w-[25%] p-5 h-full text-white">
-                <div className="flex gap-3">
-                    <div className="flex justify-center items-center h-full rounded-lg shadow-lg bg-[#7AABDC]">
-                        <Image
-                            src={proceso}
-                            className="w-[50px]"
-                        />
-                    </div>
-                    <div>
-                        <p className='lg:text-2xl font-bold sm:text-base'> 0/10</p>
-                        <p className='lg:text-base font-semibold  sm:text-base'>Cursos En Proceso</p>
-                        <p className='text-opacity-80 text-slate-100 sm:text-xs'>Curso Iniciado</p>
-                    </div>
-                </div>
-            </div>
-            <div className="flex flex-col bg-yellow-600 rounded-lg shadow-lg w-[25%] p-5 h-full text-white">
-                <div className="flex gap-3">
-                    <div className="flex justify-center items-center h-full rounded-lg shadow-lg bg-yellow-500">
-                        <Image
-                            src={grupo}
-                            className="w-[50px]"
-                        />
-                    </div>
-                    <div>
-                        <p className='lg:text-2xl font-bold sm:text-base'> 0/10</p>
-                        <p className='lg:text-base font-semibold  sm:text-base'>Cursos En Espera</p>
-                        <p className='text-opacity-80 text-slate-100 sm:text-xs'>Esperando Participantes</p>
+        <div className="grid gap-4 md:grid-cols-3">
+            <div className="relative overflow-hidden shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-r bg-emerald-500/10  rounded-lg border" />
+                <div className="relative p-6">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-emerald-500 rounded-lg shadow-lg">
+                            <Image src={cursos} className="w-10 text-white" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium text-emerald-600">Cursos Completados</p>
+                            <p className="text-2xl font-bold">0/0</p>
+                            <p className="text-sm text-emerald-600/80">Cursos finalizados</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <div className="relative overflow-hidden shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-r bg-blue-500/10 rounded-lg border" />
+                <div className="relative p-6">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-blue-500 rounded-lg shadow-lg">
+                            <Image src={proceso} className="w-10" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium text-blue-600">Cursos En Proceso</p>
+                            <p className="text-2xl font-bold">0/0</p>
+                            <p className="text-sm text-blue-600/80">Curso iniciado</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="relative overflow-hidden shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-r bg-amber-500/10 rounded-lg border" />
+                <div className="relative p-6">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-amber-500 rounded-lg shadow-lg">
+                            <Image src={grupo} className="w-10" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium text-amber-600">Cursos En Espera</p>
+                            <p className="text-2xl font-bold">0/0</p>
+                            <p className="text-sm text-amber-600/80">Esperando Participantes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

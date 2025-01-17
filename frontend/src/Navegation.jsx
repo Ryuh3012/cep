@@ -7,6 +7,7 @@ import CajaPage from './page/caja/CajaPage';
 import AsistenciaPage from './page/asistencia/AsistenciaPage';
 import FacilitadorePage from './page/Facilitadores/FacilitadorePage';
 import LoginPage from './page/auth/Loign/LoginPage';
+import ClavePage from './page/auth/recuperaClave.jsx/ClavePage';
 
 
 
@@ -15,6 +16,7 @@ const Navegation = () => {
         <BrowserRouter>
             <Routes>
                 <Route element={<ParticipantPage />} path='/participant' />
+                <Route element={<ClavePage />} path='/recuperar' />
                 <Route element={<LoginPage />} path='/' />
                 <Route element={<Index />} path='/home' />
                 <Route element={<CoursesPage />} path='/cursos' />

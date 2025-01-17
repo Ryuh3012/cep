@@ -11,7 +11,7 @@ import Cookies from 'universal-cookie';
 import LoginLayout from "../LoginLayout";
 
 import img from "../../../assets/img.jpg";
-import iujo from "../../../assets/IUJO.gif";
+import icon from "../../../assets/icon2.png";
 import { Link } from "react-router-dom";
 import { loginValidate } from "../../../segurity/Login/ValidateLogin.mjs";
 
@@ -60,27 +60,31 @@ const LoginPage = () => {
     return (
         <LoginLayout>
             <section className="flex justify-center items-center w-full h-full">
-                <div className="container flex w-4/5 h-[70%] justify-between bg-white rounded-3xl shadow-2xl">
-                    <Image src={img} className="h-full lg:w-full lg:block sm:hidden" />
-                    <div className="h-full shadow-2xl ">
-                        <div className="flex flex-col h-full rounded-3xl ">
-                            <div className="w-full flex justify-end p-5 px-3">
-                                <Image src={iujo} className="w-[150px]" />
-                            </div>
-                            <div className="flex flex-col h-full justify-center items-center">
-                                <div className="p-5 text-center">
-                                    <p className="text-xl font-semibold font-mono">Bienvenido A La Coordinación de Extensión Profesional</p>
+                <div className="flex  h-[70%] bg-white rounded-3xl ">
+                    <div className="h-full shadow-2xl w-[50%]">
+                        <div className="flex flex-col justify-center items-center h-full rounded-3xl">
 
+                            <div className="flex flex-col h-full justify-center items-center">
+                                <div className="flex flex-col px-5 ">
+                                    <div className="flex justify-center items-center w-full  ">
+                                        <img src={icon} className="w-[20%]" />
+                                    </div>
+                                    <div className="divide-y divide-y-reverse divide-slate-400">
+                                        <p className="text-lg font-semibold font-mono ">Bienvenido A La Coordinación de Extensión Profesional</p>
+                                        <p className="py-2 opacity-35"> Ingresa las credenciales asignadas</p>
+                                    </div>
                                 </div>
                                 {errors.cedula && touched.cedula || errors.password && touched.password || errorInternal ?
-                                    <div className="w-full bg-red-600 pl-4 text-white rounded-[3px] py-1">
+                                    <div className="flex flex-col w-full justify-center items-center py-1 pl-4 text-danger-600 bg-danger-50 ">
                                         {(errors.cedula && touched.cedula) && (<p>{errors.cedula}</p>)}
                                         {(errors.password && touched.password) && (<p>{errors.password}</p>)}
                                         {errorInternal && (<p>{errorInternal}</p>)}
                                     </div> : null}
 
                                 {messager ?
-                                    (<p className="w-full bg-green-600 pl-4 text-white rounded-[3px] py-1">{messager}</p>)
+                                    <div className="flex flex-col w-full justify-center items-center py-1 pl-4 text-success-700 dark:text-success bg-success-50">
+                                        (<p>{messager}</p>)
+                                    </div>
                                     : null}
                                 <div className="w-full p-5">
                                     <form onSubmit={handleSubmit}>
@@ -113,11 +117,7 @@ const LoginPage = () => {
                                             <Button type="submit" className="bg-[#8C113E]  uppercase w-full p-6 rounded-xl font-semibold cursor-pointer hover:bg-[#6A2473] text-white transition duration-2oo ease-in-out">
                                                 inciar Sesion
                                             </Button>
-
-                                        </div>
-                                        <div className="flex justify-between">
-
-                                            <p className="mt-5 text-center  opacity-60 "><Link to={'/recuperar'}>¿Olvidaste tu contraseña?</Link></p>
+                                            <p className="mt-5 text-center hover:text-red-700 hover:opacity-100 opacity-45 hover:-translate-y-1 "><Link to={'/recuperar'}>¿Olvidaste tu contraseña?</Link></p>
                                         </div>
 
                                     </form>
@@ -126,6 +126,7 @@ const LoginPage = () => {
                             </div>
                         </div>
                     </div>
+                    <Image src={img} className='h-full' />
                 </div>
             </section>
 

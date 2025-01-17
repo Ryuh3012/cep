@@ -97,7 +97,8 @@ const ParticipantPage = () => {
                                     errors.telefono && touched.telefono || errors.tipoDeParticipante && touched.tipoDeParticipante ||
                                     errors.cursos && touched.cursos || errors.tipoDePago && touched.tipoDePago ||
                                     errors.montoTotal && touched.montoTotal ?
-                                    <div className="w-full bg-red-600 pl-4 text-white rounded-[3px] py-1">
+                                    <div className="flex flex-col w-full justify-center items-center py-1 pl-4 text-danger-600 bg-danger-50 ">
+
                                         {(errors.cedula && touched.cedula) && (<p>{errors.cedula}</p>)}
                                         {(errors.nombre && touched.nombre) && (<p>{errors.nombre}</p>)}
                                         {(errors.apellido && touched.apellido) && (<p>{errors.apellido}</p>)}
@@ -110,8 +111,9 @@ const ParticipantPage = () => {
                                         {(errors.montoTotal && touched.montoTotal) && (<p>{errors.montoTotal}</p>)}
                                         {message && (<p>{message}</p>)}
                                     </div> : null}
+
                             {message.length !== 0 && (
-                                <div className="w-full bg-green-600 pl-4 text-white rounded-[3px] py-1">
+                                <div className="flex flex-col w-full justify-center items-center py-1 pl-4 text-success-700 dark:text-success bg-success-50">
                                     <p>{message}</p>
                                 </div>
                             )
