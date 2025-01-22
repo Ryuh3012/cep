@@ -1,24 +1,27 @@
 import { Button, Image, Input } from "@nextui-org/react";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
+
 import CryptoJS from "crypto-js";
-
-
 import axios from "axios";
 import Cookies from 'universal-cookie';
 
-import LoginLayout from "../LoginLayout";
 
-import img from "../../../assets/img.jpg";
-import icon from "../../../assets/icon2.png";
 import { Link } from "react-router-dom";
-import { loginValidate } from "../../../segurity/Login/ValidateLogin.mjs";
+import { loginValidate } from "../../../../segurity/Login/ValidateLogin.mjs";
+
+import img from "../../../../assets/img.jpg";
+import icon from '../../../../assets/icon2.png';
+import LoginLayout from "../LoginLayout";
+import { SocketContext } from "../../../../SocketProvider";
 
 const initialValues = { cedula: '', password: '' }
 
 const LoginPage = () => {
     const navegation = useNavigate()
+    const { socket } = useContext(SocketContext)
+
 
     const [errorInternal, setErrorInternal] = useState(null)
     const [messager, setMessage] = useState(null)
@@ -27,35 +30,40 @@ const LoginPage = () => {
 
         initialValues,
         onSubmit: async (value) => {
-            try {
 
-                const data = await axios.post('http://localhost:3000/api/auth/singIn', { user: value })
-                console.log(data);
-                if (data?.length !== 0) {
+            socket.emit('[bag] sesion', value)
 
-                    const cookis = new Cookies()
-                    const cripto = CryptoJS.AES.encrypt(JSON.stringify(data.user), 'users').toString()
+            // socket.on('[bag] correct', (data) => {
 
-                    cookis.remove('user')
-                    cookis.set('user', JSON.stringify(cripto))
-                    setMessage(data.messager)
-                    setTimeout(() => {
-                        setMessage(null)
-                        return navegation('/home')
-                    }, 3000);
-                }
-            }
-            catch ({ response: { data: { messager } } }) {
-                setErrorInternal(messager)
-                setTimeout(() => {
-                    setErrorInternal(null)
-                }, 3000);
-            }
+            //     if (data?.length !== 0) {
+
+            //         // const cookis = new Cookies()
+            //         // const cripto = CryptoJS.AES.encrypt(JSON.stringify(data.user), 'users').toString()
+
+            //         // cookis.remove('user')
+            //         // cookis.set('user', JSON.stringify(cripto))
+            //         setMessage()
+            //         setTimeout(() => {
+            //             setMessage(null)
+            //             return navegation('/home')
+            //         }, 3000);
+            //     }
+            // })
 
         },
         validate: (values) => loginValidate({ values })
 
     })
+
+    useEffect(() => {
+
+        socket.on('error', ({ message }) => {
+            setErrorInternal(message)
+            setTimeout(() => {
+                setErrorInternal(null)
+            }, 2000)
+        })
+    }, [errorInternal]);
 
     return (
         <LoginLayout>
@@ -69,7 +77,7 @@ const LoginPage = () => {
                                     <div className="flex justify-center items-center w-full  ">
                                         <img src={icon} className="w-[20%]" />
                                     </div>
-                                    <div className="divide-y divide-y-reverse divide-slate-400">
+                                    <div className="divide-y divide-y-reverse divide-blue-500 py-1">
                                         <p className="text-lg font-semibold font-mono ">Bienvenido A La Coordinación de Extensión Profesional</p>
                                         <p className="py-2 opacity-35"> Ingresa las credenciales asignadas</p>
                                     </div>

@@ -1,13 +1,14 @@
 import { Navigate, Route, Routes, BrowserRouter } from 'react-router-dom';
 
-import ParticipantPage from './page/Participant/ParticipantPage';
-import CoursesPage from './page/Courses/coursesPage';
-import Index from './page';
-import CajaPage from './page/caja/CajaPage';
-import AsistenciaPage from './page/asistencia/AsistenciaPage';
-import FacilitadorePage from './page/Facilitadores/FacilitadorePage';
-import LoginPage from './page/auth/Loign/LoginPage';
-import ClavePage from './page/auth/recuperaClave.jsx/ClavePage';
+import Index from './page/Admin';
+import ParticipantPage from './page/Admin/Participant/ParticipantPage';
+import ClavePage from './page/Admin/auth/recuperaClave.jsx/ClavePage';
+import LoginPage from './page/Admin/auth/Loign/LoginPage';
+import CoursesPage from './page/Admin/Courses/coursesPage';
+import FacilitadorePage from './page/Admin/Facilitadores/FacilitadorePage';
+import CajaPage from './page/Admin/caja/CajaPage';
+import AsistenciaPage from './page/Admin/asistencia/AsistenciaPage';
+
 
 
 

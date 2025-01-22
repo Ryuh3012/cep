@@ -5,12 +5,12 @@ import { Link, useNavigate } from 'react-router-dom'
 
 // import { loginValidate } from "../../segurity/Login/ValidateLogin.mjs";
 
-import img from "../../../assets/img.jpg";
-import icon from "../../../assets/icon2.png";
+import img from "../../../../assets/img.jpg";
+import icon from "../../../../assets/icon2.png";
 
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-// import CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js";
 
 import { useState } from 'react';
 

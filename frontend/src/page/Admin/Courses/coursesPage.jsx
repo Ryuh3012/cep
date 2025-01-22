@@ -1,29 +1,30 @@
-import Layout from "../layout";
 import { getKeyValue, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import Layout from '../layout';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
-import { SocketContext } from "../../SocketProvider";
-import CardCourses from '../../components/Card/cardCourses';
+import { SocketContext } from "../../../SocketProvider";
+import CardCourses from '../../../components/Card/cardCourses';
+
 const columns = [
     {
-        key: "cedula",
-        label: "CEDULA",
+        key: "codigodecurso",
+        label: "CÓDIGO DE CURSOS",
     },
     {
-        key: "nombre",
-        label: "NOMBRE",
+        key: "horario",
+        label: "HORARIO",
     },
     {
-        key: "tipoDeparticipante",
-        label: "PARTICIPANTE",
+        key: "facilitador",
+        label: "FACILITADORES",
     },
     {
-        key: "Apellido",
+        key: "Modalidad",
         label: "MODALIDAD",
     },
     {
-        key: "nombreCurso",
-        label: "CURSOS",
+        key: "formacion",
+        label: "FORMACIÓN",
     },
     {
         key: "monto",
@@ -34,7 +35,10 @@ const columns = [
         label: "ESTATUS",
     }
 ];
-const AsistenciaPage = () => {
+
+const CoursesPage = () => {
+
+
     const [cursos, setCursos] = useState([])
     const [page, setPage] = useState(1);
     const rowsPerPage = 4;
@@ -43,7 +47,7 @@ const AsistenciaPage = () => {
 
     useEffect(() => {
         socket.on('courses', (res) => setCursos(...cursos, res))
-    }, []);
+    }, [cursos, page]);
 
     const pages = Math.ceil(cursos.length / rowsPerPage);
 
@@ -58,7 +62,7 @@ const AsistenciaPage = () => {
         <Layout>
             <div className="p-10 flex flex-col gap-6">
                 <div className="bg-white rounded-[5px] shadow-md p-5 w-full border-[1px] border-[#C4CEDC]">
-                    <h1 className='text-[30px] font-semibold mb-5'>Gestion de Estudiantes</h1>
+                    <h1 className='text-[30px] font-semibold mb-5'>Gestion de Cursos</h1>
                     <CardCourses />
                     <Table
                         shadow="none"
@@ -98,7 +102,6 @@ const AsistenciaPage = () => {
             </div>
         </Layout>
     );
-
 }
 
-export default AsistenciaPage;
+export default CoursesPage;

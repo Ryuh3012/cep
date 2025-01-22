@@ -1,31 +1,30 @@
+
+import { getKeyValue, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import Layout from '../layout';
-import { SocketContext } from '../../SocketProvider';
-import CardCourses from '../../components/Card/cardCourses';
-import { getKeyValue, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
-
-
+import { SocketContext } from '../../../SocketProvider';
+import CardCourses from '../../../components/Card/cardCourses';
 const columns = [
     {
-        key: "codigodecurso",
-        label: "CÓDIGO DE CURSOS",
+        key: "cedula",
+        label: "CEDULA",
     },
     {
-        key: "horario",
-        label: "HORARIO",
+        key: "nombre",
+        label: "NOMBRE",
     },
     {
-        key: "facilitador",
-        label: "FACILITADORES",
+        key: "tipoDeparticipante",
+        label: "PARTICIPANTE",
     },
     {
-        key: "Modalidad",
+        key: "Apellido",
         label: "MODALIDAD",
     },
     {
-        key: "formacion",
-        label: "FORMACIÓN",
+        key: "nombreCurso",
+        label: "CURSOS",
     },
     {
         key: "monto",
@@ -36,9 +35,7 @@ const columns = [
         label: "ESTATUS",
     }
 ];
-const FacilitadorePage = () => {
-
-
+const AsistenciaPage = () => {
     const [cursos, setCursos] = useState([])
     const [page, setPage] = useState(1);
     const rowsPerPage = 4;
@@ -62,7 +59,7 @@ const FacilitadorePage = () => {
         <Layout>
             <div className="p-10 flex flex-col gap-6">
                 <div className="bg-white rounded-[5px] shadow-md p-5 w-full border-[1px] border-[#C4CEDC]">
-                    <h1 className='text-[30px] font-semibold mb-5'>Gestion de Facilitadores</h1>
+                    <h1 className='text-[30px] font-semibold mb-5'>Gestion de Estudiantes</h1>
                     <CardCourses />
                     <Table
                         shadow="none"
@@ -102,6 +99,7 @@ const FacilitadorePage = () => {
             </div>
         </Layout>
     );
+
 }
 
-export default FacilitadorePage;
+export default AsistenciaPage;

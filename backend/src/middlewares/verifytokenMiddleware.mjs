@@ -10,12 +10,10 @@ export const verifytokenMiddleware = async (req, res, next) => {
 
     if (!valid) return res.status(401).json({ messager: 'Acceso denegado' })
 
-    if (expired) {
-        const newtoken = await generateToken(decoded.cedula)
-        req.newtoken = newtoken
-    }
+    if (expired) return res.status(401).json({ messager: 'token expirado' })
     req.cedula = decoded.cedula
     req.rol = decoded.rol
+    
     next()
 
 }
@@ -28,8 +26,5 @@ export const verifyAdmin = async (req, res, next) => {
 
 export const verifyUser = (req, res, next) => {
     if (req.rol == 1 || req.rol == 2) return next();
-
     return res.status(403).json({ msg: 'Uso exclusivo para administrador o caja' });
-
-
 }
