@@ -7,14 +7,6 @@ import { LockIcon } from "../icons/LockIcon.jsx";
 
 const Navbaar = ({ children }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const menuItems = [
-        "Perfil",
-        "Chat",
-        "Cursos",
-        "Estadísticas",
-        "Certificados",
-        "Cerrar sesión",
-    ];
 
     return (
         <>
