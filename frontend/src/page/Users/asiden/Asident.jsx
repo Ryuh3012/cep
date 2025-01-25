@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { Image } from "@nextui-org/react";
 const Asident = () => {
     return (
-        <div className=" flex flex-col shadow-xl gap-5 h-full">
+        <div className="md:flex md:flex-col w-1/4 shadow-xl gap-2 hidden">
             <div className="h-full">
                 <div className="bg-red-600 p-2 rounded-lg text-white">
                     <p>FOC - COORDINACIÓN DE FORMACIÓN COMPLEMENTARIA</p>

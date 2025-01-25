@@ -68,13 +68,12 @@ const LoginPage = () => {
     return (
         <LoginLayout>
             <section className="flex justify-center items-center w-full h-full">
-                <div className="flex  h-[70%] bg-white rounded-3xl ">
-                    <div className="h-full shadow-2xl w-[50%]">
+                <div className="flex h-3/4 bg-white rounded-3xl ">
+                    <div className="h-full shadow-2xl w-full md:w-1/2">
                         <div className="flex flex-col justify-center items-center h-full rounded-3xl">
-
                             <div className="flex flex-col h-full justify-center items-center">
-                                <div className="flex flex-col px-5 ">
-                                    <div className="flex justify-center items-center w-full  ">
+                                <div className="flex flex-col px-5">
+                                    <div className="flex justify-center items-center w-full ">
                                         <img src={icon} className="w-[20%]" />
                                     </div>
                                     <div className="divide-y divide-y-reverse divide-blue-500 py-1">
@@ -134,7 +133,7 @@ const LoginPage = () => {
                             </div>
                         </div>
                     </div>
-                    <Image src={img} className='h-full' />
+                    <Image src={img} className="h-full w-full hidden md:block" />
                 </div>
             </section>
 

@@ -9,6 +9,7 @@ import FacilitadorePage from './page/Admin/Facilitadores/FacilitadorePage';
 import CajaPage from './page/Admin/caja/CajaPage';
 import AsistenciaPage from './page/Admin/asistencia/AsistenciaPage';
 import HomePague from './page/Users/Index';
+import ContactoPage from './page/Users/contacto/ContactoPage';
 
 
 
@@ -20,12 +21,13 @@ const Navegation = () => {
                 <Route element={<ParticipantPage />} path='/participant' />
                 <Route element={<ClavePage />} path='/recuperar' />
                 <Route element={<LoginPage />} path='/' />
-                <Route element={<Index />} path='/home' />
+                <Route element={<Index />} path='/index' />
                 <Route element={<CoursesPage />} path='/cursos' />
                 <Route element={<AsistenciaPage />} path='/asistencia' />
                 <Route element={<FacilitadorePage />} path='/facilitador' />
                 <Route element={<CajaPage />} path='/caja' />
-                <Route element={<HomePague />} path='/homePague' />
+                <Route element={<ContactoPage />} path='/contacto' />
+                <Route element={<HomePague />} path='/home' />
                 <Route path="*" element={<Navigate to={'/'} replace={true} />} />
             </Routes>
         </BrowserRouter>

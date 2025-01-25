@@ -1,7 +1,7 @@
 
 const LoginLayout = ({ children }) => {
     return (
-        <div className="h-screen h-screen bg-[#2A398C]">
+        <div className="h-screen w-screen bg-[#2A398C]">
             {children}
         </div>
     );

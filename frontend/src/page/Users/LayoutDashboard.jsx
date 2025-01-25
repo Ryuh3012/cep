@@ -1,8 +1,7 @@
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@nextui-org/react';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Navbar, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@nextui-org/react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import icon from "../../assets/icons/Fe_y_Alegria-logo-BF8EDA2F0E-seeklogo.com.png";
 
 import img from "../../assets/cropped-cabeceraweb2.jpg";
 import Asident from './asiden/Asident';
@@ -20,26 +19,26 @@ const LayoutDashboard = ({ children }) => {
                 <NavbarContent>
                     <NavbarMenuToggle
                         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                        className="sm:hidden"
+                        className="md:hidden"
                     />
                 </NavbarContent>
-                <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                    <NavbarItem>
-                        <NavLink className={({ isActive }) => isActive ? 'text-lg font-bold ' : 'font-light'} to="/homepague">
+                <NavbarContent className="hidden md:flex gap-4" justify="center">
+                    <NavbarItem >
+                        <NavLink className={({ isActive }) => isActive ? 'text-lg font-bold border-b-3 border-red-600 -translate-y-1 -translate-x-1 p-1' : 'font-light'} to="/homepague">
                             Home
                         </NavLink>
                     </NavbarItem>
+
                     <NavbarItem>
-                        <Dropdown>
+                        <Dropdown >
                             <NavbarItem>
                                 <DropdownTrigger>
                                     <Button
                                         className=" font-light rounded p-2 "
                                         radius="sm"
                                         variant="light"
-
                                     >
-                                        Oferta Acad
+                                        Oferta Academicas
                                     </Button>
                                 </DropdownTrigger>
                             </NavbarItem >
@@ -147,7 +146,7 @@ const LayoutDashboard = ({ children }) => {
                         </Dropdown>
                     </NavbarItem>
                     <NavbarItem>
-                        <NavLink to='/contactos' className={({ isActive }) => isActive ? 'text-lg font-bold ' : 'font-light'} >
+                        <NavLink to='/contacto' className={({ isActive }) => isActive ? 'text-lg font-bold border-b-3 border-red-600 -translate-y-1 -translate-x-1 p-1' : 'font-light'} >
                             Contacto
                         </NavLink>
                     </NavbarItem>
@@ -157,11 +156,11 @@ const LayoutDashboard = ({ children }) => {
                     {menuItems.map((item, index) => (
                         <NavbarMenuItem key={`${item}-${index}`}>
                             <NavLink
-                                className="w-full"
+                                to={`/${item}`}
                                 color={
-                                    index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
+                                    index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground "
                                 }
-                                href={item}
+                                // href={item}
                                 size="lg"
                             >
                                 {item}
@@ -171,6 +170,7 @@ const LayoutDashboard = ({ children }) => {
                 </NavbarMenu>
 
             </Navbar>
+
             <section className='flex divide-x-3'>
                 <Asident />
                 {children}

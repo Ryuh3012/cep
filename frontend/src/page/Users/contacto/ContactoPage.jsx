@@ -1,12 +1,13 @@
 import { Image } from '@nextui-org/react';
 import { Link } from 'react-router-dom';
 
-import { LayoutDashboard } from '../../components/Navbar/Navbaar';
+import LayoutDashboard from '../LayoutDashboard';
 
-import maps from '../../assets/ubicacioniujocatia.jpg'
-import correo from '../../assets/icons8-mail-100.png'
-import Telefono from '../../assets/icons8-telephone-50.png'
-import wp from '../../assets/icons8-whatsapp.svg'
+
+import maps from '../../../assets/ubicacioniujocatia.jpg'
+import correo from '../../../assets/icons8-mail-100.png'
+import Telefono from '../../../assets/icons8-telephone-50.png'
+import wp from '../../../assets/icons8-whatsapp.svg'
 
 const ContactoPage = () => {
     return (
@@ -18,9 +19,9 @@ const ContactoPage = () => {
                         <div >
                             <p className="text-2xl font-bold">Ubicacion :</p>
                         </div>
-                        <div className="flex flex-col justify-center items-center ">
+                        <div className="flex flex-col justify-center items-center  ">
                             <Link to='https://www.google.com/maps/place/IUJO+Caracas+-+Instituto+Universitario+%22Jes%C3%BAs+Obrero%22+-+Sede:+Caracas/@10.5105646,-66.9395055,17z/data=!4m6!3m5!1s0x8c2a5ff6246f083f:0x295392bbd82587cd!8m2!3d10.5107281!4d-66.937113!16s%2Fg%2F11spqgq0zr?entry=tts&g_ep=EgoyMDI0MTExOS4yIPu8ASoASAFQAw%3D%3D'>
-                                <Image src={maps} width={700} height={500} />
+                                <Image src={maps} width={700} height={500} className='hover:shadow-2xl hover:-translate-y-1 hover:-translate-x-2 hover:transition' />
 
                             </Link>
                         </div>
@@ -42,8 +43,8 @@ const ContactoPage = () => {
                             </div>
                             <div className='flex justify-start items-center p-2 '>
                                 <Image src={correo} width={30} />
-                                <p className='hover:text-red-500 px-1'>
-                                    <a href="mailto:catiadireccion@iujo.edu.ve">catiadireccion@iujo.edu.ve </a>
+                                <p className='hover:text-red-500 px-1 hover:-translate-y-1 hover:-translate-x-1 transition'>
+                                    <a href="mailto:catiadireccion@iujo.edu.ve ">catiadireccion@iujo.edu.ve </a>
                                 </p>
                             </div>
                         </div>
@@ -64,7 +65,7 @@ const ContactoPage = () => {
                             </div>
                             <div className='flex justify-start items-center p-2 '>
                                 <Image src={wp} width={30} />
-                                <p className='hover:text-red-500 px-1'>
+                                <p className='hover:text-red-500 px-1 hover:-translate-y-1 hover:-translate-x-1 transition'>
                                     <a href="https://wa.me/584127569790">(+58-412) 7569790</a>
                                 </p>
                             </div>
