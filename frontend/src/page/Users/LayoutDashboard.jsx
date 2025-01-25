@@ -24,7 +24,7 @@ const LayoutDashboard = ({ children }) => {
                 </NavbarContent>
                 <NavbarContent className="hidden md:flex gap-4" justify="center">
                     <NavbarItem >
-                        <NavLink className={({ isActive }) => isActive ? 'text-lg font-bold border-b-3 border-red-600 -translate-y-1 -translate-x-1 p-1' : 'font-light'} to="/homepague">
+                        <NavLink className={({ isActive }) => isActive ? 'text-lg font-bold border-b-3 border-red-600 -translate-y-1 -translate-x-1 p-1' : 'font-light'} to="/home">
                             Home
                         </NavLink>
                     </NavbarItem>
