@@ -9,7 +9,7 @@ import Asident from './asiden/Asident';
 const LayoutDashboard = ({ children }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const menuItems = ["Home", "Oferta Academicas", "Procesos", "Extension-Profesional", "Formacion completaria", "Contacto"];
+    const menuItems = ["Home", "Oferta Academicas", "Procesos", "Extension-Profesional", "Formacion Complementaria", "Contacto"];
 
 
     return (
@@ -127,7 +127,7 @@ const LayoutDashboard = ({ children }) => {
                                         radius="sm"
                                         variant="light"
                                     >
-                                        formacion complementaria
+                                        Formacion Complementaria
                                     </Button>
                                 </DropdownTrigger>
                             </NavbarItem>
