@@ -9,68 +9,50 @@ import { Link } from "react-router-dom";
 import { Image } from "@nextui-org/react";
 const Asident = () => {
     return (
-        <div className="md:flex md:flex-col w-1/4 shadow-xl gap-2 hidden">
-            <div className="h-full">
-                <div className="bg-red-600 p-2 rounded-lg text-white">
-                    <p>FOC - COORDINACIÓN DE FORMACIÓN COMPLEMENTARIA</p>
-                </div>
-                <ul className="flex flex-col p-2 gap-2">
-
+        <aside className="hidden md:flex md:flex-col w-1/4 h-screen gap-y-2 justify-around">
+            <div className="flex flex-col h-full gap-2">
+                <p className="bg-red-600 rounded-lg p-2 text-white">FOC - COORDINACIÓN DE FORMACIÓN COMPLEMENTARIA</p>
+                <ul className="flex flex-col gap-y-1 px-2">
                     <li className="text-sm">
                         Programación Permanente
                     </li>
-                    <li className=" text-sm ">
+                    <li className=" text-sm">
                         (FOC) Registro de Actividad - Certificados internos y externos
                     </li>
                 </ul>
             </div>
-            <div className="h-full">
-                <div>
-                    <div className="bg-red-600 p-2 rounded-lg text-white">
-                        <p>CEP -COORDINACIÓN DE EXTENSIÓN PROFESIONAL</p>
+            <div className="flex flex-col h-full gap-2">
+                <p className="bg-red-600 rounded-lg p-2 text-white">CEP -COORDINACIÓN DE EXTENSIÓN PROFESIONAL</p>
+                <div className="flex flex-col gap-y-1 px-2">
+                    <Image src={logo} width={300} />
 
-                    </div>
-                    <div className="flex flex-col justify-center items-center p-2">
-                        <Image src={logo} width={300} />
-
-                        <Link className="">
-                            <p className="text-sm p-1 hover:text-red-600">Programación permanente de cursos</p>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-            <div className="h-full">
-                <div>
-                    <div className="bg-red-600 p-2 rounded-lg text-white">
-                        <p>SIGEA - SISTEMA DE GESTIÓN ACADÉMICA</p>
-
-                    </div>
-                    <div className="flex flex-col justify-center items-center p-2">
-                        <Image src={icon3} width={300} />
-                        <Link to='http://caracas.iujo.edu.ve/sigea/'>
-                            <p className="text-sm p-1 hover:text-red-600">Entrar al SIGEA - Sistema de Gestión Académica</p>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-            <div className="h-full">
-                <div className="bg-red-600 p-2 rounded-lg text-white w-full">
-                    <p>Entrar al SIGEA - Sistema de Gestión Académica</p>
-                </div>
-
-                <div className="flex flex-col justify-center items-center p-2">
-                    <Image src={icon4} width={300} />
-                    <Link to='https://aulaccs.iujoac.org.ve'>
-                        <p className="text-sm p-1 hover:text-red-600">Entorno Virtual de Aprendizaje (EVA) IUJO Caracas</p>
+                    <Link className="">
+                        <p className="text-sm text-center hover:text-red-600">Programación permanente de cursos</p>
                     </Link>
                 </div>
             </div>
-
-            <div className="h-full">
-                <div className="bg-red-600 p-1 rounded-lg text-white w-full">
-                    <p>Oferta Académica</p>
+            <div className="flex flex-col h-full gap-2">
+                <p className="bg-red-600 rounded-lg p-2 text-white">SIGEA - SISTEMA DE GESTIÓN ACADÉMICA</p>
+                <div className="flex flex-col gap-y-1 px-2">
+                    <Image src={icon3} width={300} />
+                    <Link to='http://caracas.iujo.edu.ve/sigea/'>
+                        <p className="text-sm text-center hover:text-red-600">Entrar al SIGEA - Sistema de Gestión Académica</p>
+                    </Link>
                 </div>
-                <ul className="flex flex-col p-2 gap-2">
+            </div >
+            <div className="flex flex-col h-full gap-2">
+                <p className="bg-red-600 rounded-lg p-2 text-white">Entrar al SIGEA - Sistema de Gestión Académica</p>
+
+                <div className="flex flex-col gap-y-1 px-2">
+                    <Image src={icon4} width={300} />
+                    <Link to='https://aulaccs.iujoac.org.ve'>
+                        <p className="text-sm text-center hover:text-red-600">Entorno Virtual de Aprendizaje (EVA) IUJO Caracas</p>
+                    </Link>
+                </div>
+            </div>
+            <div className="flex flex-col h-full gap-2">
+                <p className="bg-red-600 rounded-lg p-2 text-white">Oferta Académica</p>
+                <ul className="flex flex-col gap-y-1 px-2">
                     <Link to='https://webiujocatia.wordpress.com/carreras-ofertadas/'>
                         <li className="text-sm hover:text-red-600">Carreras Ofertadas</li>
                     </Link>
@@ -82,11 +64,9 @@ const Asident = () => {
                     </Link>
                 </ul>
             </div>
-            <div className="h-full">
-                <div className="bg-red-600 p-1 rounded-lg text-white">
-                    <p>Organización</p>
-                </div>
-                <ul className="flex flex-col p-2 gap-2 ">
+            <div className="flex flex-col h-full gap-2">
+                <p className="bg-red-600 rounded-lg p-2 text-white">Organización</p>
+                <ul className="flex flex-col gap-y-1 px-2">
                     <Link to='/nosotros'>
                         <li className="text-sm hover:text-red-600">Historia del IUJO</li>
                     </Link>
@@ -98,24 +78,24 @@ const Asident = () => {
                     </Link>
                 </ul>
             </div>
-            <div className="h-full">
-                <ul className="flex justify-center items-center gap-3">
-                    <Link className="flex justify-center items-center hover:-translate-y-2 hover:mx-2">
+            <div className="flex flex-col h-full gap-2 py-5">
+                <ul className="flex justify-between px-2">
+                    <Link className=" hover:-translate-y-2 hover:mx-2">
                         <Image src={icon8} width={40} />
                     </Link>
-                    <Link to='mailto:catiadireccion@iujo.edu.ve' className="flex justify-center items-center hover:-translate-y-2 hover:mx-2">
+                    <Link to='mailto:catiadireccion@iujo.edu.ve' className="hover:-translate-y-2 hover:mx-2">
                         <Image src={icon7} width={40} />
                     </Link>
-                    <Link to='https://www.facebook.com/657316811021139?ref=embed_page' className="flex justify-center items-center hover:-translate-y-2 hover:mx-2">
+                    <Link to='https://www.facebook.com/657316811021139?ref=embed_page' className="hover:-translate-y-2 hover:mx-2">
                         <Image src={icon5} width={40} />
 
                     </Link>
-                    <Link to='https://wa.me/584127569790' className="flex justify-center items-center hover:-translate-y-2 hover:mx-2">
+                    <Link to='https://wa.me/584127569790' className="hover:-translate-y-2 hover:mx-2">
                         <Image src={icon6} width={40} />
                     </Link>
                 </ul>
             </div>
-        </div>
+        </aside >
     );
 }
 

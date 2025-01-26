@@ -10,6 +10,7 @@ import CajaPage from './page/Admin/caja/CajaPage';
 import AsistenciaPage from './page/Admin/asistencia/AsistenciaPage';
 import HomePague from './page/Users/Index';
 import ContactoPage from './page/Users/contacto/ContactoPage';
+import ContenidoPage from './page/Users/Cep/ContenidoPage';
 
 
 
@@ -27,6 +28,7 @@ const Navegation = () => {
                 <Route element={<FacilitadorePage />} path='/facilitador' />
                 <Route element={<CajaPage />} path='/caja' />
                 <Route element={<ContactoPage />} path='/contacto' />
+                <Route element={<ContenidoPage />} path='/Extension-Profesional' />
                 <Route element={<HomePague />} path='/home' />
                 <Route path="*" element={<Navigate to={'/'} replace={true} />} />
             </Routes>
