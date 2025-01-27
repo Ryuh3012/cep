@@ -20,8 +20,8 @@ import { singIn } from "./src/controllers/auth.mjs";
 const app = express()
 connectdb.connect()
 
-// createTable();
-// Createparticipats();
+createTable();
+Createparticipats();
 const serve = createServer(app)
 
 export const io = new Server(serve, cors({ origin: '*' }))

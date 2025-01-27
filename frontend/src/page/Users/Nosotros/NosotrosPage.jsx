@@ -10,8 +10,7 @@ const NosotrosPage = () => {
             <main className=' flex w-full h-full p-4  '>
                 <article className='flex bg-slate-50 w-full gap-5 px-5 rounded-lg'>
                     <div>
-                        <div className='flex justify-center items-center p-'>
-
+                        <div className='flex justify-center items-center'>
                             <p className='text-2xl font-bold'>
                                 coordinación de extensión profesional
                             </p>

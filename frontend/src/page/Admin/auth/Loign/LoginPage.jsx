@@ -77,7 +77,7 @@ const LoginPage = () => {
                                         <img src={icon} className="w-[20%]" />
                                     </div>
                                     <div className="divide-y divide-y-reverse divide-blue-500 py-1">
-                                        <p className="text-lg font-semibold font-mono ">Bienvenido A La Coordinación de Extensión Profesional</p>
+                                        <p className="text-lg font-semibold font-mono ">Bienvenido a la Coordinación de Extensión Profesional</p>
                                         <p className="py-2 opacity-35"> Ingresa las credenciales asignadas</p>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@ const LoginPage = () => {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 required={true}
-                                                placeholder="Introduzca Su Usuario"
+                                                placeholder="Introduzca su usuario"
                                             />
                                             <Input
                                                 type="password"
@@ -117,7 +117,7 @@ const LoginPage = () => {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 required={true}
-                                                placeholder="Introduzca Su contraseña"
+                                                placeholder="Introduzca su contraseña"
                                             />
                                         </div>
                                         <div className="py-5">

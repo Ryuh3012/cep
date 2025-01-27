@@ -29,12 +29,12 @@ const Layout = ({ children }) => {
 
                 </NavbarBrand>
                 <NavbarContent justify="center">
-                    <NavbarItem>
-                        {/* bg-[#F29441] rounded */}
-                        <NavLink end to="/home" className={({ isActive }) => isActive ? 'text-lg font-bold ' : 'font-light'} >
-                            Inicio
+                    {/* <NavbarItem>
+                        
+                        </NavbarContent><NavLink end to="/home" className={({ isActive }) => isActive ? 'text-lg font-bold ' : 'font-light'} >
+                             Inicio
                         </NavLink>
-                    </NavbarItem>
+                    </NavbarItem> */}
                     <Dropdown>
                         <NavbarItem>
                             <DropdownTrigger>
@@ -43,26 +43,26 @@ const Layout = ({ children }) => {
                                     radius="sm"
                                     variant="light"
                                 >
-                                    Features
+                                    Cursos
                                 </Button>
                             </DropdownTrigger>
                         </NavbarItem>
                         <DropdownMenu>
                             <DropdownItem>
                                 <NavLink end to="/cursos" className={({ isActive }) => isActive ? 'text-lg font-bold ' : 'font-light'} >
-                                    Cursos
+                                    Apertura
                                 </NavLink>
                             </DropdownItem>
                             <DropdownItem>
-                                <NavLink end to="/asistencia" className={({ isActive }) => isActive ? 'text-lg font-bold ' : 'font-light'} >
-                                    Asistencia
+                                <NavLink end to="/inscripcion" className={({ isActive }) => isActive ? 'text-lg font-bold ' : 'font-light'} >
+                                    Inscripción
                                 </NavLink>
                             </DropdownItem>
-                            <DropdownItem>
+                            {/*<DropdownItem>
                                 <NavLink end to="/facilitador" className={({ isActive }) => isActive ? 'text-lg font-bold ' : 'font-light'} >
                                     Facilitadores
                                 </NavLink>
-                            </DropdownItem>
+                            </DropdownItem>*/}
                         </DropdownMenu>
                     </Dropdown>
 

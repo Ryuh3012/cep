@@ -10,14 +10,17 @@ import CajaPage from './page/Admin/caja/CajaPage';
 import AsistenciaPage from './page/Admin/asistencia/AsistenciaPage';
 import HomePague from './page/Users/Index';
 import ContactoPage from './page/Users/contacto/ContactoPage';
-
-
+import ContenidoPage from './page/Users/Cep/ContenidoPage';
+import InscripcionPage from './page/Users/inscripcion/inscripcion'
+import FormularioPage from './page/Users/fomulario/formulario';
 
 
 const Navegation = () => {
     return (
         <BrowserRouter>
             <Routes>
+                <Route element={<FormularioPage />} path='/formulario' />
+                <Route element={<InscripcionPage />} path='/inscripcion' />
                 <Route element={<ParticipantPage />} path='/participant' />
                 <Route element={<ClavePage />} path='/recuperar' />
                 <Route element={<LoginPage />} path='/' />
@@ -27,6 +30,7 @@ const Navegation = () => {
                 <Route element={<FacilitadorePage />} path='/facilitador' />
                 <Route element={<CajaPage />} path='/caja' />
                 <Route element={<ContactoPage />} path='/contacto' />
+                <Route element={<ContenidoPage />} path='/Extension-Profesional' />
                 <Route element={<HomePague />} path='/home' />
                 <Route path="*" element={<Navigate to={'/'} replace={true} />} />
             </Routes>

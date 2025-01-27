@@ -9,13 +9,13 @@ import Asident from './asiden/Asident';
 const LayoutDashboard = ({ children }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const menuItems = ["Home", "Oferta Academicas", "Procesos", "Extension Profesional", "Formacion completaria", "Contacto"];
+    const menuItems = ["Home", "Oferta Academicas", "Procesos", "Extension-Profesional", "Formacion Complementaria", "Contacto"];
 
 
     return (
-        <div className="bg-white  h-screen overflow-auto">
+        <div className="bg-[#d9dbe0] h-screen overflow-auto">
             <header className='w-full h-[15%] hidden sm:flex '> <img src={img} className='w-full h-[100%]' /></header>
-            <Navbar onMenuOpenChange={setIsMenuOpen} >
+            <Navbar onMenuOpenChange={setIsMenuOpen}>
                 <NavbarContent>
                     <NavbarMenuToggle
                         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -114,7 +114,7 @@ const LayoutDashboard = ({ children }) => {
                         </Dropdown>
                     </NavbarItem>
                     <NavbarItem>
-                        <NavLink to='/' className={({ isActive }) => isActive ? 'text-lg font-bold ' : 'font-light'}>
+                        <NavLink className={({ isActive }) => isActive ? 'text-lg font-bold border-b-3 border-red-600 -translate-y-1 -translate-x-1 p-1' : 'font-light'} to="/Extension-Profesional">
                             Extension Profesional
                         </NavLink>
                     </NavbarItem>
@@ -127,7 +127,7 @@ const LayoutDashboard = ({ children }) => {
                                         radius="sm"
                                         variant="light"
                                     >
-                                        formacion complementaria
+                                        Formacion Complementaria
                                     </Button>
                                 </DropdownTrigger>
                             </NavbarItem>
@@ -160,7 +160,6 @@ const LayoutDashboard = ({ children }) => {
                                 color={
                                     index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground "
                                 }
-                                // href={item}
                                 size="lg"
                             >
                                 {item}
@@ -171,7 +170,7 @@ const LayoutDashboard = ({ children }) => {
 
             </Navbar>
 
-            <section className='flex divide-x-3'>
+            <section className='flex p-2 divide-x-3 bg-white '>
                 <Asident />
                 {children}
 
