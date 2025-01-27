@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 import { Image } from "@nextui-org/react";
 const Asident = () => {
     return (
-        <aside className="hidden md:flex md:flex-col w-1/4 h-screen gap-y-2 justify-around">
-            <div className="flex flex-col h-full gap-2">
+        <aside className="hidden md:flex md:flex-col w-1/4 h-full gap-y-2 justify-around">
+            <div className="flex flex-col  gap-2">
                 <p className="bg-red-600 rounded-lg p-2 text-white">FOC - COORDINACIÓN DE FORMACIÓN COMPLEMENTARIA</p>
                 <ul className="flex flex-col gap-y-1 px-2">
                     <li className="text-sm">
@@ -21,7 +21,7 @@ const Asident = () => {
                     </li>
                 </ul>
             </div>
-            <div className="flex flex-col h-full gap-2">
+            <div className="flex flex-col  gap-2">
                 <p className="bg-red-600 rounded-lg p-2 text-white">CEP -COORDINACIÓN DE EXTENSIÓN PROFESIONAL</p>
                 <div className="flex flex-col gap-y-1 px-2">
                     <Image src={logo} width={300} />
@@ -31,7 +31,7 @@ const Asident = () => {
                     </Link>
                 </div>
             </div>
-            <div className="flex flex-col h-full gap-2">
+            <div className="flex flex-col  gap-2">
                 <p className="bg-red-600 rounded-lg p-2 text-white">SIGEA - SISTEMA DE GESTIÓN ACADÉMICA</p>
                 <div className="flex flex-col gap-y-1 px-2">
                     <Image src={icon3} width={300} />
@@ -40,7 +40,7 @@ const Asident = () => {
                     </Link>
                 </div>
             </div >
-            <div className="flex flex-col h-full gap-2">
+            <div className="flex flex-col  gap-2">
                 <p className="bg-red-600 rounded-lg p-2 text-white">Entrar al SIGEA - Sistema de Gestión Académica</p>
 
                 <div className="flex flex-col gap-y-1 px-2">
@@ -50,7 +50,7 @@ const Asident = () => {
                     </Link>
                 </div>
             </div>
-            <div className="flex flex-col h-full gap-2">
+            <div className="flex flex-col  gap-2">
                 <p className="bg-red-600 rounded-lg p-2 text-white">Oferta Académica</p>
                 <ul className="flex flex-col gap-y-1 px-2">
                     <Link to='https://webiujocatia.wordpress.com/carreras-ofertadas/'>
@@ -64,7 +64,7 @@ const Asident = () => {
                     </Link>
                 </ul>
             </div>
-            <div className="flex flex-col h-full gap-2">
+            <div className="flex flex-col  gap-2">
                 <p className="bg-red-600 rounded-lg p-2 text-white">Organización</p>
                 <ul className="flex flex-col gap-y-1 px-2">
                     <Link to='/nosotros'>
@@ -78,7 +78,7 @@ const Asident = () => {
                     </Link>
                 </ul>
             </div>
-            <div className="flex flex-col h-full gap-2 py-5">
+            <div className="flex flex-col gap-2 py-5">
                 <ul className="flex justify-between px-2">
                     <Link className=" hover:-translate-y-2 hover:mx-2">
                         <Image src={icon8} width={40} />

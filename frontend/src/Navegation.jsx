@@ -11,7 +11,6 @@ import AsistenciaPage from './page/Admin/asistencia/AsistenciaPage';
 import HomePague from './page/Users/Index';
 import ContactoPage from './page/Users/contacto/ContactoPage';
 import ContenidoPage from './page/Users/Cep/ContenidoPage';
-import InscripcionPage from './page/Users/inscripcion/inscripcion'
 import FormularioPage from './page/Users/fomulario/formulario';
 
 const Navegation = () => {
@@ -19,10 +18,9 @@ const Navegation = () => {
         <BrowserRouter>
             <Routes>
                 <Route element={<FormularioPage />} path='/formulario' />
-                <Route element={<InscripcionPage />} path='/inscripcion' />
                 <Route element={<ParticipantPage />} path='/participant' />
                 <Route element={<ClavePage />} path='/recuperar' />
-                <Route element={<LoginPage />} path='/' />
+                <Route element={<LoginPage />} path='/login' />
                 <Route element={<Index />} path='/index' />
                 <Route element={<CoursesPage />} path='/cursos' />
                 <Route element={<AsistenciaPage />} path='/asistencia' />
@@ -30,7 +28,7 @@ const Navegation = () => {
                 <Route element={<CajaPage />} path='/caja' />
                 <Route element={<ContactoPage />} path='/contacto' />
                 <Route element={<ContenidoPage />} path='/Extension-Profesional' />
-                <Route element={<HomePague />} path='/home' />
+                <Route element={<HomePague />} path='/' />
                 <Route path="*" element={<Navigate to={'/'} replace={true} />} />
             </Routes>
         </BrowserRouter>
