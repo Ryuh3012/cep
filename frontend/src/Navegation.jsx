@@ -14,7 +14,6 @@ import ContenidoPage from './page/Users/Cep/ContenidoPage';
 import InscripcionPage from './page/Users/inscripcion/inscripcion'
 import FormularioPage from './page/Users/fomulario/formulario';
 
-
 const Navegation = () => {
     return (
         <BrowserRouter>
