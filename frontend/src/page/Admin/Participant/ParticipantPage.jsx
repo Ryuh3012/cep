@@ -98,7 +98,6 @@ const ParticipantPage = () => {
                                     errors.cursos && touched.cursos || errors.tipoDePago && touched.tipoDePago ||
                                     errors.montoTotal && touched.montoTotal ?
                                     <div className="flex flex-col w-full justify-center items-center py-1 pl-4 text-danger-600 bg-danger-50 ">
-
                                         {(errors.cedula && touched.cedula) && (<p>{errors.cedula}</p>)}
                                         {(errors.nombre && touched.nombre) && (<p>{errors.nombre}</p>)}
                                         {(errors.apellido && touched.apellido) && (<p>{errors.apellido}</p>)}
@@ -107,7 +106,6 @@ const ParticipantPage = () => {
                                         {(errors.tipoDeParticipante && touched.tipoDeParticipante) && (<p>{errors.tipoDeParticipante}</p>)}
                                         {(errors.cursos && touched.cursos) && (<p>{errors.cursos}</p>)}
                                         {(errors.tipoDePago && touched.tipoDePago) && (<p>{errors.tipoDePago}</p>)}
-                                        {(errors.telefono && touched.telefono) && (<p>{errors.telefono}</p>)}
                                         {(errors.montoTotal && touched.montoTotal) && (<p>{errors.montoTotal}</p>)}
                                         {message && (<p>{message}</p>)}
                                     </div> : null}

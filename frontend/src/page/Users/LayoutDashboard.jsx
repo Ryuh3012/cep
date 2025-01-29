@@ -1,4 +1,4 @@
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Navbar, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@nextui-org/react';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Navbar, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@nextui-org/react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const LayoutDashboard = ({ children }) => {
 
     return (
         <div className="bg-[#d9dbe0] h-screen overflow-auto">
-            <header className='w-full h-[15%] hidden sm:flex '> <img src={img} className='w-full h-[100%]' /></header>
+            <Image src={img} className='hidden sm:block' height={150} width={1500} />
             <Navbar onMenuOpenChange={setIsMenuOpen}>
                 <NavbarContent>
                     <NavbarMenuToggle
@@ -24,7 +24,7 @@ const LayoutDashboard = ({ children }) => {
                 </NavbarContent>
                 <NavbarContent className="hidden md:flex gap-4" justify="center">
                     <NavbarItem >
-                        <NavLink className={({ isActive }) => isActive ? 'text-lg font-bold border-b-3 border-red-600 -translate-y-1 -translate-x-1 p-1' : 'font-light'} to="/home">
+                        <NavLink className={({ isActive }) => isActive ? 'text-lg font-bold border-b-3 border-red-600 -translate-y-1 -translate-x-1 p-1' : 'font-light'} to="/">
                             Home
                         </NavLink>
                     </NavbarItem>
@@ -170,7 +170,7 @@ const LayoutDashboard = ({ children }) => {
 
             </Navbar>
 
-            <section className='flex p-2 divide-x-3 bg-white '>
+            <section className='flex p-2 w-full divide-x-3 bg-white '>
                 <Asident />
                 {children}
 

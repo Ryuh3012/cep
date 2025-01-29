@@ -78,8 +78,8 @@ const Asident = () => {
                     </Link>
                 </ul>
             </div>
-            <div className="flex flex-col gap-2 py-5">
-                <ul className="flex justify-between px-2">
+            <div className="flex flex-col justify-center items-center py-5">
+                <ul className="flex px-2 gap-x-5">
                     <Link className=" hover:-translate-y-2 hover:mx-2">
                         <Image src={icon8} width={40} />
                     </Link>

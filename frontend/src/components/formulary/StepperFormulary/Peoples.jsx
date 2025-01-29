@@ -10,14 +10,17 @@ import axios from "axios";
 const Peoples = () => {
 
     const { handleBlur, handleSubmit, handleChange, values: { cedula, nombre, apellido, telefono, email, tipoDeParticipante } } = useContext(StepperContext)
-    const [tipoDeParticipants, setTipoDeParticipants] = useState([]);
+    // const [tipoDeParticipants, setTipoDeParticipants] = useState([]);
 
-    useEffect(() => {
-        return async () => {
-            const { data: { messager } } = await axios.get('http://localhost:3000/api/participants')
-            setTipoDeParticipants(...tipoDeParticipants, messager)
-        };
-    }, [tipoDeParticipante]);
+    // useEffect(() => {
+    //     return async () => {
+    //         const { data: { messager } } = await axios.get('http://localhost:3000/api/participants')
+    //         setTipoDeParticipants(...tipoDeParticipants, messager)
+    //     };
+    // }, [tipoDeParticipante]);
+
+
+    const tipoDeParticipants = ['Estudiante IUJO', 'Participantes Externos', 'Personal IUJO']
 
     return (
         <form onSubmit={handleSubmit}>
@@ -112,7 +115,7 @@ const Peoples = () => {
                         color="secondary"
                         placeholder="Participante"
                     >
-                        {tipoDeParticipants.map(({ id, participante }) => <SelectItem key={id}>{participante}</SelectItem>)}
+                        {tipoDeParticipants.map((e) => <SelectItem key={e}>{e}</SelectItem>)}
 
                     </Select>
                 </div>

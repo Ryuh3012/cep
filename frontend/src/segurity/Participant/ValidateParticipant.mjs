@@ -5,12 +5,11 @@ export const validateParticipant = ({ values }) => {
     values.nombre.replace(/^[A-Za-z]+$/, '')
     values.apellido.replace(/^[A-Za-z]+$/, '')
     values.email.indexOf('@') === -1
-
+    console.log(values.cedula.toString().replace(/[^0-9]*$/, '').length);
     // Validar cédula
-    if (values.cedula.length == 0) errors.cedula = 'Debes Introducir la Cédula'
-    if (values.cedula.toString().replace(/[^0-9]*$/, '')) errors.cedula = 'No puede introducir letras'
-    if (values.cedula.toString().length < 8) errors.cedula = 'No puede ser menor de los 8 digitos'
-    if (values.cedula.toString().length > 8) errors.cedula = 'No puede ser mayor de los 8 digitos'
+    if (values.cedula.toString().replace(/[^0-9]*$/, '').length == 0) errors.cedula = 'Debes Introducir la Cédula'
+    if (values.cedula.toString().length < 6 && values.cedula.toString().length > 1) errors.cedula = 'No puede ser menor de los 6 digitos'
+    if (values.cedula.toString().length > 9) errors.cedula = 'No puede ser mayor de los 9 digitos'
 
     // Validar nombre
     if (values.nombre.length == 0) errors.nombre = 'Debes Introducir el Nombre'
@@ -22,8 +21,6 @@ export const validateParticipant = ({ values }) => {
 
     // Validar email
     if (values.email.length == 0) errors.email = 'Debes Introducir el Correo'
-    if (values.email.indexOf('@') === -1) errors.email = 'Correo Invalido'
-    if (!/\S+@\S+\.\S+/.test(values.email)) errors.email = 'No puede poner caracter especiales'
 
     // Validar teléfono
     if (values.telefono.length == 0) errors.telefono = 'Debes Introducir el Telefono'

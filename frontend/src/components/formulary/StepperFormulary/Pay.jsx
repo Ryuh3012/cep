@@ -53,7 +53,7 @@ const Pay = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="flex flex-col justify-center items-center gap-y-2">
+            <div className="flex flex-col w-full h-full justify-center items-center gap-y-2">
                 <div className="flex flex-col w-full ">
 
                     <Select
@@ -68,7 +68,7 @@ const Pay = () => {
                         placeholder="Participante"
 
                     >
-                        {typePague.map(e => <SelectItem key={e}>{e}</SelectItem>)}
+                        {typePague.map(e => <SelectItem key={e} className="sm:w-full ">{e}</SelectItem>)}
                     </Select>
 
                 </div>
@@ -76,7 +76,6 @@ const Pay = () => {
                 {tipoDePago == 'Transferencia Bancaria' ? <div className="flex w-full flex-col gap-3">
 
                     <div className="flex flex-col w-full ">
-
                         <Select
                             name="banco"
                             label="Bancos"
@@ -92,8 +91,8 @@ const Pay = () => {
                         </Select>
                     </div>
 
-                    <div className="flex w-full gap-3">
-                        <div className='flex flex-col w-full gap-2'>
+                    <div className="flex flex-col sm:flex-row w-full gap-2">
+                        <div className='flex flex-col w-full'>
                             <Input
                                 name="titularDeLaCedula"
                                 label="Cedula Del Titulante De La cuenta"
@@ -106,7 +105,7 @@ const Pay = () => {
                             />
 
                         </div>
-                        <div className='flex flex-col w-full gap-2'>
+                        <div className='flex flex-col sm:flex-row w-full'>
                             <Input
                                 label="Nombre Del Titulante De La cuenta"
                                 name="nombreDelTitulante"
@@ -120,8 +119,8 @@ const Pay = () => {
                         </div>
                     </div>
 
-                    <div className="flex w-full gap-3">
-                        <div className='flex flex-col w-full gap-2'>
+                    <div className="flex flex-col sm:flex-row w-full gap-2">
+                        <div className='flex flex-col w-full'>
                             <Input
                                 type="number"
                                 label="Referencia"
@@ -135,7 +134,7 @@ const Pay = () => {
                             />
 
                         </div>
-                        <div className='flex flex-col w-full gap-2'>
+                        <div className='flex flex-col w-full'>
                             <Input
                                 type="date"
                                 label="Fecha el Que Se Hizo el Pago"
@@ -152,7 +151,7 @@ const Pay = () => {
                     </div>
                 </div> : null}
 
-                <div className="flex w-full gap-3">
+                <div className="flex w-full">
                     <div className='flex flex-col w-full gap-2'>
                         <Input
                             type="number"
@@ -166,18 +165,17 @@ const Pay = () => {
                             color="secondary"
                             placeholder="Introduce El Nombre"
                         />
-
                     </div>
                 </div>
 
 
             </div>
-            <div className="flex justify-center items-center h-full p-4">
+            <div className="flex justify-center items-center h-full p-2">
                 <Button type="submit" className="bg-[#8C113E] text-slate-400 uppercase w-[25%] p-6 rounded-xl font-semibold cursor-pointer  hover:bg-[#6A2473] hover:text-white transition duration-2oo ease-in-out">
                     Confirmar
                 </Button>
-            </div>
-        </form>
+            </div >
+        </form >
     );
 }
 
