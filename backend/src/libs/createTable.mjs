@@ -7,7 +7,7 @@ export const createTable = async () => {
         const table = await Promise.all([
             connectdb.query(`create table personas(idPersona serial PRIMARY KEY not null, cedula varchar(12) not null UNIQUE, nombre text not null, apellido text not null, email text not null, telefono text not null, tipoDeparticipanteId int)`),
             connectdb.query(`create table tiposDeParticipantes(idTiposDeParticipante serial PRIMARY KEY not null, participante varchar(23) not null)`),
-            connectdb.query(`create table usuarios(idUsuario serial PRIMARY KEY not null, cedula varchar(12) not null UNIQUE, password TEXT not null, roleid int not null, personaid int not null);`),
+            connectdb.query(`create table usuarios(idUsuario serial PRIMARY KEY not null, password TEXT not null, roleid int not null, personaid int not null);`),
             connectdb.query(`create table roles(idRole serial PRIMARY KEY not null, rol varchar(15) not null)`),
             connectdb.query(`create table facilitadores(idfacilitador serial PRIMARY KEY not null, personaid int not null)`),
             connectdb.query(`create table cursos(idcurso serial PRIMARY KEY not null,codigoDeCuso text UNIQUE not null, nombreCurso text not null, duracion text not null, horario text not null,monto decimal not null, contenido JSON not null, status text,facilitadorid int not null, tipodemovilidadId int not null, formacionId int not null);`),

@@ -20,7 +20,7 @@ import { singIn } from "./src/controllers/auth.mjs";
 const app = express()
 connectdb.connect()
 
-createTable();
+// createTable();
 Createparticipats();
 const serve = createServer(app)
 
@@ -58,19 +58,17 @@ io.on("connection", async (client) => {
         if (auth.message) return client.emit('error', auth)
         if (app.msg) client.emit('[bag] correct', auth)
 
-        //     client.emit('[bag] correct', {
-        //         msg: 'Usuario Valido',
-        //         user: user,
-        //         // token: req?.newtoken
-        //     })
+        client.emit('[bag] correct', { user: auth })
 
         //     if (user.rol === 1) {
-
-
         //         const veiry = verifytokenMiddleware()
 
         //     }
-        //     if (user.rol === 2) { }
+        if (auth.rol === 2) {
+
+            console.log('hello word');
+
+        }
         //     if (user.rol === 3) { }
 
         //     if (!user.rol) return client.on('disconnect')

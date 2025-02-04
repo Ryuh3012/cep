@@ -18,7 +18,9 @@ export const auth = async ({ cedula, password, personas, rol }) => {
 export const findOneByAuth = async (cedula) => {
 
     const query = {
-        text: `select * from usuarios where cedula = $1`,
+        text: `select personas.cedula as cedula, personas.nombre as nombre,usuarios.roleid from usuarios 
+        inner join personas on usuarios.personaid = personas.idpersona
+        where cedula = $1`,
         values: [cedula]
     }
 
