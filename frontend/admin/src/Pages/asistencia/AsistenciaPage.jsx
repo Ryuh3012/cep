@@ -3,9 +3,8 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 
 import Layout from '../layout';
 import { SocketContext } from '../../SocketProvider';
-import { Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
+import { getKeyValue, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
 import CardCourses from '../../components/Card/CardCourses';
-// import CardCourses from '../../../components/Card/cardCourses';
 const columns = [
     {
         key: "cedula",
@@ -21,20 +20,17 @@ const columns = [
     },
     {
         key: "Apellido",
-        label: "MODALIDAD",
+        label: "APELLIDO",
     },
     {
         key: "nombreCurso",
         label: "CURSOS",
     },
     {
-        key: "monto",
-        label: "PRECIO",
+        key: "",
+        label: "STATUS",
     },
-    {
-        key: "status",
-        label: "ESTATUS",
-    }
+
 ];
 const AsistenciaPage = () => {
     const [cursos, setCursos] = useState([])
@@ -44,7 +40,7 @@ const AsistenciaPage = () => {
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
-        socket.on('courses', (res) => setCursos(...cursos, res))
+        socket.on('[bag] courses', (res) => setCursos(...cursos, res))
     }, []);
 
     const pages = Math.ceil(cursos.length / rowsPerPage);
@@ -88,11 +84,20 @@ const AsistenciaPage = () => {
                             {(column) => <TableColumn className="text-left bg-[#1F2559] text-white px-3" key={column.key}>{column.label}</TableColumn>}
                         </TableHeader>
                         <TableBody items={items}>
-                            {(item) => (
-                                <TableRow key={item.name}>
-                                    {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-                                </TableRow>
-                            )}
+                            {
+                                cursos?.map(user => (
+                                    <TableRow key={user._id}>
+
+                                        {(columnKey) => {
+                                            // if (columnKey === 'edit') return <TableCell><ModalCases data={data} close={info} isOpen={setInfo} /></TableCell>
+                                            return <TableCell>{getKeyValue(user, columnKey)}</TableCell>
+                                        }}
+
+
+                                    </TableRow>
+                                ))
+
+                            }
                         </TableBody>
                     </Table>
 

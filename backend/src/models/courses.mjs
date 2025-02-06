@@ -18,18 +18,14 @@ export const newCourse = async ({ codigodecuso, nombrecurso, duracion, horario, 
 
 export const dataCourses = async () => {
 
-    // const query = {
-    //     text: `SELECT cursos.codigodecuso, cursos.nombre AS NombreDelCurso, cursos.horario, cursos.monto, cursos.status, 
-    //             personas.nombre, tipoDemodalidades.modalidad, formaciones.formacion 
-    //            FROM cursos 
-    //            JOIN facilitadores ON cursos.facilitadorId = facilitadores.idfacilitador 
-    //            JOIN personas ON facilitadores.personaid = personas.idPersona  
-    //            JOIN tipoDemodalidades ON cursos.tipodemovilidadid = tipoDemodalidades.idtipodemodalidad 
-    //            JOIN formaciones ON cursos.formacionid = formaciones.idformacion`
-    // };
 
     const queryActiveCourses = {
-        text: `select * from cursos where status = 'activo'`
+        text: `select  cursos.idcurso, CONCAT(cursos.codigodecuso,' ',cursos.nombrecurso ) as cursos, cursos.horario as horario,personas.nombre as facilitador,tipodemodalidades.modalidad as modalidad,formaciones.formacion, cursos.monto as monto, cursos.status  from cursos
+                inner join facilitadores on cursos.facilitadorid = facilitadores.idfacilitador
+                inner join personas on personas.idpersona = facilitadores.personaid
+                inner join formaciones on formaciones.idformacion = cursos.formacionid
+                inner join tipodemodalidades ON tipodemodalidades.idtipodemodalidad = cursos.tipodemovilidadid
+`
     };
     // const { rows } = await connectdb.query(query);
     const { rows: activeCourses } = await connectdb.query(queryActiveCourses);

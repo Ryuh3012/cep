@@ -1,4 +1,4 @@
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, getKeyValue, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
+import { Button, Card, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, getKeyValue, Pagination, Skeleton, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
 import Layout from '../layout';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
@@ -6,12 +6,14 @@ import CardCourses from '../../components/Card/CardCourses';
 import { SocketContext } from '../../SocketProvider';
 import ModalCourses from '../../components/Modals/ModalCourses';
 import { useFormik } from 'formik';
+import { validateCourses } from '../../security/courses/ValidateCourses.mjs';
 
 const columns = [
     {
-        key: "codigodecurso",
-        label: "CÓDIGO DE CURSOS",
+        key: "cursos",
+        label: "CURSOS",
     },
+
     {
         key: "horario",
         label: "HORARIO",
@@ -21,7 +23,7 @@ const columns = [
         label: "FACILITADORES",
     },
     {
-        key: "Modalidad",
+        key: "modalidad",
         label: "MODALIDAD",
     },
     {
@@ -39,39 +41,48 @@ const columns = [
 ];
 
 const initialValues = {
-    codigodecurso: '',
-    horario: "",
-    facilitador: "",
-    Modalidad: '',
-    formacion: '',
-    monto: '',
-    status: "",
+    codigodecuso: '', nombrecurso: '', duracion: '', horario: "", monto: '', contenido: '', status: '', facilitador: '', modalidad: '', formacion: ''
 }
 
 const CoursesPage = () => {
 
+    const { socket } = useContext(SocketContext)
+
+    const [messag, setMessag] = useState(null);
+
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
     const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
+
+    const [disableAnimation, setDisableAnimation] = useState(true);
+
     const [cursos, setCursos] = useState([])
     const [page, setPage] = useState(1);
-    const rowsPerPage = 4;
+    const rowsPerPage = 5;
 
-    const { socket } = useContext(SocketContext)
 
     const { errors, touched, handleSubmit, handleChange, handleBlur, values } = useFormik({
         initialValues,
-        onSubmit: async (values,) => {
+        onSubmit: async (values, { resetForm }) => {
 
-            console.log(values)
-        }
+            socket.emit('[bag] addCourse', values)
+
+            socket.on('[bag] correct', ({ messager }) => {
+                setMessag(messager)
+                setTimeout(() => {
+                    setMessag(null)
+                    return resetForm()
+                }, 3000);
+
+
+            })
+
+
+        },
+        validate: (values) => validateCourses({ values })
+
     })
-
-
-
-    useEffect(() => {
-        socket.on('courses', (res) => setCursos(...cursos, res))
-    }, [cursos, page]);
 
     const pages = Math.ceil(cursos.length / rowsPerPage);
 
@@ -82,15 +93,25 @@ const CoursesPage = () => {
         return cursos.slice(start, end);
     }, [page, cursos]);
 
+    useEffect(() => {
+        socket.on('[bag] courses', (res) => setCursos(...cursos, res))
+        setDisableAnimation(true)
+    }, [page, disableAnimation]);
+
+    console.log(cursos)
     return (
         <Layout>
+            {messag ?
+                <div className="flex flex-col w-full justify-center items-center py-1 pl-4 text-success-700 dark:text-success bg-success-50">
+                    <p>{messag}</p>
+                </div>
+                : null}
             <div className="p-5 ">
                 <div className="bg-white rounded-[5px] shadow-md p-2 w-full gap-2 border-[1px] border-[#C4CEDC]">
                     <h1 className='text-[30px] font-semibold mb-5'>Gestion de Cursos</h1>
                     <CardCourses />
                     <div className="flex justify-end items-center m-2">
-                        <Dropdown
-                        >
+                        <Dropdown>
                             <DropdownTrigger>
                                 <Button variant="bordered">Open Menu</Button>
                             </DropdownTrigger>
@@ -108,7 +129,7 @@ const CoursesPage = () => {
                             </DropdownMenu>
                         </Dropdown>
                     </div>
-                    <ModalCourses isOpen={isModalOpen} onClose={onModalClose} onOpen={onModalOpen} values={values} handleSubmit={handleSubmit} handleChange={handleChange} handleBlur={handleBlur} />
+                    <ModalCourses isOpen={isModalOpen} onClose={onModalClose} onOpen={onModalOpen} values={values} handleSubmit={handleSubmit} handleChange={handleChange} handleBlur={handleBlur} errors={errors} touched={touched} />
                     <Table
                         shadow="none"
                         aria-label="Example table with client side pagination"
@@ -119,7 +140,6 @@ const CoursesPage = () => {
                                         isCompact
                                         showControls
                                         showShadow
-                                        color="secondary"
                                         page={page}
                                         total={pages}
                                         onChange={(page) => setPage(page)}
@@ -136,11 +156,20 @@ const CoursesPage = () => {
                             {(column) => <TableColumn className="text-left bg-[#1F2559] text-white" key={column.key}>{column.label}</TableColumn>}
                         </TableHeader>
                         <TableBody items={items}>
-                            {(item) => (
-                                <TableRow key={item.name}>
-                                    {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-                                </TableRow>
-                            )}
+                            {
+                                cursos?.map(user => (
+                                    <TableRow key={user._id}>
+
+                                        {(columnKey) => {
+                                            // if (columnKey === 'edit') return <TableCell><ModalCases data={data} close={info} isOpen={setInfo} /></TableCell>
+                                            return <TableCell>{getKeyValue(user, columnKey)}</TableCell>
+                                        }}
+
+
+                                    </TableRow>
+                                ))
+
+                            }
                         </TableBody>
                     </Table>
 

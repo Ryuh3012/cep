@@ -4,7 +4,6 @@ import { createPerson, findOneByPerson } from "../models/people.mjs";
 export const newStuden = async (req, res) => {
 
     try {
-        console.log(req?.body.data);
         const { cedula, nombre, apellido, telefono, email, tipoDeParticipante, cursos, tipoDePago, montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, nombreDelTitulante, } = req?.body.data
 
         let person = await findOneByPerson(cedula);

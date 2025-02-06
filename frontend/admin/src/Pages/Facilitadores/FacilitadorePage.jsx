@@ -10,33 +10,19 @@ import CardCourses from '../../components/Card/CardCourses';
 
 const columns = [
     {
-        key: "codigodecurso",
-        label: "CÓDIGO DE CURSOS",
+        key: "nombre",
+        label: "NOMBRE",
     },
     {
-        key: "horario",
-        label: "HORARIO",
+        key: "apellido",
+        label: "APELLIDO",
     },
     {
-        key: "facilitador",
-        label: "FACILITADORES",
+        key: "cursos",
+        label: "CODIGO DEL CURSOS",
     },
-    {
-        key: "Modalidad",
-        label: "MODALIDAD",
-    },
-    {
-        key: "formacion",
-        label: "FORMACIÓN",
-    },
-    {
-        key: "monto",
-        label: "PRECIO",
-    },
-    {
-        key: "status",
-        label: "ESTATUS",
-    }
+
+
 ];
 const FacilitadorePage = () => {
 
@@ -48,7 +34,7 @@ const FacilitadorePage = () => {
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
-        socket.on('courses', (res) => setCursos(...cursos, res))
+        socket.on('[bag] facilitadores', (res) => setCursos(res))
     }, []);
 
     const pages = Math.ceil(cursos.length / rowsPerPage);
@@ -59,6 +45,7 @@ const FacilitadorePage = () => {
 
         return cursos.slice(start, end);
     }, [page, cursos]);
+    console.log(cursos)
 
     return (
         <Layout>
@@ -89,14 +76,23 @@ const FacilitadorePage = () => {
                         }}
                     >
                         <TableHeader columns={columns}>
-                            {(column) => <TableColumn className="text-left bg-[#1F2559] text-white px-3" key={column.key}>{column.label}</TableColumn>}
+                            {(column) => <TableColumn className=" bg-[#1F2559] text-white px-10" key={column.key}>{column.label}</TableColumn>}
                         </TableHeader>
                         <TableBody items={items}>
-                            {(item) => (
-                                <TableRow key={item.name}>
-                                    {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-                                </TableRow>
-                            )}
+                            {
+                                cursos?.map(user => (
+                                    <TableRow key={user._id} >
+
+                                        {(columnKey) => {
+                                            // if (columnKey === 'edit') return <TableCell><ModalCases data={data} close={info} isOpen={setInfo} /></TableCell>
+                                            return <TableCell className='px-10'>{getKeyValue(user, columnKey)}</TableCell>
+                                        }}
+
+
+                                    </TableRow>
+                                ))
+
+                            }
                         </TableBody>
                     </Table>
 

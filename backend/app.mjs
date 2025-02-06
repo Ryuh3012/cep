@@ -12,9 +12,11 @@ import { createTable } from "./src/libs/createtable.mjs";
 import { findOneByAuth } from "./src/models/auth.mjs";
 import { encryptionComparison } from "./src/hooks/crypter.mjs";
 import { createPerson } from "./src/models/people.mjs";
-import { createFacilitator } from "./src/models/facilitators.mjs";
+import { createFacilitator, getFacilitators, getFacilitatorsAndCourses } from "./src/models/facilitators.mjs";
 import { verifytokenMiddleware } from "./src/middlewares/verifytokenMiddleware.mjs";
 import { singIn } from "./src/controllers/auth.mjs";
+import { getCourse, newCourses } from "./src/controllers/courses.mjs";
+import { getFormacion, getModalidad } from "./src/models/modalidad.mjs";
 
 
 const app = express()
@@ -64,11 +66,10 @@ io.on("connection", async (client) => {
         //         const veiry = verifytokenMiddleware()
 
         //     }
-        if (auth.rol === 2) {
+        // if (auth.rol === 2) {
 
-            console.log('hello word');
 
-        }
+        // }
         //     if (user.rol === 3) { }
 
         //     if (!user.rol) return client.on('disconnect')
@@ -76,6 +77,19 @@ io.on("connection", async (client) => {
         // });
 
     })
+    client.on('[bag] addCourse', async (data) => {
+
+
+        const { codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, modalidad, formacion } = data
+        const newCourse = await newCourses({ codigodecuso, nombrecurso, duracion, horario, monto, contenido: contenido.split('\n'), status, facilitador, tipodemovilidad: modalidad, formacion });
+        client.emit('[bag] correct', newCourse)
+
+    })
+    client.emit('[bag] courses', await getCourse());
+    client.emit('[bag] modalidad', await getModalidad());
+    client.emit('[bag] formacion', await getFormacion());
+    client.emit('[bag] facilitadores', await getFacilitatorsAndCourses());
+    client.emit('[bag] facilitador', await getFacilitators());
 
 
 })
