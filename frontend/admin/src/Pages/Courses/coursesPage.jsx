@@ -46,59 +46,51 @@ const initialValues = {
 
 const CoursesPage = () => {
 
-    const { socket } = useContext(SocketContext)
-
-    const [messag, setMessag] = useState(null);
-
-
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
-
-    const [disableAnimation, setDisableAnimation] = useState(true);
-
-    const [cursos, setCursos] = useState([])
-    const [page, setPage] = useState(1);
     const rowsPerPage = 5;
+    const { socket } = useContext(SocketContext)
+    const [cursos, setCursos] = useState([])
+    const [messag, setMessag] = useState(null);
+    const [disableAnimation, setDisableAnimation] = useState(true);
+    const [page, setPage] = useState(1);
 
+    useEffect(() => {
+        socket.on('[bag] courses', (res) => setCursos(...cursos, res))
+    }, []);
 
-    const { errors, touched, handleSubmit, handleChange, handleBlur, values } = useFormik({
-        initialValues,
-        onSubmit: async (values, { resetForm }) => {
-
-            socket.emit('[bag] addCourse', values)
-
-            socket.on('[bag] correct', ({ messager }) => {
-                setMessag(messager)
-                setTimeout(() => {
-                    setMessag(null)
-                    return resetForm()
-                }, 3000);
-
-
-            })
-
-
-        },
-        validate: (values) => validateCourses({ values })
-
-    })
 
     const pages = Math.ceil(cursos.length / rowsPerPage);
-
     const items = useMemo(() => {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
         return cursos.slice(start, end);
-    }, [page, cursos]);
+    }, [page, cursos])
 
-    useEffect(() => {
-        socket.on('[bag] courses', (res) => setCursos(...cursos, res))
-        setDisableAnimation(true)
-    }, [page, disableAnimation]);
+    const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
-    console.log(cursos)
+
+
+    const { errors, touched, handleSubmit, handleChange, handleBlur, values } = useFormik({
+        initialValues,
+        validate: (values) => validateCourses({ values }),
+        onSubmit: async (values, { resetForm }) => {
+            try {
+                socket.emit('[bag] addCourse', values, {})
+
+                setMessag("Curso creado adecuadamente")
+                setTimeout(() => {
+                    setMessag(null)
+                    return resetForm()
+                }, 3000);
+
+            } catch (error) {
+
+            }
+
+        },
+    })
+
     return (
         <Layout>
             {messag ?

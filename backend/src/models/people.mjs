@@ -3,16 +3,16 @@ import { connectdb } from "../db/connectdb.mjs";
 export const createPerson = async ({ cedula, nombre, apellido, email, telefono, tipoDeParticipante }) => {
     try {
 
-        const data = tipoDeParticipante ? [cedula, nombre, apellido, email, telefono, tipoDeParticipante] : [cedula, nombre, apellido, email, telefono, null];
+        const participats = tipoDeParticipante ? tipoDeParticipante : null
         const query = {
             text: `INSERT INTO personas(
 	        cedula, nombre, apellido, email, telefono, tipodeparticipanteid)
 	            VALUES ($1, $2, $3, $4, $5, $6)
                    RETURNING idpersona;`,
-            values: data
+            values: [cedula, nombre, apellido, email, telefono, participats]
         };
         const { rows } = await connectdb.query(query);
-        return rows; // Devuelve la persona creada
+        return rows;
     } catch (error) {
         console.error('Error creating person:', error);
         throw error;

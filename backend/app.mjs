@@ -17,6 +17,7 @@ import { verifytokenMiddleware } from "./src/middlewares/verifytokenMiddleware.m
 import { singIn } from "./src/controllers/auth.mjs";
 import { getCourse, newCourses } from "./src/controllers/courses.mjs";
 import { getFormacion, getModalidad } from "./src/models/modalidad.mjs";
+import { newfacilitators } from "./src/controllers/facilitators.mjs";
 
 
 const app = express()
@@ -37,19 +38,25 @@ app.use(express.urlencoded({ extended: false }))
 io.on("connection", async (client) => {
 
     console.log('connect');
-
     client.on('[bag] teacher', async (data) => {
 
-        const { cedula, nombre, apellido, email, telefono } = data
+        const newfacilitador = await newfacilitators(data)
 
-        let person = await findOneByPerson({ cedula });
-        if (!person) person = await createPerson({ cedula, nombre, apellido, email, telefono })
-
-        const newFacilitator = await createFacilitator({ persona: person.idpersona });
-
-        return client.emit('[bag] correct', { msg: 'Facilitador creado exitosamente' });
 
     })
+
+    // client.on('[bag] teacher', async (data) => {
+
+    //     const { cedula, nombre, apellido, email, telefono } = data
+
+    //     let person = await findOneByPerson({ cedula });
+    //     if (!person) person = await createPerson({ cedula, nombre, apellido, email, telefono })
+
+    //     const newFacilitator = await createFacilitator({ persona: person.idpersona });
+
+    //     return client.emit('[bag] correct', { msg: 'Facilitador creado exitosamente' });
+
+    // })
 
 
     client.on('[bag] sesion', async (data) => {
@@ -58,7 +65,6 @@ io.on("connection", async (client) => {
         const auth = await singIn({ cedula, password })
 
         if (auth.message) return client.emit('error', auth)
-        if (app.msg) client.emit('[bag] correct', auth)
 
         client.emit('[bag] correct', { user: auth })
 
