@@ -13,14 +13,3 @@ export const newCourses = async (req, res) => {
 
 
 }
-
-
-export const getCourse = async (req, res) => {
-    try {
-        const courses = await dataCourses()
-        return courses;
-    }
-    catch (error) {
-        console.log(error);
-    }
-}

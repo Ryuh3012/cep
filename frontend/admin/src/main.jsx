@@ -11,8 +11,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HeroUIProvider>
       <SocketProvider>
-      <App />
-
+        <App />
       </SocketProvider>
     </HeroUIProvider>
   </StrictMode>,

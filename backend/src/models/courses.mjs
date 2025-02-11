@@ -20,7 +20,7 @@ export const dataCourses = async () => {
 
 
     const queryActiveCourses = {
-        text: `select  cursos.idcurso, CONCAT(cursos.codigodecuso,' ',cursos.nombrecurso ) as cursos, cursos.horario as horario,personas.nombre as facilitador,tipodemodalidades.modalidad as modalidad,formaciones.formacion, cursos.monto as monto, cursos.status  from cursos
+        text: `select  cursos.idcurso, CONCAT(cursos.codigodecuso,' ',cursos.nombrecurso ) as cursos, cursos.horario as horario, cursos.duracion as duracion,personas.nombre as facilitador, cursos.contenido as contendido,tipodemodalidades.modalidad as modalidad,formaciones.formacion, cursos.monto as monto, cursos.status  from cursos
                 inner join facilitadores on cursos.facilitadorid = facilitadores.idfacilitador
                 inner join personas on personas.idpersona = facilitadores.personaid
                 inner join formaciones on formaciones.idformacion = cursos.formacionid

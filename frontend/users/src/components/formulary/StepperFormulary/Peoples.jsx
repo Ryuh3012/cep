@@ -1,8 +1,7 @@
 
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import { StepperContext } from "../../../contexts/StepperContext";
 import { Input, Select, SelectItem } from "@nextui-org/react";
-import axios from "axios";
 
 
 
@@ -10,16 +9,6 @@ import axios from "axios";
 const Peoples = () => {
 
     const { handleBlur, handleSubmit, handleChange, values: { cedula, nombre, apellido, telefono, email, tipoDeParticipante } } = useContext(StepperContext)
-    // const [tipoDeParticipants, setTipoDeParticipants] = useState([]);
-
-    // useEffect(() => {
-    //     return async () => {
-    //         const { data: { messager } } = await axios.get('http://localhost:3000/api/participants')
-    //         setTipoDeParticipants(...tipoDeParticipants, messager)
-    //     };
-    // }, [tipoDeParticipante]);
-
-
     const tipoDeParticipants = ['Estudiante IUJO', 'Participantes Externos', 'Personal IUJO']
 
     return (

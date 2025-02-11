@@ -32,19 +32,30 @@ const LoginPage = () => {
             socket.emit('[bag] sesion', value)
 
             socket.on('[bag] correct', async (data) => {
+
+
+                console.log(data)
                 if (data?.length !== 0) {
                     const cookies = new Cookies()
-                    const cripto = CryptoJS.AES.encrypt(JSON.stringify(data.user.token), 'users').toString();
+                    const cripto = CryptoJS.AES.encrypt(JSON.stringify(data.token), 'users').toString();
 
-                    // console.log(decryptedData);
                     cookies.remove('user')
                     cookies.set('user', JSON.stringify(cripto))
-                    setMessage(data.user.msg)
-                    setTimeout(() => {
+                    setMessage('El usuario se ha logueado correctamente')
+                    return setTimeout(() => {
                         setMessage()
-                        return navegation('/home')
+                            return navegation('/home')
                     }, 3000);
+
                 }
+                else {
+                    setErrorInternal('Credenciales invalidas')
+                    setTimeout(() => {
+                        setErrorInternal(null)
+                    }, 2000)
+                }
+
+
             })
 
         },
@@ -52,15 +63,6 @@ const LoginPage = () => {
 
     })
 
-    useEffect(() => {
-
-        socket.on('error', ({ message }) => {
-            setErrorInternal(message)
-            setTimeout(() => {
-                setErrorInternal(null)
-            }, 2000)
-        })
-    }, [errorInternal]);
 
     return (
         <LoginLayout>

@@ -37,16 +37,13 @@ export const signUp = async (req, res) => {
 export const singIn = async ({ cedula, password }) => {
 
     const user = await findOneByAuth(cedula)
-    if (!user) return { message: 'Usuario o clave invalidos' }
+    if (!user) return []
 
     // const validPassword = await encryptionComparison(password, user.password)
 
     // if (!validPassword) return { message: 'Usuario o clave invalidos' }
 
-    return {
-        msg: 'Usuario Valido',
-        token: user
-    }
+    return { token: user }
 
 
 
@@ -59,7 +56,7 @@ export const profile = async (req, res) => {
 
         if (!user) return res.status(400).json({ messager: 'Usuario no encontrado' })
 
-            console.log(user);
+        console.log(user);
         return res.status(200).json({
             user: user.cedula,
             // token: req?.newtoken

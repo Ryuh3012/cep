@@ -50,11 +50,11 @@ const CoursesPage = () => {
     const { socket } = useContext(SocketContext)
     const [cursos, setCursos] = useState([])
     const [messag, setMessag] = useState(null);
-    const [disableAnimation, setDisableAnimation] = useState(true);
+    const [Error, setError] = useState(null);
     const [page, setPage] = useState(1);
 
     useEffect(() => {
-        socket.on('[bag] courses', (res) => setCursos(...cursos, res))
+        socket.on('[bag] courses', (res) => setCursos(res))
     }, []);
 
 
@@ -65,9 +65,9 @@ const CoursesPage = () => {
 
         return cursos.slice(start, end);
     }, [page, cursos])
+    console.log(cursos)
 
     const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
-    const { isOpen, onOpen, onClose } = useDisclosure();
 
 
 
@@ -85,7 +85,12 @@ const CoursesPage = () => {
                 }, 3000);
 
             } catch (error) {
-
+                console.log(error)
+                setError('No se pudo crear el curso, faltaron datos')
+                setTimeout(() => {
+                    setMessag(null)
+                    return resetForm()
+                }, 3000);
             }
 
         },

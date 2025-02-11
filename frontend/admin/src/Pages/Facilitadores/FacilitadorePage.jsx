@@ -17,10 +17,10 @@ const columns = [
         key: "apellido",
         label: "APELLIDO",
     },
-    {
-        key: "cursos",
-        label: "CODIGO DEL CURSOS",
-    },
+    // {
+    //     key: "cursos",
+    //     label: "CODIGO DEL CURSOS",
+    // },
 
 
 ];
@@ -34,7 +34,7 @@ const FacilitadorePage = () => {
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
-        socket.on('[bag] facilitadores', (res) => setCursos(res))
+        socket.on('[bag] facilitador', (res) => setCursos(res))
     }, []);
 
     const pages = Math.ceil(cursos.length / rowsPerPage);
