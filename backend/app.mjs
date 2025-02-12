@@ -55,7 +55,7 @@ io.on("connection", async (client) => {
 
     client.on('[bag] addCourse', async (data) => {
         const { codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, modalidad, formacion } = data
-        const newCourse = await newCourses({ codigodecuso, nombrecurso, duracion, horario, monto, contenido: contenido.split('\n'), status, facilitador, tipodemovilidad: modalidad, formacion });
+        const newCourse = await newCourses({ codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, tipodemovilidad: modalidad, formacion });
         client.emit('[bag] correct', newCourse)
 
     })
@@ -71,8 +71,7 @@ io.on("connection", async (client) => {
         return client.emit('[bag] correct', { msg: 'Facilitador creado exitosamente' });
 
     })
-
-    io.emit('[bag] courses', await dataCourses())
+    client.on('[bag] courses', async(_ , cb) => cb(JSON.stringify(await dataCourses())))
 
     client.emit('[bag] modalidad', await getModalidad());
 

@@ -9,7 +9,7 @@ export const createPerson = async ({ cedula, nombre, apellido, email, telefono, 
 	        cedula, nombre, apellido, email, telefono, tipodeparticipanteid)
 	            VALUES ($1, $2, $3, $4, $5, $6)
                    RETURNING idpersona;`,
-            values: [cedula, nombre, apellido, email, telefono, participats]
+            values: [cedula, nombre, apellido, email, telefono, parti]
         };
         const { rows } = await connectdb.query(query);
         return rows;

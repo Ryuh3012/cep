@@ -54,9 +54,13 @@ const CoursesPage = () => {
     const [page, setPage] = useState(1);
 
     useEffect(() => {
-        socket.on('[bag] courses', (res) => setCursos(res))
-    }, []);
+        socket.emit('[bag] courses', () => {}, (listAllcourses) => setCursos(JSON.parse(listAllcourses)))
+        return () => {
+            socket.off('[bag] courses')
+        }
+    }, [socket])
 
+    console.log(cursos)
 
     const pages = Math.ceil(cursos.length / rowsPerPage);
     const items = useMemo(() => {

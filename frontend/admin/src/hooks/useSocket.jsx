@@ -9,7 +9,7 @@ export const useSocket = (serverPath) => {
         transports: ['websocket'],
         autoConnect: true,
         forceNew: true,
-    }), [serverPath]);
+    }), [serverPath, io]);
 
 
     return { socket }

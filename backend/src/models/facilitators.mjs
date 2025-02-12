@@ -28,7 +28,7 @@ export const oneFacilited = async ({ cedula }) => {
 
 export const getFacilitators = async () => {
     const query = {
-        text: `select facilitadores.idfacilitador, personas.nombre as nombre from facilitadores
+        text: `select facilitadores.idfacilitador, personas.nombre as nombre, personas.apellido as apellido from facilitadores
             inner join personas ON personas.idpersona = facilitadores.personaid`
     };
 

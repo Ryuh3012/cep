@@ -27,9 +27,7 @@ export const dataCourses = async () => {
                 inner join tipodemodalidades ON tipodemodalidades.idtipodemodalidad = cursos.tipodemovilidadid
 `
     };
-    // const { rows } = await connectdb.query(query);
     const { rows: activeCourses } = await connectdb.query(queryActiveCourses);
-
 
     return activeCourses;
 }
