@@ -6,7 +6,6 @@ export const newCourses = async (req, res) => {
 
         const courses = await newCourse({ codigodecuso, nombrecurso, duracion, horario, monto, contenido: JSON.stringify(contenido), status, facilitador, tipodemovilidad, formacion });
 
-        return { messager: 'Curso creado exitosamente' };
     } catch (error) {
         console.log(error);
     }

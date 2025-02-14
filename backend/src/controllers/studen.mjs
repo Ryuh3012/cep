@@ -3,24 +3,28 @@ import { createPerson, findOneByPerson } from "../models/people.mjs";
 
 export const newStuden = async (req, res) => {
 
-    try {
-        const { cedula, nombre, apellido, telefono, email, tipoDeParticipante, cursos, tipoDePago, montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, nombreDelTitulante, } = req?.body.data
+    // try {
+    const { cedula, nombre, apellido, telefono, email, tipoDeParticipante, cursos, tipoDePago, montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, nombreDelTitulante, } = req
+    const typeParticipants = (tipoDeParticipante) => {
 
-        let person = await findOneByPerson(cedula);
-
-        if (!person) person = await createPerson({ cedula, nombre, apellido, email, telefono, tipoDeParticipante });
-
-        const pague = await newPayments({ cursos, tipoDePago, montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, nombreDelTitulante, personas: person.idpersona });
-
-        return res.status(200).json({
-            messager: 'Haz sido registrado exitosamente',
-        });
-    } catch (error) {
-        console.error('Error during signUp:', error)
-        return res.status(500).json({ msg: 'Internal server error' })
+        if (tipoDeParticipante == "Estudiante IUJO") return 1
+        if (tipoDeParticipante == "Participantes Externos") return 2
+        if (tipoDeParticipante == "Personal IUJO") return 3
+    }
+    let person = await findOneByPerson(cedula);
+    if (!person) person = await createPerson({ cedula, nombre, apellido, email, telefono, tipoDeParticipante: typeParticipants(tipoDeParticipante) });
+    const typepague = (tipoDePago) => {
+        if (tipoDePago == "Transferencia Bancaria") return 1
+        if (tipoDePago == 'Divisas en efectivo ( directamente en caja principal)') return 2
+        if (tipoDePago == "Bolívares en efectivo ( directamente en caja principal)") return 3
+        if (tipoDePago == "Débito / Punto de Venta (directamente en caja principal)") return 4
+        if (tipoDePago == "Financiamiento") return 5
+        if (tipoDePago == "Cancelar el dia de Inicio del Curso") return 6
     }
 
-
+    const pague = await newPayments({ tipoDePago: typepague(tipoDePago), montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, nombreDelTitulante, persona: person.idpersona });
+    // const addStudentAndCourso = await 
+    // return 'lito'
 }
 
 export const updateStudent = async (req, res) => {

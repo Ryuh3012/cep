@@ -22,21 +22,10 @@ import ModalCourses from "../../components/Info/modalCourses";
 const ContenidoPage = () => {
     const { socket } = useContext(SocketContext)
     const [show, setShow] = useState([]);
-    // const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const [scrollBehavior, setScrollBehavior] = useState("inside");
 
+    const [openModal, setOpenModal] = useState(false);
     const [modalItem, setModalItem] = useState(null);
-    const [open, setopen] = useState(false)
 
-
-    const openModal = (item) => {
-        setopen(true)
-        setModalItem(item); // Guarda el item que se va a mostrar en el modal
-    };
-
-    const closeModal = () => {
-        setopen(false); // Cierra el modal
-    };
 
     useEffect(() => {
         socket.emit('[bag] courses', () => { }, (listAllcourses) => setShow(JSON.parse(listAllcourses)))
@@ -52,7 +41,6 @@ const ContenidoPage = () => {
         return show?.filter((item) => item.formacion === formacion)
     };
 
-    console.log(show[0])
 
     return (
         <LayoutDashboard>
@@ -61,28 +49,51 @@ const ContenidoPage = () => {
                     <p className='text-3xl font-semibold text-center'>cisco</p>
                     <section className="sm:flex grid grid-cols-1 sm:justify-items-center gap-2  md:mx-3.5">
 
-                        {handleFilter('cisco').map((item, index) => (
-                            <Card key={item} onPress={() => openModal(item)} isPressable={true} className="p-2 hover:-translate-y-2 cursor-pointer">
+                        {handleFilter('cisco').map((item) => (
+                            <Card
+                                key={item}
+                                onPress={() => {
+                                    setModalItem(item);
+                                    setOpenModal(true);
+                                }}
+                                isPressable={true}
+                                className="p-2 hover:-translate-y-2 cursor-pointer" >
+
                                 <Image src={CiscoImg} alt="cisco1" width={500} />
                                 <CardBody className="flex justify-center  w-full  h-full font-mont font-bold text-gray-950 text-lg m-2">
                                     <p>{item.cursos}</p>
 
                                 </CardBody>
-                                <ModalCourses item={modalItem} onClose={closeModal} isOpen={open} />
+                                {
+                                    openModal && modalItem === item && (
+                                        <ModalCourses item={modalItem} onClose={() => setOpenModal(false)} isOpen={openModal} />
+                                    )
+                                }
                             </Card>
                         ))}
                     </section>
                     <p className='text-3xl font-semibold text-center'>Oficios Tecnológicos Emergentes</p>
                     <section className="sm:flex grid grid-cols-1 sm:justify-items-center gap-2  md:mx-3.5">
-                        {handleFilter('oficios tecnológicos emergentes').map((item, index) => (
-                            <Card key={item} onPress={() => openModal(item)} isPressable={true} className="p-2 hover:-translate-y-2 cursor-pointer">
+                        {handleFilter('oficios tecnológicos emergentes').map((item) => (
+                            <Card
+                                key={item}
+                                onPress={() => {
+                                    setModalItem(item);
+                                    setOpenModal(true);
+                                }}
+                                isPressable={true}
+                                className="p-2 hover:-translate-y-2 cursor-pointer" >
 
                                 <Image src={CiscoImg} alt="cisco1" width={500} />
                                 <CardBody className="flex justify-center  w-full  h-full font-mont font-bold text-gray-950 text-lg m-2">
                                     <p>{item.cursos}</p>
 
                                 </CardBody>
-                                <ModalCourses item={modalItem} onClose={closeModal} />
+                                {
+                                    openModal && modalItem === item && (
+                                        <ModalCourses item={modalItem} onClose={() => setOpenModal(false)} isOpen={openModal} />
+                                    )
+                                }
                             </Card>
 
                         ))}
@@ -90,12 +101,25 @@ const ContenidoPage = () => {
                     <p className='text-3xl font-semibold text-center'>inteligencia y liderazg</p>
                     <section className="sm:flex grid grid-cols-1 sm:justify-items-center gap-2  md:mx-3.5">
                         {handleFilter('inteligencia y liderazgo').map((item) => (
-                           <Card key={item} onPress={() => openModal(item)} isPressable={true} className="p-2 hover:-translate-y-2 cursor-pointer">
-                                {/* <Image src={CiscoImg} alt="cisco1" width={500} /> */}
+                            <Card
+                                key={item}
+                                onPress={() => {
+                                    setModalItem(item);
+                                    setOpenModal(true);
+                                }}
+                                isPressable={true}
+                                className="p-2 hover:-translate-y-2 cursor-pointer" >
+
+                                <Image src={CiscoImg} alt="cisco1" width={500} />
                                 <CardBody className="flex justify-center  w-full  h-full font-mont font-bold text-gray-950 text-lg m-2">
                                     <p>{item.cursos}</p>
+
                                 </CardBody>
-                                <ModalCourses item={modalItem} onClose={closeModal} />
+                                {
+                                    openModal && modalItem === item && (
+                                        <ModalCourses item={modalItem} onClose={() => setOpenModal(false)} isOpen={openModal} />
+                                    )
+                                }
                             </Card>
                         ))}
                     </section>

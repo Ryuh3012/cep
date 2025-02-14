@@ -7,6 +7,7 @@ import { SocketContext } from '../../SocketProvider';
 import ModalCourses from '../../components/Modals/ModalCourses';
 import { useFormik } from 'formik';
 import { validateCourses } from '../../security/courses/ValidateCourses.mjs';
+import { useCallback } from 'react';
 
 const columns = [
     {
@@ -47,6 +48,7 @@ const initialValues = {
 const CoursesPage = () => {
 
     const rowsPerPage = 5;
+
     const { socket } = useContext(SocketContext)
     const [cursos, setCursos] = useState([])
     const [messag, setMessag] = useState(null);
@@ -54,22 +56,23 @@ const CoursesPage = () => {
     const [page, setPage] = useState(1);
 
     useEffect(() => {
-        socket.emit('[bag] courses', () => {}, (listAllcourses) => setCursos(JSON.parse(listAllcourses)))
+        socket.emit('[bag] courses', () => { }, (listAllcourses) => setCursos(JSON.parse(listAllcourses)))
         return () => {
             socket.off('[bag] courses')
         }
     }, [socket])
 
-    console.log(cursos)
 
     const pages = Math.ceil(cursos.length / rowsPerPage);
+
+
     const items = useMemo(() => {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        return cursos.slice(start, end);
-    }, [page, cursos])
-    console.log(cursos)
+        return cursos.slice(start, end)
+    }, [page, cursos]);
+
 
     const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
 
@@ -90,7 +93,7 @@ const CoursesPage = () => {
 
             } catch (error) {
                 console.log(error)
-                setError('No se pudo crear el curso, faltaron datos')
+                setError('No se pudo crear el curso, vuelva a intentarlo ')
                 setTimeout(() => {
                     setMessag(null)
                     return resetForm()
@@ -107,8 +110,13 @@ const CoursesPage = () => {
                     <p>{messag}</p>
                 </div>
                 : null}
-            <div className="p-5 ">
-                <div className="bg-white rounded-[5px] shadow-md p-2 w-full gap-2 border-[1px] border-[#C4CEDC]">
+            {Error ?
+                <div className="flex flex-col w-full justify-center items-center py-1 pl-4 text-danger-600 bg-danger-50 ">
+                    <p>{Error}</p>
+                </div>
+                : null}
+            <div className=" p-5">
+                <div className="bg-white rounded-[5px] shadow-md p-2 w-full gap-2 border-[1px] border-[#C4CEDC] ">
                     <h1 className='text-[30px] font-semibold mb-5'>Gestion de Cursos</h1>
                     <CardCourses />
                     <div className="flex justify-end items-center m-2">
@@ -121,12 +129,12 @@ const CoursesPage = () => {
                                     onModalOpen();
                                 }
                             }}>
-                                <DropdownItem key="nuevo">new</DropdownItem>
-                                <DropdownItem key="copy">Copy link</DropdownItem>
+                                <DropdownItem key="nuevo">Nuevo Curso</DropdownItem>
+                                {/* <DropdownItem key="copy">Copy link</DropdownItem>
                                 <DropdownItem key="edit">Edit file</DropdownItem>
                                 <DropdownItem key="delete" className="text-danger" color="danger">
                                     Delete file
-                                </DropdownItem>
+                                </DropdownItem> */}
                             </DropdownMenu>
                         </Dropdown>
                     </div>
@@ -141,6 +149,7 @@ const CoursesPage = () => {
                                         isCompact
                                         showControls
                                         showShadow
+                                        color="secondary"
                                         page={page}
                                         total={pages}
                                         onChange={(page) => setPage(page)}
@@ -157,20 +166,11 @@ const CoursesPage = () => {
                             {(column) => <TableColumn className="text-left bg-[#1F2559] text-white" key={column.key}>{column.label}</TableColumn>}
                         </TableHeader>
                         <TableBody items={items}>
-                            {
-                                cursos?.map(user => (
-                                    <TableRow key={user._id}>
-
-                                        {(columnKey) => {
-                                            // if (columnKey === 'edit') return <TableCell><ModalCases data={data} close={info} isOpen={setInfo} /></TableCell>
-                                            return <TableCell>{getKeyValue(user, columnKey)}</TableCell>
-                                        }}
-
-
-                                    </TableRow>
-                                ))
-
-                            }
+                            {(item) => (
+                                <TableRow key={item}>
+                                    {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
+                                </TableRow>
+                            )}
                         </TableBody>
                     </Table>
 

@@ -13,6 +13,7 @@ import { dataCourses } from "./src/models/courses.mjs";
 import { getFormacion, getModalidad } from "./src/models/modalidad.mjs";
 import { createFacilitator, getFacilitators, getFacilitatorsAndCourses } from "./src/models/facilitators.mjs";
 import { newCourses } from "./src/controllers/courses.mjs";
+import { newStuden } from "./src/controllers/studen.mjs";
 
 
 
@@ -35,27 +36,20 @@ io.on("connection", async (client) => {
 
     console.log('Cliente conectado');
 
-    try {
+    client.on('[bag] sesion', async (req, res) => {
+
+        const { cedula, password } = req
+        const auth = await singIn({ cedula, password })
 
 
-        client.on('[bag] sesion', async (req, res) => {
-
-            const { cedula, password } = req
-            const auth = await singIn({ cedula, password })
+        client.emit('[bag] correct', auth)
 
 
-            client.emit('[bag] correct', auth)
-
-
-        })
-
-    } catch (error) {
-        console.log(error)
-    }
+    })
 
     client.on('[bag] addCourse', async (data) => {
         const { codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, modalidad, formacion } = data
-        const newCourse = await newCourses({ codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, tipodemovilidad: modalidad, formacion });
+        const newCourse = await newCourses({ codigodecuso, nombrecurso, duracion, horario, monto, contenido: contenido.split('\n'), status, facilitador, tipodemovilidad: modalidad, formacion });
         client.emit('[bag] correct', newCourse)
 
     })
@@ -71,15 +65,15 @@ io.on("connection", async (client) => {
         return client.emit('[bag] correct', { msg: 'Facilitador creado exitosamente' });
 
     })
-    client.on('[bag] courses', async(_ , cb) => cb(JSON.stringify(await dataCourses())))
+    client.on('[bag] addStudent', async (data) => {
+        const addStudent = newStuden(data)
+     })
+    client.on('[bag] courses', async (_, cb) => cb(JSON.stringify(await dataCourses())))
+    client.on('[bag] facilitador', async (_, cb) => cb(JSON.stringify(await getFacilitators())))
 
     client.emit('[bag] modalidad', await getModalidad());
-
     client.emit('[bag] formacion', await getFormacion());
 
-    client.emit('[bag] facilitadores', await getFacilitatorsAndCourses());
-
-    client.emit('[bag] facilitador', await getFacilitators());
 
 
 })

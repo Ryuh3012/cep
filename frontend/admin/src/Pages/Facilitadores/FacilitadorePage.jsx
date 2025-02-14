@@ -27,26 +27,29 @@ const columns = [
 const FacilitadorePage = () => {
 
 
-    const [cursos, setCursos] = useState([])
+    const [teacher, setTeacher] = useState([])
     const [page, setPage] = useState(1);
     const rowsPerPage = 4;
 
     const { socket } = useContext(SocketContext)
 
     useEffect(() => {
-        socket.on('[bag] facilitador', (res) => setCursos(res))
-    }, []);
+        socket.emit('[bag] facilitador', () => { }, (listAllcourses) => setTeacher(JSON.parse(listAllcourses)))
+        return () => {
+            socket.off('[bag] facilitador')
+        }
+    }, [socket])
 
-    const pages = Math.ceil(cursos.length / rowsPerPage);
+    const pages = Math.ceil(teacher.length / rowsPerPage);
 
     const items = useMemo(() => {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        return cursos.slice(start, end);
-    }, [page, cursos]);
-    console.log(cursos)
+        return teacher.slice(start, end);
+    }, [page, teacher]);
 
+    console.log(teacher)
     return (
         <Layout>
             <div className="p-10 flex flex-col gap-6">
@@ -79,20 +82,11 @@ const FacilitadorePage = () => {
                             {(column) => <TableColumn className=" bg-[#1F2559] text-white px-10" key={column.key}>{column.label}</TableColumn>}
                         </TableHeader>
                         <TableBody items={items}>
-                            {
-                                cursos?.map(user => (
-                                    <TableRow key={user._id} >
-
-                                        {(columnKey) => {
-                                            // if (columnKey === 'edit') return <TableCell><ModalCases data={data} close={info} isOpen={setInfo} /></TableCell>
-                                            return <TableCell className='px-10'>{getKeyValue(user, columnKey)}</TableCell>
-                                        }}
-
-
-                                    </TableRow>
-                                ))
-
-                            }
+                            {(item) => (
+                                <TableRow key={item}>
+                                    {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
+                                </TableRow>
+                            )}
                         </TableBody>
                     </Table>
 

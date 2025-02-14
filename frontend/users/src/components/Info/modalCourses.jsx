@@ -1,13 +1,17 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/react';
-import React, { useState } from 'react';
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const ModalCourses = ({ item, onClose, isOpen }) => {
+const ModalCourses = ({ item, isOpen, onClose }) => {
+
     const [scrollBehavior, setScrollBehavior] = useState("inside");
-    console.log(open)
+
+    console.log(item.contendido)
     return (
         <>
             <Modal
-                isOpen={isOpen} // El modal siempre está abierto cuando se renderiza, se controla con el renderizado condicional en el componente padre
+                isOpen={isOpen}
+                onClose={() => onClose(false)}
                 placement="top-center"
                 size="2xl"
                 scrollBehavior={scrollBehavior}
@@ -70,20 +74,31 @@ const ModalCourses = ({ item, onClose, isOpen }) => {
                                     </li>
                                 </ul>
                                 <section className="text-left m-1">
-                                    <ul>
+                                    <div className='flex  items-center'>
 
-                                        <li>
-                                            {item?.contendido}
-                                        </li>
-                                    </ul>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 mx-1">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+                                        </svg>
+                                        <p className="text-sm font-mont font-semibold text-gray-950 uppercase">Contenido : </p>
+                                    </div>
+
+                                    {
+                                        item?.contendido.map(e => (
+
+                                            <li key={e} className='p-2'>
+
+                                                {e}
+                                            </li>
+                                        ))
+                                    }
                                 </section>
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="danger" variant="flat" onPress={() => onClose()} >
                                     Close
                                 </Button>
-                                <Button color="primary" onPress={() => onClose()}>
-                                    inscripción
+                                <Button color="primary" >
+                                    <Link className="hover:text-red-700 " to={'/participant'}>Inscripción</Link>
                                 </Button>
                             </ModalFooter>
                         </div>

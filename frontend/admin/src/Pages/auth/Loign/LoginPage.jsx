@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Image, Input } from "@heroui/react";
 
@@ -39,7 +39,6 @@ const LoginPage = () => {
                     const cookies = new Cookies()
                     const cripto = CryptoJS.AES.encrypt(JSON.stringify(data.token), 'users').toString();
 
-                    cookies.remove('user')
                     cookies.set('user', JSON.stringify(cripto))
                     setMessage('El usuario se ha logueado correctamente')
                     return setTimeout(() => {

@@ -11,6 +11,8 @@ import Pay from "../../components/formulary/StepperFormulary/Pay";
 import { StepperContext } from "../../contexts/StepperContext";
 import StepperControler from "../../components/StepperControler";
 import Stepper from "../../components/Stepper";
+import { useContext } from "react";
+import { SocketContext } from "../../SocketProvider";
 
 
 
@@ -34,6 +36,8 @@ const initialValues = {
 }
 const ParticipantPage = () => {
     const navegation = useNavigate()
+    const { socket } = useContext(SocketContext)
+
 
     const [currentStep, setCurrentStep] = useState(1);
     const [message, setMessage] = useState([])
@@ -41,14 +45,14 @@ const ParticipantPage = () => {
 
         initialValues,
         onSubmit: async (values) => {
-            const { data: messager } = await axios.post('http://localhost:3000/people', { data: values })
 
-            setMessage(messager)
-
-            setTimeout(() => {
-                setMessage(null)
-                return navegation('/')
-            }, 3000);
+            socket.emit('[bag] addStudent', values)
+            setMessage('¡Bienvenido! Tu registro ha sido exitoso. ')
+            console.log(values)
+            // setTimeout(() => {
+            //     setMessage(null)
+            //     // return navegation('/')
+            // }, 3000);
 
         },
         validate: (values) => validateParticipant({ values })

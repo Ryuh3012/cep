@@ -3,7 +3,6 @@ import Navegation from './Navegation';
 const App = () => {
     return (
         <Navegation />
-
     );
 }
 

@@ -8,7 +8,7 @@ export const newfacilitators = async (req, res) => {
         console.log(person)
 
         // const newFacilitator = await createFacilitator({ persona: person.idpersona });
-        return res.status(200).json({ message: 'Facilitador creado exitosamente' });
+        // return res.status(200).json({ message: 'Facilitador creado exitosamente' });
     } catch (error) {
         console.error('Error during newfacilitators:', error);
         return res.status(500).json({ message: 'Internal server error' });

@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
         return navegation('/')
     }
     return (
-        <div className="bg-[#d9dbe0] h-screen">
+        <div className=" bg-[#d9dbe0] h-screen ">
             <Navbar
                 isBordered
                 className="bg-[#2A398C] text-white "
