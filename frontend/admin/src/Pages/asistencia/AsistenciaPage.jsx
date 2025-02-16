@@ -1,9 +1,9 @@
 
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import Layout from '../layout';
 import { SocketContext } from '../../SocketProvider';
-import { getKeyValue, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
+import { Chip, getKeyValue, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, User } from '@heroui/react';
 import CardCourses from '../../components/Card/CardCourses';
 const columns = [
     {
@@ -14,43 +14,72 @@ const columns = [
         key: "nombre",
         label: "NOMBRE",
     },
+
     {
-        key: "tipoDeparticipante",
-        label: "PARTICIPANTE",
-    },
-    {
-        key: "Apellido",
+        key: "apellido",
         label: "APELLIDO",
     },
     {
-        key: "nombreCurso",
+        key: "participante",
+        label: "PARTICIPANTE",
+    },
+    {
+        key: "nombrecurso",
         label: "CURSOS",
     },
     {
-        key: "",
+        key: "saldo_pendiente",
         label: "STATUS",
     },
 
 ];
+
 const AsistenciaPage = () => {
-    const [cursos, setCursos] = useState([])
+
+    const { socket } = useContext(SocketContext);
+    const [studen, setStuden] = useState([]);
     const [page, setPage] = useState(1);
     const rowsPerPage = 4;
 
-    const { socket } = useContext(SocketContext)
 
     useEffect(() => {
-        socket.on('[bag] courses', (res) => setCursos(...cursos, res))
-    }, []);
+        socket.emit('[bag] Studen', () => { }, (listAllcourses) => setStuden(JSON.parse(listAllcourses)))
+        return () => {
+            socket.off('[bag] Studen')
+        }
+    }, [socket])
 
-    const pages = Math.ceil(cursos.length / rowsPerPage);
+    const pages = Math.ceil(studen.length / rowsPerPage);
 
     const items = useMemo(() => {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        return cursos.slice(start, end);
-    }, [page, cursos]);
+        return studen.slice(start, end);
+    }, [page, studen]);
+    const statusOpen = (status) => {
+        if (status == 'Completo') return 'success';
+        if (status == 'Pendiente') return 'warning'
+    }
+
+    const renderCell = useCallback((user, columnKey) => {
+        const cellValue = user[columnKey];
+        switch (columnKey) {
+            case "nombre":
+                return user.nombre.charAt(0).toUpperCase() + user.nombre.slice(1)
+            case "apellido":
+                return user.apellido.charAt(0).toUpperCase() + user.apellido.slice(1)
+            case "saldo_pendiente":
+                return (
+                    <Chip className="capitalize" color={statusOpen(user.saldo_pendiente)} variant="flat">
+                        {cellValue}
+                    </Chip>
+                );
+
+            default:
+                return cellValue;
+        }
+    }, []);
 
     return (
         <Layout>
@@ -84,20 +113,11 @@ const AsistenciaPage = () => {
                             {(column) => <TableColumn className="text-left bg-[#1F2559] text-white px-3" key={column.key}>{column.label}</TableColumn>}
                         </TableHeader>
                         <TableBody items={items}>
-                            {
-                                cursos?.map(user => (
-                                    <TableRow key={user._id}>
-
-                                        {(columnKey) => {
-                                            // if (columnKey === 'edit') return <TableCell><ModalCases data={data} close={info} isOpen={setInfo} /></TableCell>
-                                            return <TableCell>{getKeyValue(user, columnKey)}</TableCell>
-                                        }}
-
-
-                                    </TableRow>
-                                ))
-
-                            }
+                            {(item) => (
+                                <TableRow key={item}>
+                                    {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                                </TableRow>
+                            )}
                         </TableBody>
                     </Table>
 

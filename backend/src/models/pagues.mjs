@@ -41,6 +41,15 @@ export const newPayments = async ({
     }
 };
 
+// export const getPayments = async () => {
+
+//     const query = {
+//         text: `select (cursos.monto- pagos.monto ) AS saldo_pendiente from cursos, pagos 
+// inner join personas ON personas.idpersona = pagos.personaid`
+// }
+//     const rows
+// }
+
 export const updatePayments = async ({ person, montoTotal }) => {
 
     const query = {

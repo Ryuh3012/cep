@@ -1,18 +1,14 @@
 import { newPayments, updatePayments } from "../models/pagues.mjs";
 import { createPerson, findOneByPerson } from "../models/people.mjs";
+import { addStudent } from "../models/Studen.mjs";
 
 export const newStuden = async (req, res) => {
 
     // try {
     const { cedula, nombre, apellido, telefono, email, tipoDeParticipante, cursos, tipoDePago, montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, nombreDelTitulante, } = req
-    const typeParticipants = (tipoDeParticipante) => {
 
-        if (tipoDeParticipante == "Estudiante IUJO") return 1
-        if (tipoDeParticipante == "Participantes Externos") return 2
-        if (tipoDeParticipante == "Personal IUJO") return 3
-    }
     let person = await findOneByPerson(cedula);
-    if (!person) person = await createPerson({ cedula, nombre, apellido, email, telefono, tipoDeParticipante: typeParticipants(tipoDeParticipante) });
+    if (!person) person = await createPerson({ cedula, nombre, apellido, email, telefono, tipoDeParticipante });
     const typepague = (tipoDePago) => {
         if (tipoDePago == "Transferencia Bancaria") return 1
         if (tipoDePago == 'Divisas en efectivo ( directamente en caja principal)') return 2
@@ -23,8 +19,8 @@ export const newStuden = async (req, res) => {
     }
 
     const pague = await newPayments({ tipoDePago: typepague(tipoDePago), montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, nombreDelTitulante, persona: person.idpersona });
-    // const addStudentAndCourso = await 
-    // return 'lito'
+
+    const addStudentAndCourso = await addStudent({ person: person.idpersona, courses: cursos })
 }
 
 export const updateStudent = async (req, res) => {

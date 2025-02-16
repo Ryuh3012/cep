@@ -18,7 +18,6 @@ export const newCourse = async ({ codigodecuso, nombrecurso, duracion, horario, 
 
 export const dataCourses = async () => {
 
-
     const queryActiveCourses = {
         text: `select  cursos.idcurso, CONCAT(cursos.codigodecuso,' ',cursos.nombrecurso ) as cursos, cursos.horario as horario, cursos.duracion as duracion,personas.nombre as facilitador, cursos.contenido as contendido,tipodemodalidades.modalidad as modalidad,formaciones.formacion, cursos.monto as monto, cursos.status  from cursos
                 inner join facilitadores on cursos.facilitadorid = facilitadores.idfacilitador
@@ -31,6 +30,8 @@ export const dataCourses = async () => {
 
     return activeCourses;
 }
+
+
 export const upDateCourse = async ({ courses }) => {
 
     try {

@@ -14,6 +14,9 @@ import { getFormacion, getModalidad } from "./src/models/modalidad.mjs";
 import { createFacilitator, getFacilitators, getFacilitatorsAndCourses } from "./src/models/facilitators.mjs";
 import { newCourses } from "./src/controllers/courses.mjs";
 import { newStuden } from "./src/controllers/studen.mjs";
+import { dataParticipants } from "./src/models/typeParticipants.mjs";
+import { getPagues } from "./src/models/typepague.mjs";
+import { getStudent } from "./src/models/Studen.mjs";
 
 
 
@@ -53,6 +56,7 @@ io.on("connection", async (client) => {
         client.emit('[bag] correct', newCourse)
 
     })
+
     client.on('[bag] teacher', async (data) => {
 
         const { cedula, nombre, apellido, email, telefono } = data
@@ -65,11 +69,15 @@ io.on("connection", async (client) => {
         return client.emit('[bag] correct', { msg: 'Facilitador creado exitosamente' });
 
     })
+
     client.on('[bag] addStudent', async (data) => {
-        const addStudent = newStuden(data)
-     })
+        const addStudent = await newStuden(data)
+
+    })
     client.on('[bag] courses', async (_, cb) => cb(JSON.stringify(await dataCourses())))
     client.on('[bag] facilitador', async (_, cb) => cb(JSON.stringify(await getFacilitators())))
+    client.on('[bag] StudenType', async (_, cb) => cb(JSON.stringify(await dataParticipants())))
+    client.on('[bag] Studen', async (_, cb) => cb(JSON.stringify(await getStudent())))
 
     client.emit('[bag] modalidad', await getModalidad());
     client.emit('[bag] formacion', await getFormacion());

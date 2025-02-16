@@ -48,8 +48,8 @@ const initialValues = {
 const CoursesPage = () => {
 
     const rowsPerPage = 5;
-
     const { socket } = useContext(SocketContext)
+
     const [cursos, setCursos] = useState([])
     const [messag, setMessag] = useState(null);
     const [Error, setError] = useState(null);

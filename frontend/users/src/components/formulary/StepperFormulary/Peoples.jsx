@@ -1,15 +1,27 @@
 
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StepperContext } from "../../../contexts/StepperContext";
 import { Input, Select, SelectItem } from "@nextui-org/react";
+import { SocketContext } from "../../../SocketProvider";
 
 
 
 
 const Peoples = () => {
 
+    const { socket } = useContext(SocketContext)
+    const [typeStuden, setTypeStuden] = useState([]);
+
     const { handleBlur, handleSubmit, handleChange, values: { cedula, nombre, apellido, telefono, email, tipoDeParticipante } } = useContext(StepperContext)
-    const tipoDeParticipants = ['Estudiante IUJO', 'Participantes Externos', 'Personal IUJO']
+
+    useEffect(() => {
+        socket.emit('[bag] StudenType', () => { }, (listAllcourses) => setTypeStuden(JSON.parse(listAllcourses)))
+        return () => {
+            socket.off('[bag] StudenType')
+        }
+    }, [socket])
+    console.log(typeStuden)
+    // [bag] StudenType
 
     return (
         <form onSubmit={handleSubmit}>
@@ -104,7 +116,7 @@ const Peoples = () => {
                         color="secondary"
                         placeholder="Participante"
                     >
-                        {tipoDeParticipants.map((e) => <SelectItem key={e}>{e}</SelectItem>)}
+                        {typeStuden.map(({ idtiposdeparticipante: id, participante }) => <SelectItem key={id}>{participante}</SelectItem>)}
 
                     </Select>
                 </div>
