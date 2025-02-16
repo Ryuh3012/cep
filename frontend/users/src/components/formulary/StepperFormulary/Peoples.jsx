@@ -21,7 +21,6 @@ const Peoples = () => {
         }
     }, [socket])
     console.log(typeStuden)
-    // [bag] StudenType
 
     return (
         <form onSubmit={handleSubmit}>

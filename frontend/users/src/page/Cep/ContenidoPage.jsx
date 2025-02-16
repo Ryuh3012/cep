@@ -29,7 +29,6 @@ const ContenidoPage = () => {
 
     useEffect(() => {
         socket.emit('[bag] courses', () => { }, (listAllcourses) => setShow(JSON.parse(listAllcourses)))
-        socket.on('[bag] newCourses', () => setShow(/* ... nuevo curso */))
 
         return () => {
             socket.off('[bag] courses')

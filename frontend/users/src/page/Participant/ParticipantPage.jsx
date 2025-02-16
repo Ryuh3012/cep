@@ -44,18 +44,17 @@ const ParticipantPage = () => {
     const { errors, touched, handleBlur, handleSubmit, handleChange, values } = useFormik({
 
         initialValues,
+        validate: (values) => validateParticipant({ values }),
         onSubmit: async (values) => {
 
             socket.emit('[bag] addStudent', values)
             setMessage('¡Bienvenido! Tu registro ha sido exitoso. ')
-            console.log(values)
-            // setTimeout(() => {
-            //     setMessage(null)
-            //     // return navegation('/')
-            // }, 3000);
+            setTimeout(() => {
+                setMessage(null)
+                return navegation('/')
+            }, 3000);
 
-        },
-        validate: (values) => validateParticipant({ values })
+        }
 
 
     })
