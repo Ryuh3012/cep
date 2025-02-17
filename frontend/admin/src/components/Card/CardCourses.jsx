@@ -3,8 +3,25 @@ import proceso from "../../assets/icons/proces.png";
 import cursos from "../../assets/icons/check.png";
 import grupo from "../../assets/icons/grupo.png";
 import { Image } from "@heroui/react";
+import { useEffect, useContext, useState } from "react";
+import { SocketContext } from "../../SocketProvider";
 
 const CardCourses = () => {
+
+    const { socket } = useContext(SocketContext);
+    const [statisticsCourses, setStatisticsCourses] = useState([]);
+    const [statisticsProceso, setStatisticsProceso] = useState([]);
+    const [statisticsComplete, setStatisticsComplete] = useState([])
+
+    useEffect(() => {
+        socket.emit('[bag] statisticsCourses', () => { }, (listAllcourses) => setStatisticsCourses(JSON.parse(listAllcourses)))
+        socket.emit('[bag] statisticsCoursesProceso', () => { }, (listAllcourses) => setStatisticsProceso(JSON.parse(listAllcourses)))
+        socket.emit('[bag] statisticsComplete', () => { }, (listAllcourses) => setStatisticsComplete(JSON.parse(listAllcourses)))
+        return () => {
+            socket.off('[bag] statistics')
+        }
+    }, [socket])
+
     return (
         <div className="grid gap-4 md:grid-cols-3">
             <div className="relative overflow-hidden shadow-lg">
@@ -16,7 +33,7 @@ const CardCourses = () => {
                         </div>
                         <div>
                             <p className="text-sm font-medium text-emerald-600">Cursos Completados</p>
-                            <p className="text-2xl font-bold">0/0</p>
+                            <p className="text-2xl font-bold">{statisticsComplete.cursos}/{statisticsComplete.cursos}</p>
                             <p className="text-sm text-emerald-600/80">Cursos finalizados</p>
                         </div>
                     </div>
@@ -32,7 +49,7 @@ const CardCourses = () => {
                         </div>
                         <div>
                             <p className="text-sm font-medium text-blue-600">Cursos En Proceso</p>
-                            <p className="text-2xl font-bold">0/0</p>
+                            <p className="text-2xl font-bold">{statisticsProceso.cursos}/{statisticsProceso.cursos}</p>
                             <p className="text-sm text-blue-600/80">Curso iniciado</p>
                         </div>
                     </div>
@@ -48,7 +65,7 @@ const CardCourses = () => {
                         </div>
                         <div>
                             <p className="text-sm font-medium text-amber-600">Cursos En Espera</p>
-                            <p className="text-2xl font-bold">0/0</p>
+                            <p className="text-2xl font-bold">{statisticsCourses.cursos}/{statisticsCourses.cursos}</p>
                             <p className="text-sm text-amber-600/80">Esperando Participantes</p>
                         </div>
                     </div>

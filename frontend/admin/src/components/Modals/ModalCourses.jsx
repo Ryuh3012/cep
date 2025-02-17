@@ -10,12 +10,11 @@ const ModalCourses = ({ isOpen, onClose, onOpen, handleSubmit, handleChange, han
 
     const { socket } = useContext(SocketContext)
 
-
-    const { codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, modalidad, formacion } = values
-
     const [modalidades, setsmodalidades] = useState([]);
     const [formaciones, setFormaciones] = useState([]);
     const [teacher, setTeacher] = useState([]);
+
+    const { codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, modalidad, formacion } = values
 
     useEffect(() => {
         socket.on('[bag] modalidad', (data) => setsmodalidades(data))
@@ -23,8 +22,9 @@ const ModalCourses = ({ isOpen, onClose, onOpen, handleSubmit, handleChange, han
         socket.on('[bag] facilitador', (data) => setTeacher(data))
 
     }, []);
-    console.log(teacher)
-    const statuss = ['activo', 'cerrado']
+
+    const statuss = ['Activo', 'Proceso', 'Completados']
+
     return (
         <Modal isOpen={isOpen} placement="top-center" size="2xl" onOpenChange={onClose}>
             <ModalContent>

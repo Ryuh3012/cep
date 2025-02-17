@@ -115,67 +115,67 @@ const CoursesPage = () => {
                     <p>{Error}</p>
                 </div>
                 : null}
-            <div className=" p-5">
-                <div className="bg-white rounded-[5px] shadow-md p-2 w-full gap-2 border-[1px] border-[#C4CEDC] ">
-                    <h1 className='text-[30px] font-semibold mb-5'>Gestion de Cursos</h1>
-                    <CardCourses />
-                    <div className="flex justify-end items-center m-2">
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <Button variant="bordered">Open Menu</Button>
-                            </DropdownTrigger>
-                            <DropdownMenu onAction={(key) => {
-                                if (key === "nuevo") {
-                                    onModalOpen();
-                                }
-                            }}>
-                                <DropdownItem key="nuevo">Nuevo Curso</DropdownItem>
-                                {/* <DropdownItem key="copy">Copy link</DropdownItem>
+            <div className="p-5 flex flex-col gap-6">
+            <div className="bg-white rounded-[5px] shadow-md p-2 w-full gap-2 border-[1px] border-[#C4CEDC] ">
+                <h1 className='text-[30px] font-semibold mb-5'>Gestion de Cursos</h1>
+                <CardCourses />
+                <div className="flex justify-end items-center m-2">
+                    <Dropdown>
+                        <DropdownTrigger>
+                            <Button variant="bordered">Open Menu</Button>
+                        </DropdownTrigger>
+                        <DropdownMenu onAction={(key) => {
+                            if (key === "nuevo") {
+                                onModalOpen();
+                            }
+                        }}>
+                            <DropdownItem key="nuevo">Nuevo Curso</DropdownItem>
+                            {/* <DropdownItem key="copy">Copy link</DropdownItem>
                                 <DropdownItem key="edit">Edit file</DropdownItem>
                                 <DropdownItem key="delete" className="text-danger" color="danger">
                                     Delete file
                                 </DropdownItem> */}
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                    <ModalCourses isOpen={isModalOpen} onClose={onModalClose} onOpen={onModalOpen} values={values} handleSubmit={handleSubmit} handleChange={handleChange} handleBlur={handleBlur} errors={errors} touched={touched} />
-                    <Table
-                        shadow="none"
-                        aria-label="Example table with client side pagination"
-                        bottomContent={
-                            pages > 0 ? (
-                                <div className="flex w-full justify-center">
-                                    <Pagination
-                                        isCompact
-                                        showControls
-                                        showShadow
-                                        color="secondary"
-                                        page={page}
-                                        total={pages}
-                                        onChange={(page) => setPage(page)}
-                                    />
-                                </div>
-                            ) : null
-                        }
-                        classNames={{
-                            wrapper: "min-h-[222px]",
-
-                        }}
-                    >
-                        <TableHeader columns={columns}>
-                            {(column) => <TableColumn className="text-left bg-[#1F2559] text-white" key={column.key}>{column.label}</TableColumn>}
-                        </TableHeader>
-                        <TableBody items={items}>
-                            {(item) => (
-                                <TableRow key={item}>
-                                    {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-
+                        </DropdownMenu>
+                    </Dropdown>
                 </div>
+                <ModalCourses isOpen={isModalOpen} onClose={onModalClose} onOpen={onModalOpen} values={values} handleSubmit={handleSubmit} handleChange={handleChange} handleBlur={handleBlur} errors={errors} touched={touched} />
+                <Table
+                    shadow="none"
+                    aria-label="Example table with client side pagination"
+                    bottomContent={
+                        pages > 0 ? (
+                            <div className="flex w-full justify-center">
+                                <Pagination
+                                    isCompact
+                                    showControls
+                                    showShadow
+                                    color="secondary"
+                                    page={page}
+                                    total={pages}
+                                    onChange={(page) => setPage(page)}
+                                />
+                            </div>
+                        ) : null
+                    }
+                    classNames={{
+                        wrapper: "min-h-[222px]",
+
+                    }}
+                >
+                    <TableHeader columns={columns}>
+                        {(column) => <TableColumn className="text-left bg-[#1F2559] text-white" key={column.key}>{column.label}</TableColumn>}
+                    </TableHeader>
+                    <TableBody items={items}>
+                        {(item) => (
+                            <TableRow key={item}>
+                                {(columnKey) => <TableCell>{getKeyValue(item, columnKey)}</TableCell>}
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+
             </div>
+        </div>
         </Layout >
     );
 }

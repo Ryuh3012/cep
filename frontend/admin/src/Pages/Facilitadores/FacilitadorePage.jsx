@@ -52,7 +52,7 @@ const FacilitadorePage = () => {
     console.log(teacher)
     return (
         <Layout>
-            <div className="p-10 flex flex-col gap-6">
+            <div className="p-5 flex flex-col gap-6">
                 <div className="bg-white rounded-[5px] shadow-md p-5 w-full border-[1px] border-[#C4CEDC]">
                     <h1 className='text-[30px] font-semibold mb-5'>Gestion de Facilitadores</h1>
                     <CardCourses />

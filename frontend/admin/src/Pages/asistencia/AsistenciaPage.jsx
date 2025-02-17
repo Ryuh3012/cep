@@ -3,7 +3,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import Layout from '../layout';
 import { SocketContext } from '../../SocketProvider';
-import { Chip, getKeyValue, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, User } from '@heroui/react';
+import { Chip, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, User } from '@heroui/react';
 import CardCourses from '../../components/Card/CardCourses';
 const columns = [
     {
@@ -83,7 +83,8 @@ const AsistenciaPage = () => {
 
     return (
         <Layout>
-            <div className="p-10 flex flex-col gap-6">
+            <div className="p-5 flex flex-col gap-6">
+
                 <div className="bg-white rounded-[5px] shadow-md p-5 w-full border-[1px] border-[#C4CEDC]">
                     <h1 className='text-[30px] font-semibold mb-5'>Gestion de Estudiantes</h1>
                     <CardCourses />
