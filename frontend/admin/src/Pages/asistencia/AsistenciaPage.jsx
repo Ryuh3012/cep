@@ -57,6 +57,7 @@ const AsistenciaPage = () => {
 
         return studen.slice(start, end);
     }, [page, studen]);
+    
     const statusOpen = (status) => {
         if (status == 'Completo') return 'success';
         if (status == 'Pendiente') return 'warning'
@@ -80,7 +81,6 @@ const AsistenciaPage = () => {
                 return cellValue;
         }
     }, []);
-    console.log(studen)
 
     return (
         <Layout>

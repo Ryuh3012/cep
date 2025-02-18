@@ -14,8 +14,7 @@ import CiscoImg from "../../assets/cisco1.png";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { SocketContext } from "../../SocketProvider";
-import { Button, Card, CardBody, Image, useDisclosure } from "@nextui-org/react";
-import { Link, NavLink } from "react-router-dom";
+import { Button, Card, CardBody, Image } from "@nextui-org/react";
 import ModalCourses from "../../components/Info/modalCourses";
 
 

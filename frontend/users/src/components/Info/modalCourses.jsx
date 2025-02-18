@@ -6,7 +6,6 @@ const ModalCourses = ({ item, isOpen, onClose }) => {
 
     const [scrollBehavior, setScrollBehavior] = useState("inside");
 
-    console.log(item.contendido)
     return (
         <>
             <Modal
