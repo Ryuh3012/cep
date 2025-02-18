@@ -87,35 +87,19 @@ const CoursesPage = () => {
     const { errors, touched, handleSubmit, handleChange, handleBlur, values } = useFormik({
         initialValues,
         validate: (values) => validateCourses({ values }),
-        onSubmit: async (values, { resetForm }, isUpdate = false) => {
-            console.log(values)
-            //     try {
-            //         if (isUpdate) {
-            //             // Actualizar curso existente
-            //             socket.emit('[bag] updateCourse', values, {})
-            //             const updatedCourses = cursos.map((curso) => curso.nombrecurso === values.nombrecurso ? values : curso)
-            //             setCursos(updatedCourses)
-            //             setMessag("Curso actualizado adecuadamente")
-            //         } else {
-            //             // Crear nuevo curso
-            //             socket.emit('[bag] addCourse', values, {})
-            //             setCursos([...cursos, values])
-            //             setMessag("Curso creado adecuadamente")
-            //         }
-            //         setTimeout(() => {
-            //             setMessag(null)
-            //             return resetForm()
-            //         }, 3000);
-            //     } catch (error) {
-            //         console.log(error)
-            //         setError('No se pudo crear/actualizar el curso, vuelva a intentarlo ')
-            //         setTimeout(() => {
-            //             setMessag(null)
-            //             return resetForm()
-            //         }, 3000);
-            //     } finally {
-            //         onModalClose();
-            //     }
+        onSubmit: async (values, { resetForm }) => {
+
+            try {
+                socket.emit('[bag] addCourse', values, {})
+                setCursos([...cursos, values])
+                setMessag("Curso creado adecuadamente")
+                setTimeout(() => {
+                    setMessag(null)
+                    return resetForm()
+                }, 3000);
+            } catch (error) {
+                console.log(error)
+            }
         }
     })
     const statusOpen = (status) => {
