@@ -5,7 +5,7 @@ export const statisticsCoursesActives = async () => {
 
     const query = {
         text: `select count(idcurso) as cursos from cursos
-where status = 'activo'`
+where status = 'Activo'`
     }
 
     const { rows } = await connectdb.query(query)
