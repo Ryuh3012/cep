@@ -18,7 +18,8 @@ export const getStudent = async () => {
     const query = {
 
         text: `select personas.cedula, personas.nombre, personas.apellido, tiposdeparticipantes.participante, cursos.nombrecurso,CASE 
-WHEN (cursos.monto- pagos.monto ) < CURSOS.MONTO then 'Pendiente' 
+WHEN (cursos.monto - pagos.monto ) = 0 then 'Completo' 
+WHEN (cursos.monto - pagos.monto ) < CURSOS.MONTO then 'Pendiente' 
 else 'Completo'
 end as saldo_pendiente
 from personas_has_cursos
@@ -26,8 +27,6 @@ inner join personas on personas.idpersona = personas_has_cursos.personasid
 inner join tiposdeparticipantes ON tiposdeparticipantes.idtiposdeparticipante = personas.tipodeparticipanteid
 inner join cursos on cursos.idcurso = personas_has_cursos.cursoid
 inner join pagos ON pagos.personaid = personas.idpersona
-
-
 `
 
     }

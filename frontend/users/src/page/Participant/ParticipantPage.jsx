@@ -49,10 +49,10 @@ const ParticipantPage = () => {
 
             socket.emit('[bag] addStudent', values)
             setMessage('¡Bienvenido! Tu registro ha sido exitoso. ')
-            setTimeout(() => {
-                setMessage(null)
-                return navegation('/')
-            }, 3000);
+            // setTimeout(() => {
+            //     setMessage(null)
+            //     // return navegation('/')
+            // }, 3000);
 
         }
 

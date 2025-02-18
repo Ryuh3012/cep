@@ -19,8 +19,10 @@ const ModalCourses = ({ isOpen, onClose, onOpen, handleSubmit, handleChange, han
     useEffect(() => {
         socket.on('[bag] modalidad', (data) => setsmodalidades(data))
         socket.on('[bag] formacion', (data) => setFormaciones(data))
-        socket.on('[bag] facilitador', (data) => setTeacher(data))
-
+        socket.emit('[bag] facilitador', () => { }, (listAllcourses) => setTeacher(JSON.parse(listAllcourses)))
+        return () => {
+            socket.off('[bag] facilitador')
+        }
     }, []);
 
     const statuss = ['Activo', 'Proceso', 'Completados']

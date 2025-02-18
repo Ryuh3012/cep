@@ -8,6 +8,7 @@ export const newStuden = async (req, res) => {
     const { cedula, nombre, apellido, telefono, email, tipoDeParticipante, cursos, tipoDePago, montoTotal, referencia, banco, fechaDelPag, titularDeLaCedula, nombreDelTitulante, } = req
 
     let person = await findOneByPerson(cedula);
+    
     if (!person) person = await createPerson({ cedula, nombre, apellido, email, telefono, tipoDeParticipante });
     const typepague = (tipoDePago) => {
         if (tipoDePago == "Transferencia Bancaria") return 1

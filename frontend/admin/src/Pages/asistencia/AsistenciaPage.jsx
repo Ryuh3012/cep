@@ -80,6 +80,7 @@ const AsistenciaPage = () => {
                 return cellValue;
         }
     }, []);
+    console.log(studen)
 
     return (
         <Layout>

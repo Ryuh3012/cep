@@ -84,6 +84,7 @@ const CoursesPage = () => {
         onSubmit: async (values, { resetForm }) => {
             try {
                 socket.emit('[bag] addCourse', values, {})
+                setCursos([...cursos, values])
 
                 setMessag("Curso creado adecuadamente")
                 setTimeout(() => {

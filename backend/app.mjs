@@ -18,6 +18,7 @@ import { dataParticipants } from "./src/models/typeParticipants.mjs";
 import { getPagues } from "./src/models/typepague.mjs";
 import { getStudent } from "./src/models/Studen.mjs";
 import { statisticsComplete, statisticsCoursesActives, statisticsCoursesProceso } from "./src/models/statistics.mjs";
+import { createTable } from "./src/libs/createTable.mjs";
 
 
 
@@ -25,7 +26,7 @@ const app = express()
 connectdb.connect()
 
 // createTable();
-Createparticipats();
+// Createparticipats();
 const serve = createServer(app)
 
 export const io = new Server(serve, cors({ origin: '*' }))
@@ -76,11 +77,17 @@ io.on("connection", async (client) => {
 
     })
     client.on('[bag] courses', async (_, cb) => cb(JSON.stringify(await dataCourses())))
+
     client.on('[bag] facilitador', async (_, cb) => cb(JSON.stringify(await getFacilitators())))
+
     client.on('[bag] StudenType', async (_, cb) => cb(JSON.stringify(await dataParticipants())))
+
     client.on('[bag] Studen', async (_, cb) => cb(JSON.stringify(await getStudent())))
+
     client.on('[bag] statisticsCourses', async (_, cb) => cb(JSON.stringify(await statisticsCoursesActives())))
+
     client.on('[bag] statisticsCoursesProceso', async (_, cb) => cb(JSON.stringify(await statisticsCoursesProceso())))
+    
     client.on('[bag] statisticsComplete', async (_, cb) => cb(JSON.stringify(await statisticsComplete())))
 
     client.emit('[bag] modalidad', await getModalidad());
