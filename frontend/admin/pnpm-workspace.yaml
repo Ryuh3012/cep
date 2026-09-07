@@ -1,0 +1,4 @@
+allowBuilds:
+  '@heroui/shared-utils': false
+  '@swc/core': false
+  esbuild: false

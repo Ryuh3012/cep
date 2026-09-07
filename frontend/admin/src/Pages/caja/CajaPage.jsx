@@ -3,10 +3,10 @@ import Layout from '../layout';
 
 const CajaPage = () => {
     return (
-     <Layout>
-hello word
+        <Layout>
+            hello word
 
-     </Layout>
+        </Layout>
     );
 }
 

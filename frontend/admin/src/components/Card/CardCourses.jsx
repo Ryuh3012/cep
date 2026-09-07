@@ -1,78 +1,91 @@
-
 import proceso from "../../assets/icons/proces.png";
 import cursos from "../../assets/icons/check.png";
 import grupo from "../../assets/icons/grupo.png";
-import { Image } from "@heroui/react";
+
 import { useEffect, useContext, useState } from "react";
 import { SocketContext } from "../../SocketProvider";
 
 const CardCourses = () => {
-
     const { socket } = useContext(SocketContext);
-    const [statisticsCourses, setStatisticsCourses] = useState([]);
-    const [statisticsProceso, setStatisticsProceso] = useState([]);
-    const [statisticsComplete, setStatisticsComplete] = useState([])
+
+    // Inicializamos con objeto por defecto para evitar errores antes de recibir la respuesta del Socket
+    const [statisticsCourses, setStatisticsCourses] = useState({ cursos: 0 });
+    const [statisticsProceso, setStatisticsProceso] = useState({ cursos: 0 });
+    const [statisticsComplete, setStatisticsComplete] = useState({ cursos: 0 });
 
     useEffect(() => {
-        socket.emit('[bag] statisticsCourses', () => { }, (listAllcourses) => setStatisticsCourses(JSON.parse(listAllcourses)))
-        socket.emit('[bag] statisticsCoursesProceso', () => { }, (listAllcourses) => setStatisticsProceso(JSON.parse(listAllcourses)))
-        socket.emit('[bag] statisticsComplete', () => { }, (listAllcourses) => setStatisticsComplete(JSON.parse(listAllcourses)))
+        if (!socket) return;
+
+        socket.emit('[bag] statisticsCourses', () => { }, (listAllcourses) => {
+            if (listAllcourses) setStatisticsCourses(JSON.parse(listAllcourses));
+        });
+
+        socket.emit('[bag] statisticsCoursesProceso', () => { }, (listAllcourses) => {
+            if (listAllcourses) setStatisticsProceso(JSON.parse(listAllcourses));
+        });
+
+        socket.emit('[bag] statisticsComplete', () => { }, (listAllcourses) => {
+            if (listAllcourses) setStatisticsComplete(JSON.parse(listAllcourses));
+        });
+
         return () => {
-            socket.off('[bag] statistics')
-        }
-    }, [socket])
+            socket.off('[bag] statisticsCourses');
+            socket.off('[bag] statisticsCoursesProceso');
+            socket.off('[bag] statisticsComplete');
+        };
+    }, [socket]);
 
     return (
-        <div className="grid gap-4 md:grid-cols-3">
-            <div className="relative overflow-hidden shadow-lg">
-                <div className="absolute inset-0 bg-gradient-to-r bg-emerald-500/10  rounded-lg border" />
-                <div className="relative p-6">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-emerald-500 rounded-lg shadow-lg">
-                            <Image src={cursos} className="w-10 text-white" />
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-emerald-600">Cursos Completados</p>
-                            <p className="text-2xl font-bold">{statisticsComplete.cursos}/{statisticsComplete.cursos}</p>
-                            <p className="text-sm text-emerald-600/80">Cursos finalizados</p>
-                        </div>
-                    </div>
+        <div className="grid gap-4 sm:grid-cols-3 w-full">
+            {/* Cursos Completados */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-emerald-200 transition-all">
+                <div>
+                    <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">
+                        Cursos Completados
+                    </p>
+                    <h3 className="text-3xl font-bold text-slate-800 mt-1">
+                        {statisticsComplete?.cursos ?? 0}
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-1">Programas finalizados</p>
+                </div>
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
+                    <img src={cursos} alt="Completados" className="w-6 h-6 object-contain" />
                 </div>
             </div>
 
-            <div className="relative overflow-hidden shadow-lg">
-                <div className="absolute inset-0 bg-gradient-to-r bg-blue-500/10 rounded-lg border" />
-                <div className="relative p-6">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-blue-500 rounded-lg shadow-lg">
-                            <Image src={proceso} className="w-10" />
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-blue-600">Cursos En Proceso</p>
-                            <p className="text-2xl font-bold">{statisticsProceso.cursos}/{statisticsProceso.cursos}</p>
-                            <p className="text-sm text-blue-600/80">Curso iniciado</p>
-                        </div>
-                    </div>
+            {/* Cursos En Proceso */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-blue-200 transition-all">
+                <div>
+                    <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
+                        Cursos En Proceso
+                    </p>
+                    <h3 className="text-3xl font-bold text-slate-800 mt-1">
+                        {statisticsProceso?.cursos ?? 0}
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-1">Clases dictándose actualmente</p>
+                </div>
+                <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
+                    <img src={proceso} alt="En proceso" className="w-6 h-6 object-contain" />
                 </div>
             </div>
 
-            <div className="relative overflow-hidden shadow-lg">
-                <div className="absolute inset-0 bg-gradient-to-r bg-amber-500/10 rounded-lg border" />
-                <div className="relative p-6">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-amber-500 rounded-lg shadow-lg">
-                            <Image src={grupo} className="w-10" />
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-amber-600">Cursos En Espera</p>
-                            <p className="text-2xl font-bold">{statisticsCourses.cursos}/{statisticsCourses.cursos}</p>
-                            <p className="text-sm text-amber-600/80">Esperando Participantes</p>
-                        </div>
-                    </div>
+            {/* Cursos En Espera */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-amber-200 transition-all">
+                <div>
+                    <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider">
+                        Cursos En Espera
+                    </p>
+                    <h3 className="text-3xl font-bold text-slate-800 mt-1">
+                        {statisticsCourses?.cursos ?? 0}
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-1">Esperando cuórum de alumnos</p>
+                </div>
+                <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center shrink-0">
+                    <img src={grupo} alt="En espera" className="w-6 h-6 object-contain" />
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default CardCourses;

@@ -4,7 +4,8 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 
 import { port } from "./src/config/config.mjs";
-import { connectdb } from "./src/db/connectdb.mjs";
+
+// import { connectdb } from "./src/db/connectdb.mjs";
 
 import { Createparticipats } from "./src/libs/createParticipans.mjs";
 
@@ -15,15 +16,18 @@ import { createFacilitator, getFacilitators, getFacilitatorsAndCourses } from ".
 import { newCourses } from "./src/controllers/courses.mjs";
 import { newStuden } from "./src/controllers/studen.mjs";
 import { dataParticipants } from "./src/models/typeParticipants.mjs";
-import { getPagues } from "./src/models/typepague.mjs";
+
+// import { getPagues } from "./src/models/typepague.mjs";
+
 import { getStudent } from "./src/models/Studen.mjs";
 import { statisticsComplete, statisticsCoursesActives, statisticsCoursesProceso } from "./src/models/statistics.mjs";
-import { createTable } from "./src/libs/createTable.mjs";
+
+// import { createTable } from "./src/libs/createTable.mjs";
 
 
 
 const app = express()
-connectdb.connect()
+// connectdb.connect()
 
 // createTable();
 // Createparticipats();
@@ -37,65 +41,65 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 
-io.on("connection", async (client) => {
+// io.on("connection", async (client) => {
 
-    console.log('Cliente conectado');
+//     console.log('Cliente conectado');
 
-    client.on('[bag] sesion', async (req, res) => {
+//     client.on('[bag] sesion', async (req, res) => {
 
-        const { cedula, password } = req
-        const auth = await singIn({ cedula, password })
-
-
-        client.emit('[bag] correct', auth)
+//         const { cedula, password } = req
+//         const auth = await singIn({ cedula, password })
 
 
-    })
+//         client.emit('[bag] correct', auth)
 
-    client.on('[bag] addCourse', async (data) => {
-        const { codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, modalidad, formacion } = data
-        const newCourse = await newCourses({ codigodecuso, nombrecurso, duracion, horario, monto, contenido: contenido.split('\n'), status, facilitador, tipodemovilidad: modalidad, formacion });
-        client.emit('[bag] correct', newCourse)
 
-    })
+//     })
 
-    client.on('[bag] teacher', async (data) => {
+//     // client.on('[bag] addCourse', async (data) => {
+//     //     const { codigodecuso, nombrecurso, duracion, horario, monto, contenido, status, facilitador, modalidad, formacion } = data
+//     //     const newCourse = await newCourses({ codigodecuso, nombrecurso, duracion, horario, monto, contenido: contenido.split('\n'), status, facilitador, tipodemovilidad: modalidad, formacion });
+//     //     client.emit('[bag] correct', newCourse)
 
-        const { cedula, nombre, apellido, email, telefono } = data
+//     // })
 
-        let person = await findOneByPerson({ cedula });
-        if (!person) person = await createPerson({ cedula, nombre, apellido, email, telefono })
+//     client.on('[bag] teacher', async (data) => {
 
-        const newFacilitator = await createFacilitator({ persona: person.idpersona });
+//         const { cedula, nombre, apellido, email, telefono } = data
 
-        return client.emit('[bag] correct', { msg: 'Facilitador creado exitosamente' });
+//         let person = await findOneByPerson({ cedula });
+//         if (!person) person = await createPerson({ cedula, nombre, apellido, email, telefono })
 
-    })
+//         const newFacilitator = await createFacilitator({ persona: person.idpersona });
 
-    client.on('[bag] addStudent', async (data) => {
-        const addStudent = await newStuden(data)
+//         return client.emit('[bag] correct', { msg: 'Facilitador creado exitosamente' });
 
-    })
-    client.on('[bag] courses', async (_, cb) => cb(JSON.stringify(await dataCourses())))
+//     })
 
-    client.on('[bag] facilitador', async (_, cb) => cb(JSON.stringify(await getFacilitators())))
+//     client.on('[bag] addStudent', async (data) => {
+//         const addStudent = await newStuden(data)
 
-    client.on('[bag] StudenType', async (_, cb) => cb(JSON.stringify(await dataParticipants())))
+//     })
+//     client.on('[bag] courses', async (_, cb) => cb(JSON.stringify(await dataCourses())))
 
-    client.on('[bag] Studen', async (_, cb) => cb(JSON.stringify(await getStudent())))
+//     client.on('[bag] facilitador', async (_, cb) => cb(JSON.stringify(await getFacilitators())))
 
-    client.on('[bag] statisticsCourses', async (_, cb) => cb(JSON.stringify(await statisticsCoursesActives())))
+//     client.on('[bag] StudenType', async (_, cb) => cb(JSON.stringify(await dataParticipants())))
 
-    client.on('[bag] statisticsCoursesProceso', async (_, cb) => cb(JSON.stringify(await statisticsCoursesProceso())))
+//     client.on('[bag] Studen', async (_, cb) => cb(JSON.stringify(await getStudent())))
+
+//     client.on('[bag] statisticsCourses', async (_, cb) => cb(JSON.stringify(await statisticsCoursesActives())))
+
+//     client.on('[bag] statisticsCoursesProceso', async (_, cb) => cb(JSON.stringify(await statisticsCoursesProceso())))
     
-    client.on('[bag] statisticsComplete', async (_, cb) => cb(JSON.stringify(await statisticsComplete())))
+//     client.on('[bag] statisticsComplete', async (_, cb) => cb(JSON.stringify(await statisticsComplete())))
 
-    client.emit('[bag] modalidad', await getModalidad());
-    client.emit('[bag] formacion', await getFormacion());
+//     client.emit('[bag] modalidad', await getModalidad());
+//     client.emit('[bag] formacion', await getFormacion());
 
 
 
-})
+// })
 serve.listen(port, () => {
 
     console.log(`localhost: ${port}`);

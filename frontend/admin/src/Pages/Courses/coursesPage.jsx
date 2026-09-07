@@ -3,11 +3,17 @@ import Layout from '../layout';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import CardCourses from '../../components/Card/CardCourses';
+
 import { SocketContext } from '../../SocketProvider';
+
 import ModalCourses from '../../components/Modals/ModalCourses';
-import { useFormik } from 'formik';
-import { validateCourses } from '../../security/courses/ValidateCourses.mjs';
 import { useCallback } from 'react';
+
+import { useFormik } from 'formik';
+
+import { validateCourses } from '../../security/courses/ValidateCourses.mjs';
+
+
 import ModalEdit from '../../components/Modals/ModalEdit';
 
 const columns = [
@@ -42,7 +48,7 @@ const columns = [
     },
     {
         key: "actions",
-        label: "ACIONES",
+        label: "ACCIONES",
     }
 ];
 
@@ -86,19 +92,17 @@ const CoursesPage = () => {
 
     const { errors, touched, handleSubmit, handleChange, handleBlur, values } = useFormik({
         initialValues,
-        validate: (values) => validateCourses({ values }),
+        // validate: (values) => validateCourses({ values }),
         onSubmit: async (values, { resetForm }) => {
-
             try {
-                socket.emit('[bag] addCourse', values, {})
-                setCursos([...cursos, values])
-                setMessag("Curso creado adecuadamente")
-                setTimeout(() => {
-                    setMessag(null)
-                    return resetForm()
-                }, 3000);
+                socket.emit('[bag] addCourse', values, {});
+                setCursos((prev) => [...prev, values]);
+                setMessag("Curso creado adecuadamente");
+                onModalClose();
+                resetForm();
+                setTimeout(() => setMessag(null), 3000);
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
         }
     })
@@ -142,15 +146,17 @@ const CoursesPage = () => {
                             </span>
                         </Tooltip>
                         <Tooltip color="danger" content="Delete user">
-                            {/* <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
                                 <button onClick={() => deleteUser(user.id)}>Eliminar</button>
-                            </span> */}
+                            </span>
                         </Tooltip>
                     </div>
                 );
 
             default:
-                return cellValue.charAt(0).toUpperCase() + cellValue.slice(1);
+                if (cellValue === null || cellValue === undefined) return null;
+                const stringValue = String(cellValue);
+                return stringValue.charAt(0).toUpperCase() + stringValue.slice(1);
 
         }
     }, []);
@@ -167,65 +173,53 @@ const CoursesPage = () => {
                     <p>{Error}</p>
                 </div>
                 : null}
-            <div className="p-5 flex flex-col gap-6">
-                <div className="bg-white rounded-[5px] shadow-md p-2 w-full gap-2 border-[1px] border-[#C4CEDC] ">
-                    <h1 className='text-[30px] font-semibold mb-5'>Gestion de Cursos</h1>
-                    <CardCourses />
-                    <div className="flex justify-end items-center m-2">
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <Button variant="bordered">Open Menu</Button>
-                            </DropdownTrigger>
-                            <DropdownMenu onAction={(key) => {
-                                if (key === "nuevo") {
-                                    onModalOpen();
-                                }
-                            }}>
-                                <DropdownItem key="nuevo">Nuevo Curso</DropdownItem>
-                                {/* <DropdownItem key="copy">Copy link</DropdownItem>
-                                <DropdownItem key="edit">Edit file</DropdownItem>
-                                <DropdownItem key="delete" className="text-danger" color="danger">
-                                    Delete file
-                                </DropdownItem> */}
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                    <ModalCourses isOpen={isModalOpen} onClose={onModalClose} onOpen={onModalOpen} values={values} handleSubmit={handleSubmit} handleChange={handleChange} handleBlur={handleBlur} errors={errors} touched={touched} />
-                    <Table
-                        shadow="none"
-                        aria-label="Example table with client side pagination"
-                        bottomContent={
-                            pages > 0 ? (
-                                <div className="flex w-full justify-center">
-                                    <Pagination
-                                        isCompact
-                                        showControls
-                                        showShadow
-                                        color="secondary"
-                                        page={page}
-                                        total={pages}
-                                        onChange={(page) => setPage(page)}
-                                    />
-                                </div>
-                            ) : null
-                        }
-                        classNames={{
-                            wrapper: "min-h-[222px]",
-                        }}
+            <div className="bg-white rounded-[5px] shadow-md p-2 w-full h-full gap-2 ">
+                <h1 className='text-[30px] font-semibold mb-5'>Gestión de Cursos</h1>
+                <CardCourses />
+                <div className="flex justify-end items-center m-2">
+                    <button
+                        type="submit"
+                        className="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-2.5 rounded-xl text-sm transition-all shadow-md shadow-blue-500/20"
+                        onClick={onModalOpen}
                     >
-                        <TableHeader columns={columns}>
-                            {(column) => <TableColumn className="text-left bg-[#1F2559] text-white px-3" key={column.key}>{column.label}</TableColumn>}
-                        </TableHeader>
-                        <TableBody items={items}>
-                            {(item) => (
-                                <TableRow key={item}>
-                                    {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-
+                        Nuevo Curso
+                    </button>
                 </div>
+                <ModalCourses isOpen={isModalOpen} onClose={onModalClose} onOpen={onModalOpen} values={values} handleSubmit={handleSubmit} handleChange={handleChange} handleBlur={handleBlur} errors={errors} touched={touched} />
+                <Table
+                    shadow="none"
+                    aria-label="Example table with client side pagination"
+                    bottomContent={
+                        pages > 0 ? (
+                            <div className="flex w-full justify-center">
+                                <Pagination
+                                    isCompact
+                                    showControls
+                                    showShadow
+                                    color="secondary"
+                                    page={page}
+                                    total={pages}
+                                    onChange={(page) => setPage(page)}
+                                />
+                            </div>
+                        ) : null
+                    }
+                    classNames={{
+                        wrapper: "min-h-[222px]",
+                    }}
+                >
+                    <TableHeader columns={columns}>
+                        {(column) => <TableColumn className="text-left bg-[#1F2559] text-white px-3" key={column.key}>{column.label}</TableColumn>}
+                    </TableHeader>
+                    <TableBody items={items}>
+                        {(item) => (
+                            <TableRow key={item.codigodecuso || item.id || index}>
+                                {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+
             </div>
         </Layout >
     );
