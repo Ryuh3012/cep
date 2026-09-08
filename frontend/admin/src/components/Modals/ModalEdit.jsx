@@ -1,61 +1,62 @@
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem } from "@heroui/react";
-import { useState } from "react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem } from "@heroui/react";
+import { useState, useEffect } from "react";
 
-const ModalEdit = ({ item, onClose, isOpen, values, handleSubmit, handleChange, handleBlur, errors, touched }) => {
-    const [modalOpen, setModalOpen] = useState(false);
-    const estatus = ['Activo', 'Proceso', 'Completados'];
+const estatusOptions = ['Activo', 'Proceso', 'Completados'];
+
+const ModalEdit = ({ item, isOpen, onClose, onSave }) => {
+    const [status, setStatus] = useState('Activo');
+
+    useEffect(() => {
+        if (item?.status) {
+            setStatus(item.status);
+        }
+    }, [item]);
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        handleSubmit(e, item);
+        if (onSave && item) {
+            onSave({ ...item, status });
+        }
+        onClose();
     };
 
-
     return (
-        <>
-            <button onClick={() => setModalOpen(true)}>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5} stroke="currentColor"
-                    className="size-6"
-                >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                </svg>
-            </button>
-            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-                <ModalContent>
-                    <form onSubmit={handleFormSubmit}>
-                        <ModalHeader>Status</ModalHeader>
-                        <ModalBody>
-                            <Select
-                                label="Estatus"
-                                name="status"
-                                variant="faded"
-                                // label='seleccione el Estatus'
-                                color="primary"
-                                value={values.status}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            >
-                                {estatus.map((e) => (
-                                    <SelectItem key={e} className="capitalize">
-                                        {e}
-                                    </SelectItem>
-                                ))}
-                            </Select>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button onClick={() => setModalOpen(false)}>Close</Button>
-                            <Button variant="primary" type='submit'>
-                                Actualizar
-                            </Button>
-                        </ModalFooter>
-                    </form>
-                </ModalContent>
-            </Modal>
-        </>
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalContent>
+                <form onSubmit={handleFormSubmit}>
+                    <ModalHeader className="text-lg font-bold">
+                        Editar Estatus del Curso
+                    </ModalHeader>
+                    <ModalBody>
+                        <p className="text-xs text-slate-500 mb-2">
+                            Curso: <span className="font-semibold text-slate-700">{item?.nombrecurso || item?.codigodecuso}</span>
+                        </p>
+                        <Select
+                            label="Estatus"
+                            name="status"
+                            variant="faded"
+                            color="primary"
+                            selectedKeys={[status]}
+                            onChange={(e) => setStatus(e.target.value)}
+                        >
+                            {estatusOptions.map((e) => (
+                                <SelectItem key={e} value={e} className="capitalize">
+                                    {e}
+                                </SelectItem>
+                            ))}
+                        </Select>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button variant="flat" color="default" onClick={onClose}>
+                            Cancelar
+                        </Button>
+                        <Button color="primary" type="submit">
+                            Actualizar
+                        </Button>
+                    </ModalFooter>
+                </form>
+            </ModalContent>
+        </Modal>
     );
 };
 

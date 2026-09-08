@@ -4,45 +4,60 @@ export const createFacilitator = async ({ persona }) => {
     try {
         const query = {
             text: `INSERT INTO facilitadores(personaid)
-	        VALUES ($1)
-                   RETURNING idfacilitador;`,
+                VALUES ($1)
+                RETURNING idfacilitador;`,
             values: [persona]
         };
         const { rows } = await connectdb.query(query);
-        return rows[0]; // Devuelve la persona creada
+        return rows[0]; // Devuelve el facilitador creado
     } catch (error) {
-        console.log(error);
+        console.error('Error al crear facilitador:', error);
+        throw error;
     }
-
 };
 
 export const oneFacilited = async ({ cedula }) => {
-    const query = {
-        text: `SELECT * FROM persons WHERE cedula = $1`,
-        values: [cedula]
-    };
-
-    const { rows } = await connectdb.query(query);
-    return rows[0]; // Devuelve la persona encontrada
-}
+    try {
+        const query = {
+            text: `SELECT * FROM personas WHERE cedula = $1`,
+            values: [cedula]
+        };
+        const { rows } = await connectdb.query(query);
+        return rows[0];
+    } catch (error) {
+        console.error('Error al buscar facilitador:', error);
+        throw error;
+    }
+};
 
 export const getFacilitators = async () => {
-    const query = {
-        text: `select facilitadores.idfacilitador, personas.nombre as nombre, personas.apellido as apellido from facilitadores
-            inner join personas ON personas.idpersona = facilitadores.personaid`
-    };
-
-    const { rows } = await connectdb.query(query);
-    return rows;
-}
+    try {
+        const query = {
+            text: `SELECT facilitadores.idfacilitador, personas.nombre as nombre, personas.apellido as apellido 
+                   FROM facilitadores
+                   INNER JOIN personas ON personas.idpersona = facilitadores.personaid`
+        };
+        const { rows } = await connectdb.query(query);
+        return rows;
+    } catch (error) {
+        console.error('Error al obtener facilitadores:', error);
+        return [];
+    }
+};
 
 export const getFacilitatorsAndCourses = async () => {
-    const query = {
-        text: `select facilitadores.idfacilitador, personas.nombre as nombre,personas.apellido as apellido, CONCAT(cursos.codigodecuso,' ',cursos.nombrecurso ) as cursos from facilitadores
-            inner join personas ON personas.idpersona = facilitadores.personaid
-            inner join cursos ON cursos.facilitadorid = facilitadores.idfacilitador`
-    };
-
-    const { rows } = await connectdb.query(query);
-    return rows;
-}
+    try {
+        const query = {
+            text: `SELECT facilitadores.idfacilitador, personas.nombre as nombre, personas.apellido as apellido, 
+                   COALESCE(CONCAT(cursos.codigodecuso,' ',cursos.nombrecurso ), 'Sin curso asignado') as cursos 
+                   FROM facilitadores
+                   INNER JOIN personas ON personas.idpersona = facilitadores.personaid
+                   LEFT JOIN cursos ON cursos.facilitadorid = facilitadores.idfacilitador`
+        };
+        const { rows } = await connectdb.query(query);
+        return rows;
+    } catch (error) {
+        console.error('Error al obtener facilitadores y cursos:', error);
+        return [];
+    }
+};

@@ -16,14 +16,35 @@ export const auth = async ({ cedula, password, personas, rol }) => {
 }
 
 export const findOneByAuth = async (cedula) => {
+    try {
+        const cleanCedula = String(cedula).trim();
+        const query = {
+            text: `SELECT 
+                    usuarios.idusuario,
+                    usuarios.password,
+                    usuarios.roleid,
+                    personas.idpersona,
+                    personas.cedula,
+                    personas.nombre,
+                    personas.apellido,
+                    personas.email,
+                    CASE 
+                        WHEN usuarios.roleid = 1 THEN 'Administrador'
+                        WHEN usuarios.roleid = 2 THEN 'Cajero / Operador'
+                        ELSE 'Operador'
+                    END AS rol_nombre
+                   FROM usuarios 
+                   INNER JOIN personas ON usuarios.personaid = personas.idpersona
+                   WHERE personas.cedula = $1;`,
+            values: [cleanCedula]
+        };
 
-    const query = {
-        text: `select personas.cedula as cedula, personas.nombre as nombre,usuarios.roleid from usuarios 
-        inner join personas on usuarios.personaid = personas.idpersona
-        where cedula = $1`,
-        values: [cedula]
+        const { rows } = await connectdb.query(query);
+        if (rows && rows.length > 0) return rows[0];
+
+        return null;
+    } catch (error) {
+        console.error("Error en findOneByAuth:", error);
+        return null;
     }
-
-    const { rows } = await connectdb.query(query)
-    return rows[0];
-}
+};

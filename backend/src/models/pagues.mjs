@@ -51,11 +51,15 @@ export const newPayments = async ({
 // }
 
 export const updatePayments = async ({ person, montoTotal }) => {
-
-    const query = {
-        text: `UPDATE pagos  SET monto = $1 WHERE  personaid= $2 RETURNING idpage`,
-        values: [montoTotal, person]
+    try {
+        const query = {
+            text: `UPDATE pagos SET monto = $1 WHERE personaid = $2 RETURNING idpago;`,
+            values: [montoTotal, person]
+        };
+        const { rows } = await connectdb.query(query);
+        return rows[0];
+    } catch (error) {
+        console.error("Error al actualizar pago:", error);
+        throw error;
     }
-    const { rows } = await connectdb.query(query);
-    return rows[0];
-}
+};
