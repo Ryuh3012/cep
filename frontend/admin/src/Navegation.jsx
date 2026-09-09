@@ -32,41 +32,41 @@ const Navegation = () => {
                     <Route
                         path='/home'
                         element={
-                            <ProtectedRoute allowedRoles={[1, 2]}>
+                            // <ProtectedRoute allowedRoles={[1, 2]}>
                                 <Index />
-                            </ProtectedRoute>
+                            // </ProtectedRoute>
                         }
                     />
                     <Route
                         path='/cursos'
                         element={
-                            <ProtectedRoute allowedRoles={[1, 2]}>
+                            // <ProtectedRoute allowedRoles={[1, 2]}>
                                 <CoursesPage />
-                            </ProtectedRoute>
+                            // </ProtectedRoute>
                         }
                     />
                     <Route
                         path='/inscripcion'
                         element={
-                            <ProtectedRoute allowedRoles={[2]}>
+                            // <ProtectedRoute allowedRoles={[2]}>
                                 <AsistenciaPage />
-                            </ProtectedRoute>
+                            // </ProtectedRoute>
                         }
                     />
                     <Route
                         path='/facilitador'
                         element={
-                            <ProtectedRoute allowedRoles={[1, 2]}>
+                            // <ProtectedRoute allowedRoles={[1, 2]}>
                                 <FacilitadorePage />
-                            </ProtectedRoute>
+                            // </ProtectedRoute>
                         }
                     />
                     <Route
                         path='/caja'
                         element={
-                            <ProtectedRoute allowedRoles={[2]}>
+                            // <ProtectedRoute allowedRoles={[2]}>
                                 <CajaPage />
-                            </ProtectedRoute>
+                            // </ProtectedRoute>
                         }
                     />
 

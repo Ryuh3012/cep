@@ -17,7 +17,6 @@ export const auth = async ({ cedula, password, personas, rol }) => {
 
 export const findOneByAuth = async (cedula) => {
     try {
-        const cleanCedula = String(cedula).trim();
         const query = {
             text: `SELECT 
                     usuarios.idusuario,
@@ -28,21 +27,16 @@ export const findOneByAuth = async (cedula) => {
                     personas.nombre,
                     personas.apellido,
                     personas.email,
-                    CASE 
-                        WHEN usuarios.roleid = 1 THEN 'Administrador'
-                        WHEN usuarios.roleid = 2 THEN 'Cajero / Operador'
-                        ELSE 'Operador'
-                    END AS rol_nombre
+                    COALESCE(roles.rol, 'Operador') AS rol_nombre
                    FROM usuarios 
                    INNER JOIN personas ON usuarios.personaid = personas.idpersona
+                   LEFT JOIN roles ON usuarios.roleid = roles.idrole
                    WHERE personas.cedula = $1;`,
-            values: [cleanCedula]
+            values: [String(cedula).trim()]
         };
 
         const { rows } = await connectdb.query(query);
-        if (rows && rows.length > 0) return rows[0];
-
-        return null;
+        return rows[0] || null;
     } catch (error) {
         console.error("Error en findOneByAuth:", error);
         return null;

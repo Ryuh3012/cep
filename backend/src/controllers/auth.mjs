@@ -4,29 +4,17 @@ import { auth, findOneByAuth } from "../models/auth.mjs";
 import { createPerson, findOneByPerson } from "../models/people.mjs";
 
 /**
- * Valida la contraseña comparando directamente (texto plano) o con bcryptjs
+ * Valida la contraseña comparando con bcryptjs o igualdad directa (transición segura)
  */
 const comparePassword = async (inputPassword, storedPassword) => {
-    if (!storedPassword) return true; // Si en BD no hay clave fijada
-    if (!inputPassword) return false;
-
-    const inputClean = String(inputPassword).trim();
-    const storedClean = String(storedPassword).trim();
-
-    // 1. Comparación directa en texto plano (como estaba antes en la BD)
-    if (inputClean === storedClean) {
-        return true;
-    }
-
-    // 2. Comparación mediante hash bcryptjs
+    if (!inputPassword || !storedPassword) return false;
     try {
-        const isMatch = await encryptionComparison(inputClean, storedClean);
+        const isMatch = await encryptionComparison(inputPassword, storedPassword);
         if (isMatch) return true;
     } catch {
-        // En caso de que storedPassword no sea un hash bcrypt válido
+        // En caso de que storedPassword no sea un hash de bcrypt válido
     }
-
-    return false;
+    return inputPassword === storedPassword;
 };
 
 /**

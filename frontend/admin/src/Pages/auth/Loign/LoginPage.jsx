@@ -5,6 +5,7 @@ import { User, Lock, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import CryptoJS from "crypto-js";
 import Cookies from 'universal-cookie';
 import { loginValidate } from "../../../security/Login/ValidateLogin.mjs";
+import { getAuthenticatedUser } from "../../../components/Auth/ProtectedRoute";
 import { SocketContext } from "../../../SocketProvider";
 import LoginLayout from "../LoginLayout";
 import img from "../../../assets/img.jpg";
@@ -32,8 +33,12 @@ const LoginPage = () => {
         }
     };
 
-    // Escuchar respuesta por WebSocket como canal de respaldo
+    // Escuchar respuesta por WebSocket como canal de respaldo y validar sesión activa
     useEffect(() => {
+        const existingUser = getAuthenticatedUser();
+        if (existingUser) {
+            navigate('/home', { replace: true });
+        }
         if (!socket) return;
 
         const handleSocketAuth = (data) => {
@@ -110,17 +115,16 @@ const LoginPage = () => {
     return (
         <LoginLayout>
             <section className="flex justify-center items-center w-full h-full p-4 sm:p-8">
-                {/* Contenedor Principal amplio con tamaño restaurado (h-3/4 a h-[82vh]) */}
                 <div className="flex h-full max-h-[720px] min-h-[560px] bg-white rounded-3xl shadow-2xl w-full sm:w-11/12 md:w-5/6 lg:w-3/4 relative overflow-hidden">
 
-                    {/* Marca de agua decorativa */}
+                    {/* Marca de agua decorativa con logo CEP */}
                     <img
                         src={cepLogo}
                         alt="CEP Logo"
-                         className="absolute opacity-10 top-0 left-1/2 -translate-x-40  object-cover"
+                        className="absolute opacity-10 top-0 left-1/2 -translate-x-40  object-cover"
                     />
 
-                    {/* Columna Izquierda: Formulario (Espacioso y con scroll interno si la pantalla es reducida) */}
+                    {/* Columna Izquierda: Formulario */}
                     <div className="w-full md:w-1/2 p-8 sm:p-12 relative z-10 flex flex-col justify-between overflow-y-auto">
                         <div>
                             {/* Cabecera institucional */}
@@ -135,7 +139,7 @@ const LoginPage = () => {
 
                             {/* Alerta de Éxito */}
                             {successMessage && (
-                                <div className="mt-5 p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs sm:text-sm font-semibold flex items-center gap-2.5">
+                                <div className="mt-5 p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs sm:text-sm font-semibold flex items-center gap-2.5 animate-fade-in">
                                     <CheckCircle2 size={18} className="text-emerald-600 shrink-0" />
                                     <span>{successMessage}</span>
                                 </div>
@@ -143,7 +147,7 @@ const LoginPage = () => {
 
                             {/* Alerta de Error */}
                             {errorMessage && (
-                                <div className="mt-5 p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-600 text-xs sm:text-sm font-semibold flex items-center gap-2.5">
+                                <div className="mt-5 p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-600 text-xs sm:text-sm font-semibold flex items-center gap-2.5 animate-fade-in">
                                     <AlertCircle size={18} className="text-red-600 shrink-0" />
                                     <span>{errorMessage}</span>
                                 </div>
@@ -173,8 +177,8 @@ const LoginPage = () => {
                                                 disabled={isLoading}
                                                 autoComplete="username"
                                                 className={`w-full rounded-2xl border py-3.5 pl-12 pr-4 text-sm font-medium text-slate-800 placeholder-slate-400 transition-all focus:bg-white focus:outline-none ${errors?.cedula
-                                                    ? 'border-red-400 bg-red-50/30 focus:ring-2 focus:ring-red-400/20'
-                                                    : 'border-slate-200 bg-slate-50/60 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20'
+                                                        ? 'border-red-400 bg-red-50/30 focus:ring-2 focus:ring-red-400/20'
+                                                        : 'border-slate-200 bg-slate-50/60 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20'
                                                     }`}
                                             />
                                         </div>
@@ -201,8 +205,8 @@ const LoginPage = () => {
                                                 disabled={isLoading}
                                                 autoComplete="current-password"
                                                 className={`w-full rounded-2xl border py-3.5 pl-12 pr-4 text-sm font-medium text-slate-800 placeholder-slate-400 transition-all focus:bg-white focus:outline-none ${errors?.password
-                                                    ? 'border-red-400 bg-red-50/30 focus:ring-2 focus:ring-red-400/20'
-                                                    : 'border-slate-200 bg-slate-50/60 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20'
+                                                        ? 'border-red-400 bg-red-50/30 focus:ring-2 focus:ring-red-400/20'
+                                                        : 'border-slate-200 bg-slate-50/60 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20'
                                                     }`}
                                             />
                                         </div>
@@ -219,8 +223,8 @@ const LoginPage = () => {
                                             type="submit"
                                             disabled={isLoading}
                                             className={`w-full font-bold px-6 py-3.5 rounded-2xl text-sm transition-all flex items-center justify-center gap-2 shadow-md ${isLoading
-                                                ? 'bg-blue-300 text-white cursor-not-allowed'
-                                                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/25 hover:shadow-lg active:scale-98'
+                                                    ? 'bg-blue-300 text-white cursor-not-allowed'
+                                                    : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/25 hover:shadow-lg active:scale-95'
                                                 }`}
                                         >
                                             {isLoading ? (
@@ -243,7 +247,7 @@ const LoginPage = () => {
                         </div>
                     </div>
 
-                    {/* Columna Derecha: Imagen decorativa amplia a pantalla completa */}
+                    {/* Columna Derecha: Imagen decorativa */}
                     <div className="hidden md:block md:w-1/2 relative bg-slate-100">
                         <img
                             src={img}
