@@ -4,126 +4,138 @@ import { StepperContext } from "../../../contexts/StepperContext";
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { SocketContext } from "../../../SocketProvider";
 
-
-
-
 const Peoples = () => {
-
-    const { socket } = useContext(SocketContext)
+    const { socket } = useContext(SocketContext);
     const [typeStuden, setTypeStuden] = useState([]);
 
-    const { handleBlur, handleSubmit, handleChange, values: { cedula, nombre, apellido, telefono, email, tipoDeParticipante } } = useContext(StepperContext)
+    const {
+        handleBlur,
+        handleChange,
+        values: { cedula, nombre, apellido, telefono, email, tipoDeParticipante }
+    } = useContext(StepperContext);
 
-    useEffect(() => {
-        socket.emit('[bag] StudenType', () => { }, (listAllcourses) => setTypeStuden(JSON.parse(listAllcourses)))
+    const inputStyle =
+        "w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none transition-all";
+    
+    
+        useEffect(() => {
+        if (!socket) return;
+
+        const handleTypes = (listAllTypes) => {
+            try {
+                const parsed = typeof listAllTypes === 'string' ? JSON.parse(listAllTypes) : listAllTypes;
+                setTypeStuden(Array.isArray(parsed) ? parsed : []);
+            } catch (err) {
+                console.error("Error al cargar tipos de participante:", err);
+                setTypeStuden([]);
+            }
+        };
+
+        socket.emit('[bag] StudenType', () => { }, handleTypes);
+
         return () => {
-            socket.off('[bag] StudenType')
-        }
-    }, [socket])
-    console.log(typeStuden)
+            socket.off('[bag] StudenType');
+        };
+    }, [socket]);
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="flex flex-col justify-center items-center py-1 gap-y-2 ms:flex-col">
-                <div className="flex flex-col w-full">
-
-                    <Input
-                        type="number"
-                        name="cedula"
-                        label="Cedula"
-                        value={cedula}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required={true}
-                        variant="faded"
-                        color="secondary"
-                        placeholder="Introduce La Cedula"
-                    />
-                </div>
-                <div className="lg:flex w-full gap-3">
-                    <div className='flex flex-col w-full gap-2'>
-                        <Input
-                            name="nombre"
-                            label="Nombre"
-                            value={nombre}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            required={true}
-                            variant="faded"
-                            color="secondary"
-                            placeholder="Introduce El Nombre"
-                        />
-
-                    </div>
-                    <div className='flex flex-col w-full gap-2 sm:py-1'>
-                        <Input
-                            type="text"
-                            label="Apellido"
-                            name="apellido"
-                            value={apellido}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            required={true}
-                            variant="faded"
-                            color="secondary"
-                            placeholder="Introduce El Apellido"
-                        />
-                    </div>
-
-                </div>
-                <div className="lg:flex  w-full gap-3">
-                    <div className='flex flex-col w-full lg:gap-2 '>
-                        <Input
-                            type="email"
-                            name="email"
-                            label="Correo"
-                            value={email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            required={true}
-                            variant="faded"
-                            color="secondary"
-                            placeholder="Introduce El Nombre"
-                        />
-
-                    </div>
-                    <div className='flex flex-col w-full gap-2 sm:py-1'>
-                        <Input
-                            type="text"
-                            label="Telefono"
-                            name="telefono"
-                            value={telefono}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            required={true}
-                            variant="faded"
-                            color="secondary"
-                            placeholder="Introduce El Apellido"
-                        />
-                    </div>
-
-                </div>
-                <div className="lg:flex w-full gap-3">
-                    <Select
-                        name="tipoDeParticipante"
-                        label="Tipo De Participante"
-                        value={tipoDeParticipante}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required={true}
-                        variant="faded"
-                        color="secondary"
-                        placeholder="Participante"
-                    >
-                        {typeStuden.map(({ idtiposdeparticipante: id, participante }) => <SelectItem key={id}>{participante}</SelectItem>)}
-
-                    </Select>
-                </div>
-
+        <div className="flex flex-col w-full gap-4">
+            <div className="text-center sm:text-left mb-2">
+                <h3 className="text-base font-bold text-slate-800">1. Datos Personales</h3>
+                <p className="text-xs text-slate-500">Ingresa la información básica de la persona a inscribir.</p>
             </div>
-        </form>
 
+            <div className="w-full">
+                <input
+                    type="number"
+                    name="cedula"
+                    label="Cédula de Identidad"
+                    value={cedula}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isRequired
+                    variant="bordered"
+                    placeholder="Ej: 24123456"
+                    className={inputStyle}
+                />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input
+                    name="nombre"
+                    label="Nombres"
+                    value={nombre}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isRequired
+                    variant="bordered"
+                    placeholder="Ej: María Elena"
+                    className={inputStyle}
+                />
+                <input
+                    name="apellido"
+                    label="Apellidos"
+                    value={apellido}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isRequired
+                    variant="bordered"
+                    placeholder="Ej: Pérez Rodríguez"
+                    className={inputStyle}
+                />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input
+                    type="email"
+                    name="email"
+                    label="Correo Electrónico"
+                    value={email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isRequired
+                    variant="bordered"
+                    placeholder="ejemplo@correo.com"
+                    className={inputStyle}
+                />
+                <input
+                    type="tel"
+                    name="telefono"
+                    label="Teléfono Móvil"
+                    value={telefono}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isRequired
+                    variant="bordered"
+                    placeholder="Ej: 0412-1234567"
+                    className={inputStyle}
+                />
+            </div>
+
+            <div className="w-full">
+                <select
+                    name="tipoDeParticipante"
+                    selectedKeys={tipoDeParticipante ? [tipoDeParticipante] : []}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isRequired
+                    variant="bordered"
+                    placeholder="Seleccione su condición (Estudiante IUJO, Egresado, etc.)"
+                    className={inputStyle}
+                >
+                    {typeStuden.map((item) => {
+                        const idKey = String(item.idtiposdeparticipante || item.id || item.participante);
+                        return (
+                            <option  key={idKey} value={idKey}>
+                                {item.tiposdeparticipante || item.nombre || item.participante}
+                            </option>
+                        );
+                    })}
+                </select>
+            </div>
+        </div>
     );
-}
+};
 
 export default Peoples;
+

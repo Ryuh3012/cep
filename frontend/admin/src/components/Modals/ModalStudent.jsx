@@ -6,11 +6,20 @@ const initialValues = {
     apellido: "",
     email: "",
     telefono: "",
-    participante: "Estudiante IUJO",
+    participante: "1",
     nombrecurso: "",
-    saldo_pendiente: "Pendiente"
+    saldo_pendiente: "Pendiente",
+    // Campos de pago
+    tipoDePago: "Pago Móvil",
+    montoTotal: "",
+    referencia: "",
+    banco: "",
+    fechaDelPag: "",
+    titularDeLaCedula: "",
+    nombreDelTitulante: ""
 };
 
+// eslint-disable-next-line react/prop-types
 const ModalStudent = ({ isOpen, onClose, onSave, coursesList = [] }) => {
     const [formData, setFormData] = useState(initialValues);
     const [errors, setErrors] = useState({});
@@ -62,6 +71,9 @@ const ModalStudent = ({ isOpen, onClose, onSave, coursesList = [] }) => {
         onClose();
     };
 
+    // Determina si se deben mostrar los datos bancarios
+    const requiereDatosBancarios = !["2", "3", '5', '6'].includes(formData.tipoDePago);
+
     const inputStyle =
         "w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white outline-none transition-all";
     const labelStyle = "block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300";
@@ -75,7 +87,7 @@ const ModalStudent = ({ isOpen, onClose, onSave, coursesList = [] }) => {
             />
 
             {/* Contenedor del Modal */}
-            <div className="relative z-10 w-full max-w-xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="relative z-10 w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-700">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -95,6 +107,11 @@ const ModalStudent = ({ isOpen, onClose, onSave, coursesList = [] }) => {
                 {/* Formulario */}
                 <div className="p-4 md:p-5 overflow-y-auto space-y-4 flex-1">
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        {/* Datos del Estudiante */}
+                        <h4 className="text-md font-semibold text-gray-800 dark:text-gray-200 border-b pb-1 dark:border-gray-700">
+                            Información Personal y Curso
+                        </h4>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className={labelStyle}>Cédula</label>
@@ -107,7 +124,7 @@ const ModalStudent = ({ isOpen, onClose, onSave, coursesList = [] }) => {
                                     placeholder="Ej. V-25123456"
                                 />
                                 {errors.cedula && (
-                                    <p className="text-red-500 text-xs pl-1 mt-1 font-medium">⚠️ {errors.cedula}</p>
+                                    <p className="text-red-500 text-xs pl-1 mt-1 font-medium">⚠️️ {errors.cedula}</p>
                                 )}
                             </div>
                             <div>
@@ -118,9 +135,9 @@ const ModalStudent = ({ isOpen, onClose, onSave, coursesList = [] }) => {
                                     value={formData.participante}
                                     onChange={handleChange}
                                 >
-                                    <option value="Estudiante IUJO">Estudiante IUJO</option>
-                                    <option value="Personal IUJO">Personal IUJO</option>
-                                    <option value="Participante Externo">Participante Externo</option>
+                                    <option value="1">Estudiante IUJO</option>
+                                    <option value="3">Personal IUJO</option>
+                                    <option value="2">Participante Externo</option>
                                 </select>
                             </div>
                         </div>
@@ -191,9 +208,9 @@ const ModalStudent = ({ isOpen, onClose, onSave, coursesList = [] }) => {
                                     onChange={handleChange}
                                 >
                                     <option value="">Selecciona un curso</option>
-                                    {coursesList.map((c, i) => (
-                                        <option key={c.id || c.codigodecuso || i} value={c.nombrecurso || c.cursos}>
-                                            {c.nombrecurso || c.cursos}
+                                    {coursesList.map((c) => (
+                                        <option key={c.idcurso} value={c.idcurso}>
+                                            {c.nombrecurso}
                                         </option>
                                     ))}
                                 </select>
@@ -214,6 +231,107 @@ const ModalStudent = ({ isOpen, onClose, onSave, coursesList = [] }) => {
                                 </select>
                             </div>
                         </div>
+
+                        {/* Sección Datos de Pago */}
+                        <h4 className="text-md font-semibold text-gray-800 dark:text-gray-200 border-b pb-1 pt-2 dark:border-gray-700">
+                            Detalles del Pago
+                        </h4>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label className={labelStyle}>Tipo de Pago</label>
+                                <select
+                                    name="tipoDePago"
+                                    className={inputStyle}
+                                    value={formData.tipoDePago}
+                                    onChange={handleChange}
+                                >
+                                    <option value="1">Transferencia</option>
+                                    <option value="2">Divisas</option>
+                                    <option value="3">Efectivo</option>
+                                    <option value="4">Punto de Venta</option>
+                                    <option value="5">Financiamiento</option>
+                                    <option value="6">Cancelar el dia de Inicio del Curso</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className={labelStyle}>Monto Total</label>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    name="montoTotal"
+                                    className={inputStyle}
+                                    value={formData.montoTotal}
+                                    onChange={handleChange}
+                                    placeholder="0.00"
+                                />
+                            </div>
+                            <div>
+                                <label className={labelStyle}>Fecha del Pago</label>
+                                <input
+                                    type="date"
+                                    name="fechaDelPag"
+                                    className={inputStyle}
+                                    value={formData.fechaDelPag}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Campos condicionales para pagos bancarios */}
+                        {requiereDatosBancarios && (
+                            <div className="flex flex-col gap-4 pt-1 animate-fadeIn">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className={labelStyle}>Referencia</label>
+                                        <input
+                                            type="text"
+                                            name="referencia"
+                                            className={inputStyle}
+                                            value={formData.referencia}
+                                            onChange={handleChange}
+                                            placeholder="Nro. de referencia"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className={labelStyle}>Banco de Origen</label>
+                                        <input
+                                            type="text"
+                                            name="banco"
+                                            className={inputStyle}
+                                            value={formData.banco}
+                                            onChange={handleChange}
+                                            placeholder="Ej. Banesco, Mercantil..."
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className={labelStyle}>Cédula del Titular</label>
+                                        <input
+                                            type="text"
+                                            name="titularDeLaCedula"
+                                            className={inputStyle}
+                                            value={formData.titularDeLaCedula}
+                                            onChange={handleChange}
+                                            placeholder="V-00000000"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className={labelStyle}>Nombre del Titular</label>
+                                        <input
+                                            type="text"
+                                            name="nombreDelTitulante"
+                                            className={inputStyle}
+                                            value={formData.nombreDelTitulante}
+                                            onChange={handleChange}
+                                            placeholder="Titular de la cuenta"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Footer Buttons */}
                         <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -239,4 +357,3 @@ const ModalStudent = ({ isOpen, onClose, onSave, coursesList = [] }) => {
 };
 
 export default ModalStudent;
-

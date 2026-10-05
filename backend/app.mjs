@@ -17,6 +17,7 @@ import { newStuden } from "./src/controllers/studen.mjs";
 import { dataParticipants } from "./src/models/typeParticipants.mjs";
 import { getStudent } from "./src/models/Studen.mjs";
 import { getDashboardData, getAllStatistics, statisticsComplete, statisticsCoursesActives, statisticsCoursesProceso } from "./src/models/statistics.mjs";
+import { Createparticipats } from "./src/libs/createParticipans.mjs";
 
 const app = express();
 const serve = createServer(app);
@@ -30,7 +31,6 @@ export const io = new Server(serve, {
 
 app.use(cors({
     origin: (origin, callback) => {
-        // Permite conexiones sin origen (Postman/Apps) o desde los frontends autorizados
         callback(null, true);
     },
     credentials: true
@@ -39,10 +39,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParserMiddleware);
 
-// Enrutador modular de Autenticación con Cookies HttpOnly, JWT y Roles
 app.use('/auth', routerAuth);
-app.use('/api/auth', routerAuth); // compatibilidad para peticiones /api/auth
-
+app.use('/api/auth', routerAuth);
 
 // Caché en memoria para tablas de catálogo estáticas
 let cachedModalidades = null;
@@ -61,15 +59,39 @@ getCachedCatalogs();
 io.on("connection", async (client) => {
     console.log(`[Socket] Cliente conectado: ${client.id}`);
 
-    // Enviar catálogos usando caché (evita saturar PostgreSQL en cada conexión)
+    // Envío inicial opcional al conectar
     try {
         if (!cachedModalidades) cachedModalidades = await getModalidad();
         if (!cachedFormaciones) cachedFormaciones = await getFormacion();
         client.emit('[bag] modalidad', cachedModalidades);
         client.emit('[bag] formacion', cachedFormaciones);
     } catch (e) {
-        console.error("Error enviando modalidad/formacion:", e);
+        console.error("Error enviando modalidad/formacion inicial:", e);
     }
+
+    // Petición bajo demanda: Modalidades
+    client.on('[bag] modalidad', async (_, cb) => {
+        try {
+            if (!cachedModalidades) cachedModalidades = await getModalidad();
+            client.emit('[bag] modalidad', cachedModalidades);
+            if (cb) cb(cachedModalidades);
+        } catch (error) {
+            console.error('Error en [bag] modalidad:', error);
+            if (cb) cb([]);
+        }
+    });
+
+    // Petición bajo demanda: Formaciones
+    client.on('[bag] formacion', async (_, cb) => {
+        try {
+            if (!cachedFormaciones) cachedFormaciones = await getFormacion();
+            client.emit('[bag] formacion', cachedFormaciones);
+            if (cb) cb(cachedFormaciones);
+        } catch (error) {
+            console.error('Error en [bag] formacion:', error);
+            if (cb) cb([]);
+        }
+    });
 
     // 1. Autenticación / Login
     client.on('[bag] sesion', async (req) => {
@@ -116,7 +138,6 @@ io.on("connection", async (client) => {
 
             const newFacilitator = await createFacilitator({ persona: person.idpersona });
 
-            // Si se seleccionó un curso a dirigir, actualizar en la tabla cursos
             if (idcurso && newFacilitator?.idfacilitador) {
                 await connectdb.query({
                     text: `UPDATE cursos SET facilitadorid = $1 WHERE idcurso = $2 OR codigodecuso = $3`,
@@ -141,7 +162,7 @@ io.on("connection", async (client) => {
         }
     });
 
-    // 5. Consultas de Datos con Acknowledgements protegidos con try/catch
+    // 5. Consultas de Datos
     client.on('[bag] courses', async (_, cb) => {
         try {
             const courses = await dataCourses();
@@ -155,10 +176,11 @@ io.on("connection", async (client) => {
     client.on('[bag] facilitador', async (_, cb) => {
         try {
             const facilitators = await getFacilitatorsAndCourses();
-            if (cb) cb(JSON.stringify(facilitators));
+            client.emit('[bag] facilitador', facilitators);
+            if (cb) cb(facilitators);
         } catch (error) {
             console.error('Error en [bag] facilitador:', error);
-            if (cb) cb(JSON.stringify([]));
+            if (cb) cb([]);
         }
     });
 
@@ -182,7 +204,7 @@ io.on("connection", async (client) => {
         }
     });
 
-    // 6. Dashboard — todos los KPIs del home en un solo evento (4 queries en paralelo)
+    // 6. Dashboard
     client.on('[bag] dashboard', async (_, cb) => {
         try {
             const data = await getDashboardData();
@@ -197,7 +219,7 @@ io.on("connection", async (client) => {
         }
     });
 
-    // 7. Estadísticas consolidadas (1 sola query SQL y 1 sola petición de socket)
+    // 7. Estadísticas
     client.on('[bag] statistics', async (_, cb) => {
         try {
             const stats = await getAllStatistics();
@@ -208,7 +230,6 @@ io.on("connection", async (client) => {
         }
     });
 
-    // Compatibilidad con eventos individuales
     client.on('[bag] statisticsCourses', async (_, cb) => {
         try {
             const stats = await statisticsCoursesActives();

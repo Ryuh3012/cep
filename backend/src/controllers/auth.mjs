@@ -1,21 +1,7 @@
-import { encryption, encryptionComparison } from "../hooks/crypter.mjs";
+import { encryptionComparison } from "../hooks/crypter.mjs";
 import { generateToken, COOKIE_OPTIONS } from "../services/tokenService.mjs";
 import { auth, findOneByAuth } from "../models/auth.mjs";
 import { createPerson, findOneByPerson } from "../models/people.mjs";
-
-/**
- * Valida la contraseña comparando con bcryptjs o igualdad directa (transición segura)
- */
-const comparePassword = async (inputPassword, storedPassword) => {
-    if (!inputPassword || !storedPassword) return false;
-    try {
-        const isMatch = await encryptionComparison(inputPassword, storedPassword);
-        if (isMatch) return true;
-    } catch {
-        // En caso de que storedPassword no sea un hash de bcrypt válido
-    }
-    return inputPassword === storedPassword;
-};
 
 /**
  * Endpoint HTTP: POST /api/auth/login
@@ -34,7 +20,7 @@ export const loginHttp = async (req, res) => {
             return res.status(401).json({ message: 'Usuario o clave inválidos.' });
         }
 
-        const isValid = await comparePassword(password, user.password);
+        const isValid = await encryptionComparison(password, user.password);
         if (!isValid) {
             return res.status(401).json({ message: 'Usuario o clave inválidos.' });
         }
@@ -48,7 +34,7 @@ export const loginHttp = async (req, res) => {
         });
 
         // 🍪 Fijar Cookie HTTP-Only Segura
-        res.cookie('token', token, COOKIE_OPTIONS);
+        res.cookie('token', token);
 
         const safeUser = {
             idUsuario: user.idusuario,
@@ -115,7 +101,7 @@ export const singIn = async ({ cedula, password }) => {
         const user = await findOneByAuth(cedula);
         if (!user) return null;
 
-        const isValid = await comparePassword(password, user.password);
+        const isValid = await encryptionComparison(password, user.password);
         if (!isValid) return null;
 
         const token = generateToken({

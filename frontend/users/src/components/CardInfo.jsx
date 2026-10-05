@@ -7,7 +7,7 @@ const CardInfo = ({ img, title }) => {
 
     const [state, setstate] = useState([title]);
     return (
-   
+
 
 
         <div>

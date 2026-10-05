@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import Layout from '../layout';
 import { SocketContext } from '../../SocketProvider';
-import { Chip, useDisclosure } from '@heroui/react';
+import { useDisclosure } from '@heroui/react';
 import CardCourses from '../../components/Card/CardCourses';
 import CustomTable from '../../components/Table/CustomTable';
 import ModalStudent from '../../components/Modals/ModalStudent';
@@ -22,6 +22,10 @@ const columns = [
     },
     {
         key: "saldo_pendiente",
+        label: "ESTATUS DE PAGO",
+    },
+    {
+        key: "monto",
         label: "ESTATUS DE PAGO",
     },
 ];
@@ -53,6 +57,7 @@ const AsistenciaPage = () => {
         socket.emit('[bag] courses', () => { }, (coursesData) => {
             if (coursesData) {
                 try {
+
                     const parsed = typeof coursesData === 'string' ? JSON.parse(coursesData) : coursesData;
                     setCoursesList(parsed);
                 } catch (e) {
@@ -74,36 +79,39 @@ const AsistenciaPage = () => {
     const renderCell = useCallback((user, columnKey) => {
         switch (columnKey) {
             case "estudiante":
-                const initialA = user.nombre?.charAt(0) || 'E';
-                const initialB = user.apellido?.charAt(0) || '';
-                const fullName = `${user.nombre || ''} ${user.apellido || ''}`.trim() || 'Estudiante';
-                return (
-                    <div className="flex items-center gap-3.5 py-1">
-                        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 text-white font-bold text-sm flex items-center justify-center shadow-xs shrink-0">
-                            {initialA}{initialB}
+                {
+                    const initialA = user.nombre?.charAt(0) || 'E';
+                    const initialB = user.apellido?.charAt(0) || '';
+                    const fullName = `${user.nombre || ''} ${user.apellido || ''}`.trim() || 'Estudiante';
+                    return (
+                        <div className="flex items-center gap-3.5 py-1">
+                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 text-white font-bold text-sm flex items-center justify-center shadow-xs shrink-0">
+                                {initialA}{initialB}
+                            </div>
+                            <div className="flex flex-col gap-0.5">
+                                <span className="font-bold text-slate-800 text-sm capitalize">
+                                    {fullName}
+                                </span>
+                                <span className="text-[11px] font-mono text-slate-400 font-medium">
+                                    {user.cedula || 'Sin cédula'}
+                                </span>
+                            </div>
                         </div>
-                        <div className="flex flex-col gap-0.5">
-                            <span className="font-bold text-slate-800 text-sm capitalize">
-                                {fullName}
-                            </span>
-                            <span className="text-[11px] font-mono text-slate-400 font-medium">
-                                {user.cedula || 'Sin cédula'}
-                            </span>
-                        </div>
-                    </div>
-                );
+                    );
+                }
             case "participante":
-                const typeStr = String(user.participante || 'Estudiante');
-                const isIUJO = typeStr.toLowerCase().includes('iujo');
-                return (
-                    <span className={`text-xs px-2.5 py-1 rounded-lg font-semibold border ${
-                        isIUJO
+                {
+                    const typeStr = String(user.participante || 'Estudiante');
+                    const isIUJO = typeStr.toLowerCase().includes('iujo');
+                    return (
+                        <span className={`text-xs px-2.5 py-1 rounded-lg font-semibold border ${isIUJO
                             ? 'bg-blue-50 text-blue-700 border-blue-200'
                             : 'bg-purple-50 text-purple-700 border-purple-200'
-                    }`}>
-                        {typeStr}
-                    </span>
-                );
+                            }`}>
+                            {typeStr}
+                        </span>
+                    );
+                }
             case "nombrecurso":
                 return (
                     <div className="flex items-center gap-2">
@@ -114,23 +122,25 @@ const AsistenciaPage = () => {
                     </div>
                 );
             case "saldo_pendiente":
-                const isComplete = String(user.saldo_pendiente).toLowerCase() === 'completo';
-                return (
-                    <div className="flex items-center">
-                        <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-xl border ${
-                            isComplete
+                {
+                    const isComplete = String(user.saldo_pendiente).toLowerCase() === 'completo';
+                    return (
+                        <div className="flex items-center">
+                            <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-xl border ${isComplete
                                 ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                                 : 'bg-amber-50 text-amber-700 border-amber-200'
-                        }`}>
-                            {isComplete ? <CheckCircle size={12} /> : <Clock size={12} />}
-                            <span>{isComplete ? 'Completo' : 'Pendiente'}</span>
-                        </span>
-                    </div>
-                );
+                                }`}>
+                                {isComplete ? <CheckCircle size={12} /> : <Clock size={12} />}
+                                <span>{isComplete ? 'Completo' : 'Pendiente'}</span>
+                            </span>
+                        </div>
+                    );
+                }
             default:
                 return user[columnKey] || '-';
         }
     }, []);
+
 
     return (
         <Layout>

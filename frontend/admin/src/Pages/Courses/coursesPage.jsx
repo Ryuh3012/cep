@@ -1,13 +1,20 @@
-import { Chip, Tooltip, useDisclosure } from '@heroui/react';
-import Layout from '../layout';
-import { useContext, useEffect, useState, useCallback } from 'react';
-import CardCourses from '../../components/Card/CardCourses';
-import { SocketContext } from '../../SocketProvider';
-import ModalCourses from '../../components/Modals/ModalCourses';
-import ModalEdit from '../../components/Modals/ModalEdit';
-import CustomTable from '../../components/Table/CustomTable';
-import { useFormik } from 'formik';
-import { Plus, Clock, Edit2, BookOpen, CheckCircle, AlertCircle } from 'lucide-react';
+import { Chip, Tooltip, useDisclosure } from "@heroui/react";
+import Layout from "../layout";
+import { useContext, useEffect, useState, useCallback } from "react";
+import CardCourses from "../../components/Card/CardCourses";
+import { SocketContext } from "../../SocketProvider";
+import ModalCourses from "../../components/Modals/ModalCourses";
+import ModalEdit from "../../components/Modals/ModalEdit";
+import CustomTable from "../../components/Table/CustomTable";
+import { useFormik } from "formik";
+import {
+    Plus,
+    Clock,
+    Edit2,
+    BookOpen,
+    CheckCircle,
+    AlertCircle,
+} from "lucide-react";
 
 const columns = [
     {
@@ -41,20 +48,20 @@ const columns = [
     {
         key: "actions",
         label: "ACCIONES",
-    }
+    },
 ];
 
 const initialValues = {
-    codigodecuso: '',
-    nombrecurso: '',
-    duracion: '',
-    horario: '',
-    monto: '',
-    contenido: '',
-    status: '',
-    facilitador: '',
-    modalidad: '',
-    formacion: ''
+    codigodecuso: "",
+    nombrecurso: "",
+    duracion: "",
+    horario: "",
+    monto: "",
+    contenido: "",
+    status: "",
+    facilitador: "",
+    modalidad: "",
+    formacion: "",
 };
 
 const CoursesPage = () => {
@@ -65,59 +72,123 @@ const CoursesPage = () => {
     const [errorMsg, setErrorMsg] = useState(null);
     const [courseToEdit, setCourseToEdit] = useState(null);
 
+    // Cargar la lista inicial de cursos desde el Socket
     useEffect(() => {
         if (!socket) return;
-        socket.emit('[bag] courses', () => { }, (listAllcourses) => {
-            if (listAllcourses) {
-                try {
-                    const parsed = typeof listAllcourses === 'string' ? JSON.parse(listAllcourses) : listAllcourses;
-                    setCursos(parsed);
-                } catch (err) {
-                    console.error("Error al parsear cursos:", err);
+
+        socket.emit(
+            "[bag] courses",
+            () => { },
+            (listAllcourses) => {
+                if (listAllcourses) {
+                    try {
+                        const parsed =
+                            typeof listAllcourses === "string"
+                                ? JSON.parse(listAllcourses)
+                                : listAllcourses;
+                        setCursos(parsed);
+                    } catch (err) {
+                        console.error("Error al parsear cursos:", err);
+                    }
                 }
             }
-        });
+        );
     }, [socket]);
 
-    const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
+    // Escuchar actualizaciones de estatus en tiempo real emitidas por otros usuarios/servidor
+    useEffect(() => {
+        if (!socket) return;
 
-    const { errors, touched, handleSubmit, handleChange, handleBlur, values } = useFormik({
-        initialValues,
-        onSubmit: async (formValues, { resetForm }) => {
+        const handleCourseUpdated = (updatedCourse) => {
+            if (!updatedCourse) return;
             try {
-                if (socket) {
-                    socket.emit('[bag] addCourse', formValues, {});
-                }
-                setCursos((prev) => [formValues, ...prev]);
-                setMessag("Curso creado adecuadamente");
-                onModalClose();
-                resetForm();
-                setTimeout(() => setMessag(null), 3000);
+                const parsed =
+                    typeof updatedCourse === "string"
+                        ? JSON.parse(updatedCourse)
+                        : updatedCourse;
+
+                setCursos((prevCourses) =>
+                    prevCourses.map((course) =>
+                        course.codigodecuso === parsed.codigodecuso
+                            ? { ...course, status: parsed.status }
+                            : course
+                    )
+                );
             } catch (error) {
-                console.error("Error al guardar curso:", error);
-                setErrorMsg("No se pudo registrar el curso");
-                setTimeout(() => setErrorMsg(null), 3000);
+                console.error("Error al procesar evento de actualización de curso:", error);
             }
-        }
-    });
+        };
+
+        socket.on("[bag] courseUpdated", handleCourseUpdated);
+
+        return () => {
+            socket.off("[bag] courseUpdated", handleCourseUpdated);
+        };
+    }, [socket]);
+
+    const {
+        isOpen: isModalOpen,
+        onOpen: onModalOpen,
+        onClose: onModalClose,
+    } = useDisclosure();
+
+    const { errors, touched, handleSubmit, handleChange, handleBlur, values } =
+        useFormik({
+            initialValues,
+            onSubmit: async (formValues, { resetForm }) => {
+                try {
+                    if (socket) {
+                        socket.emit("[bag] addCourse", formValues, {});
+                    }
+                    setCursos((prev) => [formValues, ...prev]);
+                    setMessag("Curso creado adecuadamente");
+                    onModalClose();
+                    resetForm();
+                    setTimeout(() => setMessag(null), 3000);
+                } catch (error) {
+                    console.error("Error al guardar curso:", error);
+                    setErrorMsg("No se pudo registrar el curso");
+                    setTimeout(() => setErrorMsg(null), 3000);
+                }
+            },
+        });
 
     const statusOpen = (status) => {
-        if (status === 'Activo') return 'warning';
-        if (status === 'Proceso') return 'primary';
-        if (status === 'Completados') return 'success';
-        return 'default';
+        if (status === "Activo") return "warning";
+        if (status === "Proceso") return "primary";
+        if (status === "Completados") return "success";
+        return "default";
     };
 
+    // Función para emitir la actualización del estatus al backend y actualizar el estado local
     const handleUpdateStatus = (updatedCourse) => {
-        setCursos((prev) =>
-            prev.map((c) => {
-                const isMatch = (c.codigodecuso && c.codigodecuso === updatedCourse.codigodecuso) ||
-                    (c.idcurso && c.idcurso === updatedCourse.idcurso) ||
-                    (c.id && c.id === updatedCourse.id);
-                return isMatch ? { ...c, status: updatedCourse.status } : c;
-            })
+        if (!updatedCourse || !updatedCourse.codigodecuso) return;
+
+        const payload = {
+            codigodecuso: updatedCourse.codigodecuso,
+            status: updatedCourse.status,
+        };
+
+        // Emitir el cambio a través de WebSockets
+        if (socket) {
+            socket.emit("[bag] updateCourseStatus", payload, (response) => {
+                if (response?.error) {
+                    setErrorMsg("No se pudo actualizar el estatus en el servidor");
+                    setTimeout(() => setErrorMsg(null), 3000);
+                }
+            });
+        }
+
+        // Actualización optimista del estado local
+        setCursos((prevCourses) =>
+            prevCourses.map((course) =>
+                course.codigodecuso === updatedCourse.codigodecuso
+                    ? { ...course, status: updatedCourse.status }
+                    : course
+            )
         );
-        setMessag("Estatus del curso actualizado");
+
+        setMessag("Estatus del curso actualizado correctamente");
         setTimeout(() => setMessag(null), 3000);
     };
 
@@ -127,7 +198,7 @@ const CoursesPage = () => {
                 return (
                     <div className="flex flex-col gap-1 py-1">
                         <span className="font-bold text-slate-800 text-sm leading-snug">
-                            {item.nombrecurso || item.cursos || '-'}
+                            {item.nombrecurso || item.cursos || "-"}
                         </span>
                         {item.codigodecuso && (
                             <span className="inline-flex text-[11px] font-mono text-indigo-700 bg-indigo-50/80 px-2 py-0.5 rounded-md w-fit font-semibold border border-indigo-100">
@@ -140,44 +211,53 @@ const CoursesPage = () => {
                 return (
                     <div className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">
                         <Clock size={13} className="text-slate-400 shrink-0" />
-                        <span>{item.horario || 'Por definir'}</span>
+                        <span>{item.horario || "Por definir"}</span>
                     </div>
                 );
             case "facilitador":
                 return (
                     <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-white flex items-center justify-center font-bold text-xs uppercase shrink-0 shadow-xs">
-                            {(item.facilitador || 'F').charAt(0)}
+                            {(item.facilitador || "F").charAt(0)}
                         </div>
                         <span className="text-xs font-semibold text-slate-700">
-                            {item.facilitador || 'Sin asignar'}
+                            {item.facilitador || "Sin asignar"}
                         </span>
                     </div>
                 );
             case "modalidad":
-                const isOnline = String(item.modalidad).toLowerCase().includes('online');
-                return (
-                    <span className={`text-xs px-2.5 py-1 rounded-lg font-semibold border ${
-                        isOnline
-                            ? 'bg-purple-50 text-purple-700 border-purple-200'
-                            : 'bg-sky-50 text-sky-700 border-sky-200'
-                    }`}>
-                        {item.modalidad || 'Presencial'}
-                    </span>
-                );
+                {
+                    const isOnline = String(item.modalidad)
+                        .toLowerCase()
+                        .includes("online");
+                    return (
+                        <span
+                            className={`text-xs px-2.5 py-1 rounded-lg font-semibold border ${isOnline
+                                ? "bg-purple-50 text-purple-700 border-purple-200"
+                                : "bg-sky-50 text-sky-700 border-sky-200"
+                                }`}
+                        >
+                            {item.modalidad || "Presencial"}
+                        </span>
+                    );
+                }
             case "formacion":
                 return (
                     <span className="text-xs px-2.5 py-1 rounded-lg font-medium bg-slate-100 text-slate-700 border border-slate-200 capitalize">
-                        {item.formacion || 'General'}
+                        {item.formacion || "General"}
                     </span>
                 );
             case "monto":
-                const amount = Number(item.monto);
-                return (
-                    <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/80">
-                        {item.monto ? `$${isNaN(amount) ? item.monto : amount.toFixed(2)}` : 'Gratuito'}
-                    </span>
-                );
+                {
+                    const amount = Number(item.monto);
+                    return (
+                        <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/80">
+                            {item.monto
+                                ? `$${isNaN(amount) ? item.monto : amount.toFixed(2)}`
+                                : "Gratuito"}
+                        </span>
+                    );
+                }
             case "status":
                 return (
                     <Chip
@@ -186,7 +266,7 @@ const CoursesPage = () => {
                         variant="flat"
                         size="sm"
                     >
-                        {item.status || 'Sin estatus'}
+                        {item.status || "Sin estatus"}
                     </Chip>
                 );
             case "actions":
@@ -205,9 +285,11 @@ const CoursesPage = () => {
                     </div>
                 );
             default:
-                const cellValue = item[columnKey];
-                if (cellValue === null || cellValue === undefined) return '-';
-                return String(cellValue);
+                {
+                    const cellValue = item[columnKey];
+                    if (cellValue === null || cellValue === undefined) return "-";
+                    return String(cellValue);
+                }
         }
     }, []);
 
@@ -231,9 +313,9 @@ const CoursesPage = () => {
                 {/* Métricas / Estadísticas */}
                 <CardCourses />
 
-                {/* Contenedor Principal con estilo Card moderno */}
+                {/* Contenedor Principal */}
                 <div className="bg-white rounded-3xl shadow-sm p-6 sm:p-8 border border-slate-200/80">
-                    {/* Encabezado con título y botón de acción */}
+                    {/* Encabezado */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                         <div>
                             <div className="flex items-center gap-2.5">
@@ -245,7 +327,8 @@ const CoursesPage = () => {
                                 </h1>
                             </div>
                             <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1 ml-11">
-                                Administra los programas académicos, cupos, modalidades y facilitadores
+                                Administra los programas académicos, cupos, modalidades y
+                                facilitadores
                             </p>
                         </div>
                         <button

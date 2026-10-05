@@ -2,7 +2,7 @@ import { connectdb } from "../db/connectdb.mjs";
 
 export const createPerson = async ({ cedula, nombre, apellido, email, telefono, tipoDeParticipante }) => {
     try {
-        const participats = tipoDeParticipante ? tipoDeParticipante : null;
+        const participats = tipoDeParticipante ? tipoDeParticipante : null
         const query = {
             text: `INSERT INTO personas(
                 cedula, nombre, apellido, email, telefono, tipodeparticipanteid)

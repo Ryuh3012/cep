@@ -1,44 +1,74 @@
 export const validateParticipant = ({ values }) => {
-    let errors = {}
+    const errors = {};
 
-    values.cedula.toString().replace(/[^0-9]*$/, '')
-    values.nombre.replace(/^[A-Za-z]+$/, '')
-    values.apellido.replace(/^[A-Za-z]+$/, '')
-    values.email.indexOf('@') === -1
-    console.log(values.cedula.toString().replace(/[^0-9]*$/, '').length);
-    // Validar cédula
-    if (values.cedula.toString().replace(/[^0-9]*$/, '').length == 0) errors.cedula = 'Debes Introducir la Cédula'
-    if (values.cedula.toString().length < 6 && values.cedula.toString().length > 1) errors.cedula = 'No puede ser menor de los 6 digitos'
-    if (values.cedula.toString().length > 9) errors.cedula = 'No puede ser mayor de los 9 digitos'
+    // 1. Validar Cédula
+    const cedulaStr = String(values.cedula || '').trim();
+    if (!cedulaStr) {
+        errors.cedula = 'Debes introducir la cédula';
+    } else if (!/^\d{6,9}$/.test(cedulaStr)) {
+        errors.cedula = 'La cédula debe contener entre 6 y 9 dígitos numéricos';
+    }
 
-    // Validar nombre
-    if (values.nombre.length == 0) errors.nombre = 'Debes Introducir el Nombre'
-    if (values.nombre.replace(/^[A-Za-z]+$/, '')) errors.nombre = 'No puede introducir numeros'
+    // 2. Validar Nombre (admite tildes, diéresis, ñ y espacios)
+    const nombre = String(values.nombre || '').trim();
+    if (!nombre) {
+        errors.nombre = 'Debes introducir el nombre';
+    } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(nombre)) {
+        errors.nombre = 'El nombre solo puede contener letras y espacios';
+    }
 
-    // Validar apellido
-    if (values.apellido.length == 0) errors.apellido = 'Debes Introducir el Apellido'
-    if (values.apellido.replace(/^[A-Za-z]+$/, '')) errors.apellido = 'No puede introducir numeros'
+    // 3. Validar Apellido (admite tildes, diéresis, ñ y espacios)
+    const apellido = String(values.apellido || '').trim();
+    if (!apellido) {
+        errors.apellido = 'Debes introducir el apellido';
+    } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(apellido)) {
+        errors.apellido = 'El apellido solo puede contener letras y espacios';
+    }
 
-    // Validar email
-    if (values.email.length == 0) errors.email = 'Debes Introducir el Correo'
+    // 4. Validar Correo Electrónico
+    const email = String(values.email || '').trim();
+    if (!email) {
+        errors.email = 'Debes introducir el correo electrónico';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errors.email = 'Introduce un formato de correo válido (ej: usuario@correo.com)';
+    }
 
-    // Validar teléfono
-    if (values.telefono.length == 0) errors.telefono = 'Debes Introducir el Telefono'
-    if (/[^0-9]/.test(values.telefono)) errors.telefono = 'No puede introducir letras ni caracteres especiales'
+    // 5. Validar Teléfono (permite dígitos, espacios, guiones y prefijo +)
+    const telefono = String(values.telefono || '').trim();
+    if (!telefono) {
+        errors.telefono = 'Debes introducir el teléfono de contacto';
+    } else if (!/^[\d\s+\-()]{7,16}$/.test(telefono)) {
+        errors.telefono = 'Introduce un teléfono válido (al menos 7 dígitos)';
+    }
 
-    // Validar tipo de participante
-    if (values.tipoDeParticipante.length == 0) errors.tipoDeParticipante = 'Debes Elegir el Tipo de Participante'
+    // 6. Validar Tipo de Participante
+    if (!values.tipoDeParticipante) {
+        errors.tipoDeParticipante = 'Debes seleccionar el tipo de participante';
+    }
 
-    // Validar cursos
-    if (values.cursos.length == 0) errors.cursos = 'Indique el curso deseado'
+    // 7. Validar Curso seleccionado
+    if (!values.cursos) {
+        errors.cursos = 'Indica el curso que deseas inscribir';
+    }
 
-    // Validar tipo de pago
-    if (values.tipoDePago.length == 0) errors.tipoDePago = 'Indique el Tipo de Pago'
+    // 8. Validar Tipo de Pago
+    if (!values.tipoDePago) {
+        errors.tipoDePago = 'Indica la forma de pago';
+    }
 
-    // Validar monto total
-    if (values.montoTotal.length == 0) errors.montoTotal = 'Debe Introducir el Monto total'
-    if (/[^0-9.]/.test(values.montoTotal)) errors.montoTotal = 'El monto total debe ser un número válido';
+    // 9. Validar Monto Total
+    const monto = String(values.montoTotal || '').trim();
+    if (!monto) {
+        errors.montoTotal = 'Debe introducir el monto total';
+    } else if (isNaN(Number(monto)) || Number(monto) <= 0) {
+        errors.montoTotal = 'El monto total debe ser un número mayor a cero';
+    }
 
-    return errors
+    // 10. Validaciones adicionales si es transferencia bancaria
+    if (values.tipoDePago === 'Transferencia Bancaria') {
+        if (!values.banco) errors.banco = 'Seleccione el banco emisor';
+        if (!values.referencia) errors.referencia = 'Indique el número de referencia';
+    }
 
-}
+    return errors;
+};

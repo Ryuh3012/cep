@@ -17,7 +17,7 @@ const columns = [
         label: "CURSO QUE DIRIGE",
     },
     {
-        key: "contacto",
+        key: "contact",
         label: "DATOS DE CONTACTO",
     },
 ];
@@ -66,11 +66,12 @@ const FacilitadorePage = () => {
         setMessag("Facilitador registrado exitosamente");
         setTimeout(() => setMessag(null), 3000);
     };
+    console.log(teacher)
 
     const renderCell = useCallback((user, columnKey) => {
         switch (columnKey) {
             case "facilitador":
-                const initialA = user.nombre?.charAt(0) || 'F';
+                { const initialA = user.nombre?.charAt(0) || 'F';
                 const initialB = user.apellido?.charAt(0) || '';
                 return (
                     <div className="flex items-center gap-3.5 py-1">
@@ -88,9 +89,9 @@ const FacilitadorePage = () => {
                             )}
                         </div>
                     </div>
-                );
+                ); }
             case "cursos":
-                const hasCourse = user.cursos && user.cursos !== 'Sin curso asignado';
+                { const hasCourse = user.cursos && user.cursos !== 'Sin curso asignado';
                 return (
                     <div className="flex items-center">
                         <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl border ${
@@ -102,7 +103,7 @@ const FacilitadorePage = () => {
                             <span>{user.cursos || 'Sin curso asignado'}</span>
                         </span>
                     </div>
-                );
+                ); }
             case "contacto":
                 return (
                     <div className="flex flex-col gap-1 text-xs text-slate-600">

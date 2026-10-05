@@ -48,11 +48,14 @@ export const getFacilitators = async () => {
 export const getFacilitatorsAndCourses = async () => {
     try {
         const query = {
-            text: `SELECT facilitadores.idfacilitador, personas.nombre as nombre, personas.apellido as apellido, 
-                   COALESCE(CONCAT(cursos.codigodecuso,' ',cursos.nombrecurso ), 'Sin curso asignado') as cursos 
-                   FROM facilitadores
-                   INNER JOIN personas ON personas.idpersona = facilitadores.personaid
-                   LEFT JOIN cursos ON cursos.facilitadorid = facilitadores.idfacilitador`
+            text: `SELECT facilitadores.idfacilitador, 
+personas.nombre as nombre, 
+personas.apellido as apellido, 
+personas.telefono as contact,  
+COALESCE(CONCAT(cursos.codigodecuso,' ',cursos.nombrecurso ), 'Sin curso asignado') as cursos 
+FROM facilitadores
+INNER JOIN personas ON personas.idpersona = facilitadores.personaid
+LEFT JOIN cursos ON cursos.facilitadorid = facilitadores.idfacilitador`
         };
         const { rows } = await connectdb.query(query);
         return rows;

@@ -1,4 +1,4 @@
-import { dataCourses, newCourse } from "../models/courses.mjs";
+import { dataCourses, newCourse, upDateCourseStatus } from "../models/courses.mjs";
 
 export const newCourses = async (req, res) => {
     try {
@@ -23,3 +23,17 @@ export const newCourses = async (req, res) => {
         throw error;
     }
 };
+
+export const updateCourses = async (req, res) => {
+    try {
+        const { idcurso, status } = req || {};
+        const courses = await upDateCourseStatus({
+            idcurso,
+            status
+        });
+        return courses;
+    } catch (error) {
+        console.error("Error en updateCourses controller:", error);
+        throw error;
+    }
+}

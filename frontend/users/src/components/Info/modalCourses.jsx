@@ -1,112 +1,150 @@
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const ModalCourses = ({ item, isOpen, onClose }) => {
+    // Parser seguro para contenido (soporta Array, JSON string o texto con saltos de línea)
+    const parseContenido = () => {
+        const raw = item?.contenido || item?.contendido;
+        if (!raw) return [];
+        if (Array.isArray(raw)) return raw;
+        if (typeof raw === 'string') {
+            try {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed)) return parsed;
+            } catch (e) {
+                // Si no es JSON válido, separar por líneas
+                return raw.split('\n').filter(Boolean);
+            }
+        }
+        return [String(raw)];
+    };
 
-    const [scrollBehavior, setScrollBehavior] = useState("inside");
+    const syllabus = parseContenido();
 
     return (
-        <>
-            <Modal
-                isOpen={isOpen}
-                onClose={() => onClose(false)}
-                placement="top-center"
-                size="2xl"
-                scrollBehavior={scrollBehavior}
-            >
-                <ModalContent className="overflow-auto" scrollBehavior>
-                    {() => (
-                        <div className="overflow-auto">
-                            <ModalHeader className="flex justify-center gap-1">{item?.cursos}</ModalHeader>
-                            <ModalBody className="w-full overflow-auto" >
-                                <ul className="w-full">
-                                    <li className="flex items-center py-2">
+        <Modal
+            isOpen={isOpen}
+            onClose={() => onClose(false)}
+            placement="center"
+            size="2xl"
+            scrollBehavior="inside"
+            classNames={{
+                backdrop: "bg-black/50 backdrop-blur-sm",
+                base: "border border-slate-200 shadow-2xl rounded-2xl",
+                header: "border-b border-slate-100 pb-3",
+                footer: "border-t border-slate-100 pt-3"
+            }}
+        >
+            <ModalContent>
+                {() => (
+                    <div className="flex flex-col w-full max-h-[85vh]">
+                        <ModalHeader className="flex flex-col gap-1 text-center sm:text-left">
+                            <span className="text-xs font-bold uppercase tracking-wider text-red-600">Detalles del Curso</span>
+                            <h2 className="text-xl font-bold text-slate-800">{item?.cursos || item?.nombrecurso}</h2>
+                        </ModalHeader>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 mx-1">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                                        </svg>
-
-                                        <p className="text-sm font-mont font-semibold text-gray-950 uppercase">Horario : <br /> <span className="text-xs">{item?.horario}</span></p>
-                                    </li>
-                                    <li className="flex items-center py-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 mx-1">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
-
-                                        <p className="text-sm font-mont font-semibold text-gray-950 uppercase">Duración : <br /> <span className="text-xs">{item?.duracion}</span></p>
-                                    </li>
-                                    <li className="flex items-center py-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 mx-1">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
-                                        </svg>
-
-                                        <p className="text-sm font-mont font-semibold text-gray-950 uppercase">Modalidad : <br /> <span className="text-xs">{item?.modalidad}</span></p>
-                                    </li>
-                                    <li className="flex items-center py-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 mx-1">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                                        </svg>
-
-                                        <p className="text-sm font-mont font-semibold text-gray-950 uppercase">Facilitador : <br /> <span className="text-xs">{item?.facilitador}</span></p>
-                                    </li>
-                                    <li className="flex items-center py-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 mx-1">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
-                                        </svg>
-                                        <p className="text-sm font-mont font-semibold text-gray-950 uppercase">Precio : <span className="text-xs">{item?.monto}</span></p>
-                                    </li>
-                                    <li className="flex flex-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 mx-1">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-                                        </svg>
-                                        <section className="text-left">
-                                            <h3 className="text-sm font-mont font-semibold text-gray-950 uppercase">Forma de pago</h3>
-                                            <p className="font-mont text-sm"> <b className="mx-1">•</b>Transferencia Bancaria (tasa de cambio oficial <br /> de Banco Central de Venezuela):
-                                                <p className="ml-4 text-sm">Banco Mercantil </p>
-                                                <p className="ml-4 text-sm">Cuenta Corriente Nro. 0105-0083-44-1083100815</p>
-                                                <p className="ml-4 text-sm">Titular: IUJO, A.C</p>
-                                                <p className="ml-4 text-sm">Rif: J-30576524-3</p>
-                                            </p>
-                                            <p className="font-mont text-sm"> <b className="mx-1">•</b>Efectivo en Divisas y punto de ventas<br />(en la caja principal de la sede)</p>
-                                        </section>
-                                    </li>
-                                </ul>
-                                <section className="text-left m-1">
-                                    <div className='flex  items-center'>
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 mx-1">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
-                                        </svg>
-                                        <p className="text-sm font-mont font-semibold text-gray-950 uppercase">Contenido : </p>
+                        <ModalBody className="p-4 md:p-6 flex flex-col gap-5 overflow-y-auto">
+                            {/* Grilla de atributos del curso */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200/70">
+                                <div className="flex items-start gap-2.5">
+                                    <span className="p-2 rounded-lg bg-red-100/70 text-red-600 text-base">🕒</span>
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-500 uppercase">Horario</p>
+                                        <p className="text-sm font-semibold text-slate-800">{item?.horario || 'Por definir'}</p>
                                     </div>
+                                </div>
 
-                                    {
-                                        item?.contendido.map(e => (
+                                <div className="flex items-start gap-2.5">
+                                    <span className="p-2 rounded-lg bg-blue-100/70 text-blue-600 text-base">⏳</span>
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-500 uppercase">Duración</p>
+                                        <p className="text-sm font-semibold text-slate-800">{item?.duracion || 'Consultar'}</p>
+                                    </div>
+                                </div>
 
-                                            <li key={e} className='p-2'>
+                                <div className="flex items-start gap-2.5">
+                                    <span className="p-2 rounded-lg bg-purple-100/70 text-purple-600 text-base">💻</span>
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-500 uppercase">Modalidad</p>
+                                        <p className="text-sm font-semibold text-slate-800">{item?.modalidad || 'Presencial'}</p>
+                                    </div>
+                                </div>
 
-                                                {e}
+                                <div className="flex items-start gap-2.5">
+                                    <span className="p-2 rounded-lg bg-emerald-100/70 text-emerald-600 text-base">👨‍🏫</span>
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-500 uppercase">Facilitador</p>
+                                        <p className="text-sm font-semibold text-slate-800">{item?.facilitador || 'Docente asignado'}</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start gap-2.5 sm:col-span-2 border-t border-slate-200/60 pt-2">
+                                    <span className="p-2 rounded-lg bg-amber-100/70 text-amber-700 text-base">💵</span>
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-500 uppercase">Inversión / Costo</p>
+                                        <p className="text-base font-bold text-slate-900">{item?.monto || 'Consultar en sede'}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Contenido Programático */}
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide flex items-center gap-1.5">
+                                    <span>📑</span> Contenido Programático:
+                                </h3>
+                                {syllabus.length > 0 ? (
+                                    <ul className="grid grid-cols-1 gap-1.5 pl-2">
+                                        {syllabus.map((line, idx) => (
+                                            <li key={`${line}-${idx}`} className="text-xs md:text-sm text-slate-600 flex items-start gap-2">
+                                                <span className="text-red-500 font-bold">•</span>
+                                                <span>{line}</span>
                                             </li>
-                                        ))
-                                    }
-                                </section>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="danger" variant="flat" onPress={() => onClose()} >
-                                    Close
-                                </Button>
-                                <Button color="primary" >
-                                    <Link className="hover:text-red-700 " to={'/participant'}>Inscripción</Link>
-                                </Button>
-                            </ModalFooter>
-                        </div>
-                    )}
-                </ModalContent>
-            </Modal>
-        </>
-    );
-}
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p className="text-xs text-slate-500 italic pl-2">Temario disponible en la coordinación.</p>
+                                )}
+                            </div>
 
+                            {/* Información de Pago */}
+                            <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-100 text-slate-700">
+                                <h3 className="text-xs font-bold text-blue-900 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+                                    <span>🏦</span> Formas de Pago Aceptadas:
+                                </h3>
+                                <div className="text-xs leading-relaxed flex flex-col gap-1 text-slate-600">
+                                    <p className="font-medium text-slate-800">
+                                        • Transferencia Bancaria (Tasa Oficial BCV del día):
+                                    </p>
+                                    <div className="bg-white/80 p-2.5 rounded-lg border border-blue-100 flex flex-col gap-0.5 ml-2 font-mono text-[11px] text-slate-700">
+                                        <p><b>Banco:</b> Mercantil</p>
+                                        <p><b>Cuenta Corriente:</b> 0105-0083-44-1083100815</p>
+                                        <p><b>Titular:</b> IUJO, A.C | <b>RIF:</b> J-30576524-3</p>
+                                    </div>
+                                    <p className="mt-1">
+                                        • <b>Efectivo en divisas o punto de venta:</b> Directamente en la caja principal de la sede Catia.
+                                    </p>
+                                </div>
+                            </div>
+                        </ModalBody>
+
+                        <ModalFooter className="flex justify-between items-center">
+                            <Button color="default" variant="light" onPress={() => onClose(false)} className="text-slate-600 font-medium text-sm">
+                                Cerrar
+                            </Button>
+                            <Button
+                                as={Link}
+                                to="/participant"
+                                className="bg-[#8C113E] hover:bg-[#6A2473] text-white font-bold text-sm shadow-md"
+                            >
+                                Inscribirse en este Curso →
+                            </Button>
+                        </ModalFooter>
+                    </div>
+                )}
+            </ModalContent>
+        </Modal>
+    );
+};
 
 export default ModalCourses;
+

@@ -9,7 +9,7 @@ import {
     Pagination,
     getKeyValue
 } from '@heroui/react';
-import { Search, Inbox, SlidersHorizontal } from 'lucide-react';
+import { Search, Inbox,  } from 'lucide-react';
 
 /**
  * Componente de Tabla reutilizable moderna con búsqueda en vivo,

@@ -7,97 +7,159 @@ import icon7 from "../../assets/icons8-mail-100.png";
 import icon8 from "../../assets/icons8-x-100.png";
 
 import { Link } from "react-router-dom";
-import { Image } from "@nextui-org/react";
+import { Image, Card, CardBody, Button } from "@nextui-org/react";
+
 const Asident = () => {
     return (
-        <aside className="hidden md:flex md:flex-col w-1/4 h-full gap-y-2 justify-around">
-            <div className="flex flex-col  gap-2">
-                <p className="bg-red-600 rounded-lg p-2 text-white">FOC - COORDINACIÓN DE FORMACIÓN COMPLEMENTARIA</p>
-                <ul className="flex flex-col gap-y-1 px-2">
-                    <li className="text-sm">
-                        Programación Permanente
-                    </li>
-                    <li className=" text-sm">
-                        (FOC) Registro de Actividad - Certificados internos y externos
-                    </li>
-                </ul>
-            </div>
-            <div className="flex flex-col  gap-2">
-                <p className="bg-red-600 rounded-lg p-2 text-white">CEP -COORDINACIÓN DE EXTENSIÓN PROFESIONAL</p>
-                <div className="flex flex-col gap-y-1 px-2">
-                    <Image src={logo} width={300} />
+        <aside className="hidden md:flex md:flex-col w-72 shrink-0 gap-4">
+            {/* Tarjeta CEP */}
+            <Card className="shadow-sm border border-slate-200/80 bg-white">
+                <CardBody className="p-4 flex flex-col gap-3">
+                    <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-red-600"></span>
+                        <h3 className="font-bold text-xs uppercase tracking-wider text-slate-800">
+                            Extensión Profesional
+                        </h3>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                        <Image src={logo} alt="Logo CEP" className="w-32 object-contain" />
+                        <Link
+                            to="/Extension-Profesional"
+                            className="w-full text-center text-xs font-semibold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 py-2 px-3 rounded-lg transition-colors"
+                        >
+                            Ver Cursos Disponibles
+                        </Link>
+                    </div>
+                </CardBody>
+            </Card>
 
-                    <Link className="">
-                        <p className="text-sm text-center hover:text-red-600">Programación permanente de cursos</p>
-                    </Link>
-                </div>
-            </div>
-            <div className="flex flex-col  gap-2">
-                <p className="bg-red-600 rounded-lg p-2 text-white">SIGEA - SISTEMA DE GESTIÓN ACADÉMICA</p>
-                <div className="flex flex-col gap-y-1 px-2">
-                    <Image src={icon3} width={300} />
-                    <Link to='http://caracas.iujo.edu.ve/sigea/'>
-                        <p className="text-sm text-center hover:text-red-600">Entrar al SIGEA - Sistema de Gestión Académica</p>
-                    </Link>
-                </div>
-            </div >
-            <div className="flex flex-col  gap-2">
-                <p className="bg-red-600 rounded-lg p-2 text-white">Entrar al SIGEA - Sistema de Gestión Académica</p>
+            {/* Portales Académicos Rápidos */}
+            <Card className="shadow-sm border border-slate-200/80 bg-white">
+                <CardBody className="p-4 flex flex-col gap-3">
+                    <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-blue-600"></span>
+                        <h3 className="font-bold text-xs uppercase tracking-wider text-slate-800">
+                            Portales Universitarios
+                        </h3>
+                    </div>
 
-                <div className="flex flex-col gap-y-1 px-2">
-                    <Image src={icon4} width={300} />
-                    <Link to='https://aulaccs.iujoac.org.ve'>
-                        <p className="text-sm text-center hover:text-red-600">Entorno Virtual de Aprendizaje (EVA) IUJO Caracas</p>
-                    </Link>
-                </div>
-            </div>
-            <div className="flex flex-col  gap-2">
-                <p className="bg-red-600 rounded-lg p-2 text-white">Oferta Académica</p>
-                <ul className="flex flex-col gap-y-1 px-2">
-                    <Link to='https://webiujocatia.wordpress.com/carreras-ofertadas/'>
-                        <li className="text-sm hover:text-red-600">Carreras Ofertadas</li>
-                    </Link>
-                    <Link to='https://webiujocatia.wordpress.com/pensa-de-estudio/'>
-                        <li className=" text-sm hover:text-red-600">Pensa de Estudio</li>
-                    </Link>
-                    <Link to='https://webiujocatia.wordpress.com/wp-content/uploads/2015/01/reglamento-interno-de-evaluacic3b3n-iujo-dic2014.pdf'>
-                        <li className=" text-sm hover:text-red-600">Reglamento Interno de Evaluación</li>
-                    </Link>
-                </ul>
-            </div>
-            <div className="flex flex-col  gap-2">
-                <p className="bg-red-600 rounded-lg p-2 text-white">Organización</p>
-                <ul className="flex flex-col gap-y-1 px-2">
-                    <Link to='/nosotros'>
-                        <li className="text-sm hover:text-red-600">Historia del IUJO</li>
-                    </Link>
-                    <Link to='https://webiujocatia.wordpress.com/estructura-organizativa/'>
-                        <li className=" text-sm hover:text-red-600">Estructura Organizativa</li>
-                    </Link>
-                    <Link to='https://webiujocatia.wordpress.com/direccion-nacional-de-educacion-superior-de-fe-y-alegria/'>
-                        <li className=" text-sm hover:text-red-600">Dirección de Educación Universitaria de Fe y Alegría</li>
-                    </Link>
-                </ul>
-            </div>
-            <div className="flex flex-col justify-center items-center py-5">
-                <ul className="flex px-2 gap-x-5">
-                    <Link className=" hover:-translate-y-2 hover:mx-2">
-                        <Image src={icon8} width={40} />
-                    </Link>
-                    <Link to='mailto:catiadireccion@iujo.edu.ve' className="hover:-translate-y-2 hover:mx-2">
-                        <Image src={icon7} width={40} />
-                    </Link>
-                    <Link to='https://www.facebook.com/657316811021139?ref=embed_page' className="hover:-translate-y-2 hover:mx-2">
-                        <Image src={icon5} width={40} />
+                    {/* SIGEA */}
+                    <a
+                        href="http://caracas.iujo.edu.ve/sigea/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center gap-3 p-2 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all"
+                    >
+                        <Image src={icon3} alt="SIGEA" className="w-10 h-10 object-contain" />
+                        <div className="flex flex-col">
+                            <span className="text-xs font-bold text-slate-800 group-hover:text-blue-700">SIGEA IUJO</span>
+                            <span className="text-[11px] text-slate-500">Gestión Académica</span>
+                        </div>
+                    </a>
 
-                    </Link>
-                    <Link to='https://wa.me/584127569790' className="hover:-translate-y-2 hover:mx-2">
-                        <Image src={icon6} width={40} />
-                    </Link>
-                </ul>
-            </div>
-        </aside >
+                    {/* EVA */}
+                    <a
+                        href="https://aulaccs.iujoac.org.ve"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center gap-3 p-2 rounded-xl border border-slate-100 hover:border-amber-200 hover:bg-amber-50/50 transition-all"
+                    >
+                        <Image src={icon4} alt="EVA" className="w-10 h-10 object-contain" />
+                        <div className="flex flex-col">
+                            <span className="text-xs font-bold text-slate-800 group-hover:text-amber-700">Aula Virtual EVA</span>
+                            <span className="text-[11px] text-slate-500">Campus Online Caracas</span>
+                        </div>
+                    </a>
+                </CardBody>
+            </Card>
+
+            {/* Oferta y Enlaces */}
+            <Card className="shadow-sm border border-slate-200/80 bg-white">
+                <CardBody className="p-4 flex flex-col gap-2">
+                    <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-slate-400"></span>
+                        <h3 className="font-bold text-xs uppercase tracking-wider text-slate-800">
+                            Enlaces de Interés
+                        </h3>
+                    </div>
+                    <ul className="flex flex-col gap-1 text-xs text-slate-600">
+                        <li>
+                            <a
+                                href="https://webiujocatia.wordpress.com/carreras-ofertadas/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block py-1 hover:text-red-600 transition-colors"
+                            >
+                                ↗ Carreras Ofertadas
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://webiujocatia.wordpress.com/pensa-de-estudio/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block py-1 hover:text-red-600 transition-colors"
+                            >
+                                ↗ Pensa de Estudio
+                            </a>
+                        </li>
+                        <li>
+                            <Link to="/nosotros" className="block py-1 hover:text-red-600 transition-colors">
+                                ↗ Historia del IUJO
+                            </Link>
+                        </li>
+                        <li>
+                            <a
+                                href="https://webiujocatia.wordpress.com/wp-content/uploads/2015/01/reglamento-interno-de-evaluacic3b3n-iujo-dic2014.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block py-1 hover:text-red-600 transition-colors"
+                            >
+                                ↗ Reglamento de Evaluación
+                            </a>
+                        </li>
+                    </ul>
+                </CardBody>
+            </Card>
+
+            {/* Redes Sociales y Contacto */}
+            <Card className="shadow-sm border border-slate-200/80 bg-white">
+                <CardBody className="p-3 flex flex-col items-center gap-2">
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                        Contacto y Redes
+                    </span>
+                    <div className="flex items-center justify-center gap-3 py-1">
+                        <a
+                            href="mailto:catiadireccion@iujo.edu.ve"
+                            title="Correo Institucional"
+                            className="p-1.5 rounded-full hover:bg-slate-100 transition-all hover:scale-110"
+                        >
+                            <img src={icon7} alt="Email" className="w-6 h-6 object-contain" />
+                        </a>
+                        <a
+                            href="https://wa.me/584127569790"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="WhatsApp"
+                            className="p-1.5 rounded-full hover:bg-slate-100 transition-all hover:scale-110"
+                        >
+                            <img src={icon6} alt="WhatsApp" className="w-6 h-6 object-contain" />
+                        </a>
+                        <a
+                            href="https://www.facebook.com/657316811021139?ref=embed_page"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Facebook"
+                            className="p-1.5 rounded-full hover:bg-slate-100 transition-all hover:scale-110"
+                        >
+                            <img src={icon5} alt="Facebook" className="w-6 h-6 object-contain" />
+                        </a>
+                    </div>
+                </CardBody>
+            </Card>
+        </aside>
     );
-}
+};
 
 export default Asident;
+

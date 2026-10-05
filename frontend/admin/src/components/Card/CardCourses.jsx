@@ -1,6 +1,6 @@
 import { useEffect, useContext, useState } from "react";
 import { SocketContext } from "../../SocketProvider";
-import { CheckCircle2, PlayCircle, Clock, TrendingUp } from "lucide-react";
+import { CheckCircle2, PlayCircle, Clock } from "lucide-react";
 
 const CardCourses = () => {
     const { socket } = useContext(SocketContext);
@@ -27,9 +27,10 @@ const CardCourses = () => {
                     console.error("Error al procesar estadísticas:", e);
                 }
             }
+            
         });
     }, [socket]);
-
+console.log(stats);
     const cards = [
         {
             title: "Cursos Completados",
@@ -56,7 +57,7 @@ const CardCourses = () => {
         {
             title: "Cursos En Espera",
             count: stats.activos,
-            subtitle: "Esperando inicio de cuórum",
+            subtitle: "Esperando inicio el curso",
             icon: Clock,
             iconColor: "text-amber-600",
             iconBg: "bg-amber-50 border-amber-100",
